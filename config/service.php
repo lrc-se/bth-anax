@@ -12,6 +12,7 @@ $app->router = new \Anax\Route\RouterInjectable();
 $app->view = new \Anax\View\ViewContainer();
 $app->textfilter = new \Anax\TextFilter\TextFilter();
 $app->session = new \Anax\Session\SessionConfigurable();
+$app->navbar = new \LRC\Navbar\Navbar($app);
 
 // Configure request
 $app->request->init();
@@ -34,6 +35,9 @@ $app->url->setDefaultsFromConfiguration();
 // Configure view
 $app->view->setApp($app);
 $app->view->configure('view.php');
+
+// Configure navbar
+$app->navbar->configure('navbar.php');
 
 // Return the populated $app
 return $app;

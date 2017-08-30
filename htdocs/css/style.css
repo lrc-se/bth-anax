@@ -20,15 +20,59 @@ body {
     flex-direction: column;
 }
 
-.navbar-wrap nav {
+.logo {
+    float: left;
+    margin-right: 2em;
+    padding: 1.4em 0;
+    font-weight: 700;
+}
+
+.navbar {
     position: fixed;
     left: 0;
     top: 0;
     right: 0;
     height: 4.2em;
-    padding: 1.4em 2em;
+    padding: 0 2em;
     color: #fff;
     background-color: rgba(42, 40, 56, .8);
+    transition: background-color .5s ease;
+}
+
+.navbar:hover {
+    background-color: rgba(42, 40, 56, .9);
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.navbar > ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    overflow: hidden;
+}
+
+.navbar > ul > li {
+    float: left;
+    text-align: center;
+    display: block;
+}
+
+.navbar > ul > li > a {
+    padding: 1.4em 2em;
+    display: inline-block;
+    transition: background-color .5s ease;
+}
+
+.navbar > ul > li:hover > a {
+    background-color: rgba(42, 40, 56, .5);
+}
+
+.navbar > ul > li.active > a {
+    background-color: #2a2838;
 }
 
 header {
