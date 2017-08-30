@@ -9,6 +9,9 @@ namespace Anax\App;
  */
 class App
 {
+    /**
+     * Redirect to URL.
+     */
     public function redirect($url)
     {
         $this->response->redirect($this->url->create($url));
@@ -22,18 +25,17 @@ class App
      */
     public function renderPage($data, $status = 200)
     {
-        $data["stylesheets"] = ["css/style.css"];
+        $data['stylesheets'] = ['css/style.css'];
 
         // Add common header, navbar and footer
-        //$this->view->add("default1/header", [], "header");
-        //$this->view->add("default1/navbar", [], "navbar");
-        //$this->view->add("default1/footer", [], "footer");
+        //$this->view->add('default1/header', [], 'header');
+        //$this->view->add('default1/navbar', [], 'navbar');
+        //$this->view->add('default1/footer', [], 'footer');
 
         // Add layout, render it, add to response and send.
-        $this->view->add("default1/layout", $data, "layout");
-        $body = $this->view->renderBuffered("layout");
-        $this->response->setBody($body)
-                       ->send($status);
+        $this->view->add('default1/layout', $data, 'layout');
+        $body = $this->view->renderBuffered('layout');
+        $this->response->setBody($body)->send($status);
         exit;
     }
 }
