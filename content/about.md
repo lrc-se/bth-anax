@@ -1,4 +1,8 @@
-Om
-=========================
+---
+title: "Om webbplatsen"
+...
 
-Här kommer innehållet till min fina sida.
+Om webbplatsen
+==============
+
+Blubb

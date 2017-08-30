@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= $title ?></title>
+    <title><?= $title ?> ~ Kalles sida</title>
 <?php foreach ($stylesheets as $stylesheet) : ?>
     <link rel="stylesheet" href="<?= $this->asset($stylesheet) ?>">
     <link rel="shortcut icon" href="favicon.ico">
