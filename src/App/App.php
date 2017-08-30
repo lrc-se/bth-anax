@@ -27,13 +27,13 @@ class App
     {
         $data['stylesheets'] = ['css/style.css'];
 
-        // Add common header, navbar and footer
-        //$this->view->add('default1/header', [], 'header');
-        //$this->view->add('default1/navbar', [], 'navbar');
-        //$this->view->add('default1/footer', [], 'footer');
+        // Add common navbar, header and footer
+        $this->view->add('default/navbar', [], 'navbar');
+        $this->view->add('default/header', [], 'header');
+        $this->view->add('default/footer', [], 'footer');
 
         // Add layout, render it, add to response and send.
-        $this->view->add('default1/layout', $data, 'layout');
+        $this->view->add('default/layout', $data, 'layout');
         $body = $this->view->renderBuffered('layout');
         $this->response->setBody($body)->send($status);
         exit;
