@@ -23,9 +23,11 @@ $app->router->always(function () use ($app) {
 
     // Get content from markdown file
     $content = $app->textfilter->parse(file_get_contents($file), ['yamlfrontmatter', 'shortcode', 'markdown', 'titlefromheader']);
+    $flash = (isset($content->frontmatter['flash']) ? $content->frontmatter['flash'] : null);
 
     // Render a standard page using layout
     $app->view->add('default/main', [
+        'flash' => $flash,
         'title' => $app->textfilter->getTitleFromFirstH1($content->text),
         'content' => preg_replace('/<h1.*?>.*?<\/h1>/', '', $content->text)
     ]);
