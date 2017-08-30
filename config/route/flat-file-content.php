@@ -25,8 +25,9 @@ $app->router->always(function () use ($app) {
     $content = $app->textfilter->parse(file_get_contents($file), ['yamlfrontmatter', 'shortcode', 'markdown', 'titlefromheader']);
 
     // Render a standard page using layout
-    $app->view->add('default1/article', [
-        'content' => $content->text
+    $app->view->add('default/main', [
+        'title' => $app->textfilter->getTitleFromFirstH1($content->text),
+        'content' => preg_replace('/<h1.*?>.*?<\/h1>/', '', $content->text)
     ]);
     $app->renderPage($content->frontmatter);
 });
