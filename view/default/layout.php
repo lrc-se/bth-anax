@@ -29,5 +29,6 @@
 </div>
 <?php endif; ?>
 
+<script src="<?= $this->asset('js/main.js') ?>" async></script>
 </body>
 </html>
