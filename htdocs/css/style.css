@@ -56,6 +56,8 @@ body {
 
 .navbar > ul > li {
     float: left;
+    margin: 0;
+    border: none;
     text-align: center;
     display: block;
 }
@@ -87,7 +89,7 @@ main {
 }
 
 main > *:last-child {
-    margin-bottom: 0;
+    margin-bottom: .7em;
 }
 
 .footer-wrap {
@@ -113,8 +115,50 @@ footer > p:last-child {
     margin-bottom: 0;
 }
 
+a {
+    color: #281fc8;
+    text-decoration: underline;
+    transition: background-color .5s ease;
+}
+
+a:visited {
+    color: #8f88cf;
+}
+
+a:hover {
+    background-color: rgba(42, 40, 56, .1);
+}
+
 p {
     margin: 0 0 1.4em;
+}
+
+ul,
+ol {
+    margin: 0 0 1.4em;
+    padding-left: 2em;
+}
+
+ul {
+    list-style-type: square;
+}
+
+ol {
+    list-style-type: upper-roman;
+}
+
+ul > li,
+ol > li {
+    margin-bottom: .7em;
+}
+
+ul > li:last-child,
+ol > li:last-child {
+    margin-bottom: 0;
+}
+
+img {
+    max-width: 100%;
 }
 
 h1 {
@@ -152,6 +196,14 @@ h6 {
     font-size: 1em;
 }
 
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
+    margin-top: 0;
+}
+
 input,
 button {
     font-family: inherit;
@@ -169,6 +221,75 @@ input::-moz-focus-inner {
 
 .wrap {
     overflow: hidden;
+}
+
+.spacer {
+    margin: 0;
+    height: 1.4em;
+}
+
+.columns {
+    margin: -1em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.columns > * {
+    margin: 1em;
+    flex: 0 1 auto;
+}
+
+main > .columns:last-child {
+    margin-bottom: -.25em;
+}
+
+.columns > * > *:last-child {
+    margin-bottom: 0;
+}
+
+.column-1 {
+    flex-basis: 100%;
+}
+
+.column-2 {
+    flex-basis: calc(50% - 2em);
+}
+
+.column-3 {
+    flex-basis: calc(33.333% - 2em);
+}
+
+.column-4 {
+    flex-basis: calc(25% - 2em);
+}
+
+.column-5 {
+    flex-basis: calc(20% - 2em);
+}
+
+.column-2-3 {
+    flex-basis: calc(66.667% - 2em);
+}
+
+.column-3-4 {
+    flex-basis: calc(75% - 2em);
+}
+
+.column-2-5 {
+    flex-basis: calc(40% - 2em);
+}
+
+.column-3-5 {
+    flex-basis: calc(60% - 2em);
+}
+
+.column-4-5 {
+    flex-basis: calc(80% - 2em);
+}
+
+.center {
+    text-align: center;
 }
 
 
@@ -283,6 +404,23 @@ input::-moz-focus-inner {
         padding: 1.5em;
     }
     
+    .column-3,
+    .column-4,
+    .column-2-3,
+    .column-3-4,
+    .column-2-5,
+    .column-3-5 {
+        flex-basis: calc(50% - 2em);
+    }
+    
+    .column-5 {
+        flex-basis: calc(33.333% - 2em);
+    }
+    
+    .column-4-5 {
+        flex-basis: 100%;
+    }
+    
 }
 
 
@@ -335,6 +473,10 @@ input::-moz-focus-inner {
     
     .navbar > ul > li {
         text-align: center;
+    }
+    
+    .columns > * {
+        flex-basis: 100%;
     }
     
 }
