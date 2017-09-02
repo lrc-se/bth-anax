@@ -34,8 +34,9 @@ body {
     right: 0;
     padding: 0;
     color: #fff;
-    background-color: rgba(42, 40, 56, .8);
+    background-color: rgba(42, 40, 56, .85);
     display: flex;
+    z-index: 10;
     transition: background-color .5s ease;
 }
 
@@ -78,9 +79,46 @@ body {
 }
 
 header {
-    padding: calc(7vw + 4.2em) 2rem 8vw;
-    background-color: #cac8d8;
+    position: relative;
+    padding: calc(5vw + 4.2em) 2rem 6vw;
     overflow: hidden;
+}
+
+header.has-flash {
+    padding: calc(8vw + 4.2em) 2rem 9vw;
+}
+
+header::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #3f384f;
+    opacity: .667;
+    display: block;
+    z-index: -1;
+}
+
+header.has-flash::before {
+    opacity: .333;
+}
+
+header h1 {
+    color: #fff;
+    text-shadow: 2px 2px 1rem #000;
+}
+
+.flash {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-position: 50% 50%;
+    background-size: cover;
+    z-index: -2;
 }
 
 main {
@@ -151,7 +189,7 @@ ol {
 ul > li,
 ol > li {
     color: #000;
-    margin-bottom: .7em;
+    margin-bottom: .35em;
 }
 
 ul > li:last-child,
@@ -346,6 +384,14 @@ main > .columns:last-child {
         padding-bottom: 1.05em;
     }
     
+    header {
+        padding-top: calc(5vw + 3.5em);
+    }
+    
+    header.has-flash {
+        padding-top: calc(8vw + 3.5em);
+    }
+    
     .anchor::before {
         height: 4.5rem;
         margin-top: -4.5rem;
@@ -369,7 +415,11 @@ main > .columns:last-child {
     }
     
     header {
-        padding-top: calc(7vw + 3em);
+        padding-top: calc(5vw + 3em);
+    }
+    
+    header.has-flash {
+        padding-top: calc(8vw + 3em);
     }
     
     .logo {
@@ -415,11 +465,14 @@ main > .columns:last-child {
         top: 3em;
         right: 0;
         width: 40%;
-        display: none;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity .5s ease, visibility .5s ease;
     }
     
     .navbar > button.open + ul {
-        display: block;
+        opacity: 1;
+        visibility: visible;
     }
     
     .navbar > ul > li {
