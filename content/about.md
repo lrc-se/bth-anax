@@ -12,7 +12,7 @@ Kursen handlar om "kodstrukturer med ramverk, designmönster och återanvändbar
 
 <div class="columns">
     <div class="column-3" markdown="1">
-    #### Innehåll
+    ##### Innehåll
     
     * Ramverk och moduler
     * [PHP](http://www.php.net/)
@@ -23,7 +23,7 @@ Kursen handlar om "kodstrukturer med ramverk, designmönster och återanvändbar
     * Testning
     </div>
     <div class="column-3" markdown="1">
-    #### Källkod
+    ##### Källkod
     
     * [Webbplatsen på GitHub](https://github.com/lrc-se/bth-anax)
     * [Anax på GitHub](https://github.com/canax)
