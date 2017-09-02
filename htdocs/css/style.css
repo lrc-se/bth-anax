@@ -12,7 +12,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #fff;
-    font-family: sans-serif;
+    font-family: "PT Sans", sans-serif;
     font-size: 1em;
     line-height: 1.4;
     display: flex;
@@ -21,10 +21,9 @@ body {
 }
 
 .logo {
-    float: left;
-    margin-right: 2em;
-    padding: 1.4em 0;
-    font-weight: 700;
+    padding: 0 1em;
+    display: flex;
+    align-items: center;
 }
 
 .navbar {
@@ -32,9 +31,10 @@ body {
     left: 0;
     top: 0;
     right: 0;
-    padding: 0 2em;
+    padding: 0;
     color: #fff;
     background-color: rgba(42, 40, 56, .8);
+    display: flex;
     transition: background-color .5s ease;
 }
 
@@ -42,16 +42,16 @@ body {
     background-color: rgba(42, 40, 56, .9);
 }
 
-.navbar a {
-    color: #fff;
-    text-decoration: none;
-}
-
 .navbar > ul {
     margin: 0;
     padding: 0;
     list-style-type: none;
     overflow: hidden;
+}
+
+.navbar > ul a {
+    color: #fff;
+    text-decoration: none;
 }
 
 .navbar > ul > li {
@@ -75,7 +75,7 @@ body {
 }
 
 header {
-    padding-top: 4.2em;
+    padding: calc(7vw + 4.2em) 2rem 8vw;
     background-color: #cac8d8;
     overflow: hidden;
 }
@@ -101,6 +101,10 @@ footer a {
     color: #fff;
 }
 
+footer > p {
+    margin-bottom: .7em;
+}
+
 footer > p:last-child {
     margin-bottom: 0;
 }
@@ -110,8 +114,10 @@ p {
 }
 
 h1 {
-    margin: 10vw 2rem;
+    margin: 0;
+    font-family: "Playfair Display", serif;
     font-size: 4em;
+    font-weight: 900;
     text-align: center;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -190,30 +196,51 @@ input::-moz-focus-inner {
         font-size: 1.25em;
     }
     
-    .logo {
-        float: none;
-        padding: .7em 1em;
-        display: inline-block;
+    header {
+        padding-top: calc(7vw + 3em);
     }
     
-    .navbar {
-        padding: 0;
+    .logo {
+        padding: 0 .5em;
     }
     
     .navbar > button {
-        float: right;
-        padding: .7em 1em;
+        height: 3em;
+        margin-left: auto;
+        padding: 0 1em;
         color: #fff;
-        background-color: rgba(42, 40, 56, .5);
+        background-color: transparent;
+        font-weight: 700;
+        line-height: 3em;
         border: none;
+        cursor: pointer;
+    }
+    
+    .navbar > button:hover {
+        background-color: rgba(42, 40, 56, .5);
+    }
+    
+    .navbar > button::after {
+        content: ">";
+        position: relative;
+        top: 1px;
+        margin-left: .75em;
+        font-weight: 400;
+        display: inline-block;
+        transition: transform .5s ease;
     }
     
     .navbar > button.open {
         background-color: rgba(42, 40, 56, .8);
     }
     
+    .navbar > button.open::after {
+        transform: rotate(90deg);
+    }
+    
     .navbar > ul {
         position: absolute;
+        top: 3em;
         right: 0;
         width: 40%;
         display: none;
@@ -232,6 +259,10 @@ input::-moz-focus-inner {
         padding: .7em 1em;
         background-color: rgba(42, 40, 56, .8);
         display: block;
+    }
+    
+    .navbar > ul > li:not(.active):hover > a {
+        background-color: rgba(42, 40, 56, .9);
     }
     
     main {
@@ -257,6 +288,10 @@ input::-moz-focus-inner {
     
     h3 {
         font-size: 1.333em;
+    }
+    
+    .navbar > button::after {
+        top: 0;
     }
     
     .navbar > ul {

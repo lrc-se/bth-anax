@@ -6,6 +6,7 @@
     <title><?= $title ?> ~ Kalles sida</title>
 <?php foreach ($stylesheets as $stylesheet) : ?>
     <link rel="stylesheet" href="<?= $this->asset($stylesheet) ?>">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i%7CPlayfair+Display:900">
     <link rel="shortcut icon" href="favicon.ico">
 <?php endforeach; ?>
 </head>
