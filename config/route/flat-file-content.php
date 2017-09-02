@@ -9,7 +9,6 @@ $app->router->always(function () use ($app) {
     $file2 = ANAX_INSTALL_PATH . "/content/$path/index.md";
 
     $file = (is_file($file2) ? $file2 : (is_file($file1) ? $file1 : null));
-
     if (!$file) {
         return;
     }
@@ -26,10 +25,12 @@ $app->router->always(function () use ($app) {
     $flash = (isset($content->frontmatter['flash']) ? $content->frontmatter['flash'] : null);
 
     // Render a standard page using layout
-    $app->view->add('default/main', [
+    $app->view->add('default/header', [
         'flash' => $flash,
-        'title' => $app->textfilter->getTitleFromFirstH1($content->text),
+        'title' => $app->textfilter->getTitleFromFirstH1($content->text)
+    ], 'header');
+    $app->view->add('default/main', [
         'content' => preg_replace('/<h1.*?>.*?<\/h1>/', '', $content->text)
-    ]);
+    ], 'main');
     $app->renderPage($content->frontmatter);
 });

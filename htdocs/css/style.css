@@ -86,6 +86,10 @@ main {
     padding: 2em;
 }
 
+main > *:last-child {
+    margin-bottom: 0;
+}
+
 .footer-wrap {
     margin-top: auto;
 }
@@ -173,6 +177,16 @@ input::-moz-focus-inner {
     
     .navbar > button {
         display: none;
+    }
+    
+}
+
+
+@media only screen and (max-width: 1023px) {
+    
+    .navbar > ul > li > a {
+        padding-top: 1.05em;
+        padding-bottom: 1.05em;
     }
     
 }

@@ -18,6 +18,12 @@
 </div>
 <?php endif; ?>
 
+<?php if ($this->regionHasContent('header')) : ?>
+<div class="wrap header-wrap">
+<?php $this->renderRegion('header') ?>
+</div>
+<?php endif; ?>
+
 <?php if ($this->regionHasContent('main')) : ?>
 <div class="wrap main-wrap">
 <?php $this->renderRegion('main') ?>

@@ -27,9 +27,8 @@ class App
     {
         $data['stylesheets'] = ['css/style.css'];
 
-        // Add common navbar, header and footer
+        // Add common navbar and footer
         $this->view->add('default/navbar', [], 'navbar');
-        $this->view->add('default/header', [], 'header');
         $this->view->add('default/footer', [], 'footer');
 
         // Add layout, render it, add to response and send.
