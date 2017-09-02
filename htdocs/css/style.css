@@ -34,6 +34,7 @@ body {
     right: 0;
     padding: 0;
     color: #fff;
+    background-color: rgb(66, 64, 80);
     background-color: rgba(42, 40, 56, .85);
     display: flex;
     z-index: 10;
@@ -41,6 +42,7 @@ body {
 }
 
 .navbar:hover {
+    background-color: rgb(58, 56, 72);
     background-color: rgba(42, 40, 56, .9);
 }
 
@@ -71,6 +73,7 @@ body {
 }
 
 .navbar > ul > li:hover > a {
+    background-color: rgb(50, 48, 64);
     background-color: rgba(42, 40, 56, .5);
 }
 
@@ -143,6 +146,7 @@ footer {
 
 footer p,
 footer a {
+    color: #ccc;
     color: rgba(255, 255, 255, .8);
 }
 
@@ -165,6 +169,7 @@ a:visited {
 }
 
 a:hover {
+    background-color: #dfddd8;
     background-color: rgba(42, 40, 56, .1);
 }
 
@@ -439,6 +444,7 @@ main > .columns:last-child {
     }
     
     .navbar > button:hover {
+        background-color: rgb(50, 48, 64);
         background-color: rgba(42, 40, 56, .5);
     }
     
@@ -453,7 +459,8 @@ main > .columns:last-child {
     }
     
     .navbar > button.open {
-        background-color: rgba(42, 40, 56, .8);
+        background-color: rgb(42, 40, 56);
+        background-color: rgba(42, 40, 56, .85);
     }
     
     .navbar > button.open::after {
@@ -482,11 +489,13 @@ main > .columns:last-child {
     
     .navbar > ul > li > a {
         padding: .7em 1em;
-        background-color: rgba(42, 40, 56, .8);
+        background-color: rgb(66, 64, 80);
+        background-color: rgba(42, 40, 56, .85);
         display: block;
     }
     
     .navbar > ul > li:not(.active):hover > a {
+        background-color: rgb(58, 56, 72);
         background-color: rgba(42, 40, 56, .9);
     }
     
