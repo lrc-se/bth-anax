@@ -6,8 +6,8 @@ Kalles sida
 ===========
 
 <h4 markdown="1">
-Goddagens! Jag heter alltså Kalle och kommer från Östersund. Jag föddes en vacker vinterdag för <?= date('Y') - 1983 ?> år sedan här i 
-[Republiken Jamtland](http://www.republikenjamtland.se) – eller ja, om den nu var så vacker vet jag ju faktiskt inte – 
+Goddagens! Jag heter alltså Kalle och kommer från Östersund. Jag föddes en vacker vinterdag anno 1983 här i 
+[Republiken Jamtland](http://www.republikenjamtland.se/) – eller ja, om den nu var så vacker vet jag ju faktiskt inte – 
 och har allt sedan dess hedrat världen med min närvaro.
 </h4>
 

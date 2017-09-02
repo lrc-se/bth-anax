@@ -2,8 +2,8 @@
 title: "Redovisning av kursmoment"
 ...
 
-Redovisning
-===========
+Redo&shy;visning
+================
 
 Här följer redovisningarna som hör till kursen.
 

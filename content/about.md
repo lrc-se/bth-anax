@@ -2,8 +2,8 @@
 title: "Om webbplatsen"
 ...
 
-Om webbplatsen
-==============
+Om webb&shy;platsen
+===================
 
 Denna webbplats är en del i kursen **Webbaserade ramverk 1** i distansprogrammet *Webbprogrammering* på [Blekinge Tekniska Högskola](http://www.bth.se/). 
 Kursen handlar om "kodstrukturer med ramverk, designmönster och återanvändbara moduler samt tekniker för automatiserad testning och *continuous integration* i en fullstack-webbmiljö".
