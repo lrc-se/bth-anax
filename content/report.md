@@ -1,5 +1,6 @@
 ---
 title: "Redovisning av kursmoment"
+flash: "img/bg1.jpg"
 ...
 
 Redo&shy;visning

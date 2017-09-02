@@ -95,14 +95,14 @@ header::before {
     top: 0;
     right: 0;
     bottom: 0;
-    background-color: #3f384f;
+    background-color: #3c384f;
     opacity: .667;
     display: block;
     z-index: -1;
 }
 
 header.has-flash::before {
-    opacity: .333;
+    opacity: .2;
 }
 
 header h1 {

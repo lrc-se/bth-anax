@@ -1,5 +1,6 @@
 ---
 title: "Om webbplatsen"
+flash: "img/bg5.jpg"
 ...
 
 Om webb&shy;platsen

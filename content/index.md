@@ -1,5 +1,6 @@
 ---
 title: "Start"
+flash: "img/bg3.jpg"
 ...
 
 Kalles sida
