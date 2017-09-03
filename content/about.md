@@ -21,6 +21,7 @@ Kursen handlar om "kodstrukturer med ramverk, designmönster och återanvändbar
     * [DI](https://en.wikipedia.org/wiki/Dependency_injection)
     * [AR](https://en.wikipedia.org/wiki/Active_record_pattern)
     * [CI](https://en.wikipedia.org/wiki/Continuous_integration)
+    * Databasdrivna modeller
     * Testning
     </div>
     <div class="column-3" markdown="1">
