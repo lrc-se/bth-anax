@@ -159,18 +159,18 @@ footer > p:last-child {
 }
 
 a {
-    color: #281fc8;
+    color: #281fb8;
     text-decoration: underline;
     transition: background-color .5s ease;
 }
 
 a:visited {
-    color: #8f88cf;
+    color: #7f78aa;
 }
 
 a:hover {
-    background-color: #dfddd8;
-    background-color: rgba(42, 40, 56, .1);
+    background-color: #efeee8;
+    background-color: rgba(42, 40, 56, .09);
 }
 
 p {
@@ -184,7 +184,7 @@ ol {
 }
 
 ul {
-    list-style-type: square;
+    list-style-type: disc;
 }
 
 ol {
@@ -202,6 +202,10 @@ ol > li:last-child {
     margin-bottom: 0;
 }
 
+blockquote {
+    margin: 0 2em 1.4em;
+}
+
 img {
     max-width: 100%;
 }
@@ -210,7 +214,7 @@ h1 {
     margin: 0;
     color: #000;
     font-family: "Playfair Display", serif;
-    font-size: 4em;
+    font-size: 4.5em;
     font-weight: 900;
     letter-spacing: .333px;
     text-align: center;
@@ -224,6 +228,7 @@ h2 {
     font-family: "Playfair Display", serif;
     font-size: 2.25em;
     font-weight: 900;
+    letter-spacing: .25px;
 }
 
 h3 {
@@ -232,6 +237,7 @@ h3 {
     font-family: "Playfair Display", serif;
     font-size: 1.75em;
     font-weight: 900;
+    letter-spacing: .25px;
 }
 
 h4 {
@@ -249,6 +255,7 @@ h4 > a {
 }
 
 h4 > a:visited {
+    color: inherit;
     opacity: .5;
 }
 
@@ -258,6 +265,7 @@ h5 {
     font-family: "Playfair Display", serif;
     font-size: 1.25em;
     font-weight: 900;
+    letter-spacing: .25px;
 }
 
 h6 {
@@ -266,6 +274,7 @@ h6 {
     font-family: "Playfair Display", serif;
     font-size: 1.125em;
     font-weight: 900;
+    letter-spacing: .25px;
 }
 
 h2:first-child,
@@ -288,6 +297,21 @@ input::-moz-focus-inner {
     margin: 0;
     padding: 0;
     border: none;
+}
+
+code {
+    padding: 1px 3px 0;
+    background-color: #f4f4f4;
+    background-color: rgba(42, 40, 56, .05);
+    border: 1px dashed;
+    border-color: #bbb;
+    border-color: rgba(42, 40, 56, .25);
+    font-weight: 700;
+    line-height: 1em;
+}
+
+code:hover {
+    border-style: solid;
 }
 
 
@@ -395,6 +419,10 @@ main > .columns:last-child {
     
     header.has-flash {
         padding-top: calc(8vw + 3.5em);
+    }
+    
+    h1 {
+        font-size: 4em;
     }
     
     .anchor::before {
