@@ -9,7 +9,7 @@ class BaseController
 {
     protected $app;
     
-    function __construct($app)
+    public function __construct($app)
     {
         $this->app = $app;
     }
