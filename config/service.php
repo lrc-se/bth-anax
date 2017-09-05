@@ -4,7 +4,7 @@
  */
 
 // Add all resources to $app
-$app = new \Anax\App\App();
+$app = new \LRC\App\App();
 $app->request = new \Anax\Request\Request();
 $app->response = new \Anax\Response\Response();
 $app->url = new \Anax\Url\Url();
@@ -13,6 +13,8 @@ $app->view = new \Anax\View\ViewContainer();
 $app->textfilter = new \Anax\TextFilter\TextFilter();
 $app->session = new \Anax\Session\SessionConfigurable();
 $app->navbar = new \LRC\Navbar\Navbar($app);
+$app->rem = new \LRC\Rem\RemServer();
+$app->remController = new \LRC\Rem\RemController($app);
 
 // Configure request
 $app->request->init();
@@ -38,6 +40,10 @@ $app->view->configure('view.php');
 
 // Configure navbar
 $app->navbar->configure('navbar.php');
+
+// Configure REM server
+$app->rem->configure('remserver.php');
+$app->rem->inject(['session' => $app->session]);
 
 // Return the populated $app
 return $app;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Anax\App;
+namespace LRC\App;
 
 /**
  * An App class to wrap the resources of the framework.
