@@ -30,6 +30,30 @@ class UserService
         $this->session = $dependency['session'];
         return $this;
     }
+    
+    
+    /**
+     * Mock data.
+     */
+    public function mock()
+    {
+        if (!$this->getByUsername('admin')) {
+            $this->addUser([
+                'username' => 'admin',
+                'password' => '$2y$10$28ANwequzg1BryIAwdXrt.D65WjRjxQHC35mYSXlA2/6KQMUA0.dS',
+                'name' => 'Admin',
+                'email' => 'kabc16@student.bth.se',
+            ]);
+        }
+        if (!$this->getByUsername('doe')) {
+            $this->addUser([
+                'username' => 'doe',
+                'password' => '$2y$10$5NG8.RGSS/0HZ3lN6PUx7eVFAj10AW8/HMOj6tzV3GhmWuY8SnFCa',
+                'name' => 'John Doe',
+                'email' => 'e@mail.com',
+            ]);
+        }
+    }
 
 
     /**
@@ -42,7 +66,25 @@ class UserService
     public function getById($id)
     {
         foreach ($this->session->get(self::KEY, []) as $user) {
-            if ($user['id'] === $id) {
+            if ($user['id'] == $id) {
+                return $user;
+            }
+        }
+        return null;
+    }
+    
+    
+    /**
+     * Get a user by username.
+     *
+     * @param string $username  Username.
+     *
+     * @return array|null       Array with the user if found, null otherwise.
+     */
+    public function getByUsername($username)
+    {
+        foreach ($this->session->get(self::KEY, []) as $user) {
+            if ($user['username'] === $username) {
                 return $user;
             }
         }
@@ -68,6 +110,20 @@ class UserService
         return null;
     }
     
+    
+    /**
+     * Get the currently logged-in user, if any.
+     * 
+     * @return array|null   Array with the user if found, null otherwise.
+     */
+    public function getCurrent()
+    {
+        if ($this->session->has('userId')) {
+            return $this->getById($this->session->get('userId'));
+        }
+        return null;
+    }
+    
 
     /**
      * Add a user.
@@ -87,5 +143,34 @@ class UserService
         $users[] = $user;
         $this->session->set(self::KEY, $users);
         return $user;
+    }
+    
+    
+    /**
+     * Attempt to log in a user.
+     *
+     * @param string $username  Username.
+     * @param string $password  Password.
+     *
+     * @return bool             True if login was successful, false otherwise.
+     */
+    public function login($username, $password)
+    {
+        foreach ($this->session->get(self::KEY, []) as $user) {
+            if ($user['username'] === $username && password_verify($password, $user['password'])) {
+                $this->session->set('userId', $user['id']);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+    /**
+     * Log out the current user.
+     */
+    public function logout()
+    {
+        $this->session->delete('userId');
     }
 }

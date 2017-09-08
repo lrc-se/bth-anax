@@ -14,6 +14,7 @@ $app->textfilter = new \Anax\TextFilter\TextFilter();
 $app->session = new \Anax\Session\SessionConfigurable();
 $app->navbar = new \LRC\Navbar\Navbar($app);
 $app->user = new \LRC\User\UserService();
+$app->userController = new \LRC\User\UserController($app);
 $app->rem = new \LRC\Rem\RemServer();
 $app->remController = new \LRC\Rem\RemController($app);
 $app->comments = new \LRC\Comment\CommentService();
@@ -47,6 +48,7 @@ $app->navbar->configure('navbar.php');
 
 // Configure user service
 $app->user->inject(['session' => $app->session]);
+$app->user->mock();
 
 // Configure REM server
 $app->rem->configure('remserver.php');
