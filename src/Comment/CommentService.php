@@ -45,6 +45,28 @@ class CommentService implements ConfigureInterface
 
 
     /**
+     * Get a comment by ID.
+     *
+     * @param string $contentId     Content ID.
+     * @param string $commentId     Comment ID.
+     *
+     * @return array|null           Array with the comment if found, null otherwise.
+     */
+    public function getById($contentId, $commentId)
+    {
+        $data = $this->session->get(self::KEY);
+        if (isset($data[$contentId])) {
+            foreach ($data[$contentId] as $comment) {
+                if ($comment['id'] == $commentId) {
+                    return $comment;
+                }
+            }
+        }
+        return null;
+    }
+    
+    
+    /**
      * Get all comments.
      *
      * @return array    All comments.

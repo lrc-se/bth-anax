@@ -52,9 +52,19 @@ class CommentController extends \LRC\App\BaseController
      */
     public function update($contentId, $commentId)
     {
-        $comment = $this->populateComment();
-        if ($comment) {
-            $comment = $this->app->comments->upsertComment($contentId, $commentId, $comment);
+        $user = $this->app->user->getCurrent();
+        if ($user) {
+            $oldComment = $this->app->comments->getById($contentId, $commentId);
+            if ($oldComment && ($user['admin'] == 1 || $oldComment['userId'] == $user['id'])) {
+                $comment = $this->populateComment();
+                if ($comment) {
+                    $comment = $this->app->comments->upsertComment($contentId, $commentId, $comment);
+                }
+            } else {
+                // error
+            }
+        } else {
+            // error
         }
         $this->back();
     }
@@ -70,7 +80,17 @@ class CommentController extends \LRC\App\BaseController
      */
     public function delete($contentId, $commentId)
     {
-        $this->app->comments->deleteComment($contentId, $commentId);
+        $user = $this->app->user->getCurrent();
+        if ($user) {
+            $oldComment = $this->app->comments->getById($contentId, $commentId);
+            if ($oldComment && ($user['admin'] == 1 || $oldComment['userId'] == $user['id'])) {
+                $this->app->comments->deleteComment($contentId, $commentId);
+            } else {
+                // error
+            }
+        } else {
+            // error
+        }
         $this->back();
     }
 
@@ -83,7 +103,7 @@ class CommentController extends \LRC\App\BaseController
     private function populateComment()
     {
         return [
-            'id' => $this->app->request->getPost('id'),
+            //'id' => $this->app->request->getPost('id'),
             'userId' => $this->app->request->getPost('userId'),
             'text' => $this->app->request->getPost('text', '')
         ];
