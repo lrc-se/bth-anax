@@ -2,35 +2,15 @@
 /**
  * Internal routes for error handling.
  */
+
 $app->router->addInternal('403', function () use ($app) {
-    $title = '403 Forbidden';
-    $app->view->add('default/http_status_code', [
-        'title' => $title,
-        'message' => 'You are not permitted to do this.',
-    ]);
-    $app->renderPage([
-        'title' => $title,
-    ], 403);
+    $app->renderPage('Förbjuden åtgärd', 'Du har inte behörighet att göra det du försökte göra.', ['title' => 'Förbjuden åtgärd'], 403);
 });
 
 $app->router->addInternal('404', function () use ($app) {
-    $title = '404 Page Not Found';
-    $app->view->add('default/http_status_code', [
-        'title' => '404 Page Not Found',
-        'message' => 'The page you are looking for is not here.',
-    ]);
-    $app->renderPage([
-        'title' => $title,
-    ], 404);
+    $app->renderPage('Sidan kunde inte hittas', 'Sidan du letar efter finns inte här.', ['title' => 'Sidan kunde inte hittas'], 404);
 });
 
 $app->router->addInternal('500', function () use ($app) {
-    $title = '500 Internal Server Error';
-    $app->view->add('default/http_status_code', [
-        'title' => '500 Internal Server Error',
-        'message' => 'An unexpected condition was encountered.',
-    ]);
-    $app->renderPage([
-        'title' => $title,
-    ], 500);
+    $app->renderPage('Serverfel', 'Ett oväntat problem har uppstått.', ['title' => 'Serverfel'], 500);
 });
