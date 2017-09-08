@@ -25,8 +25,12 @@
     <form action="<?= $this->url("comment/create/$contentId")?>" method="post">
         <input type="hidden" name="url" value="<?= $app->request->getCurrentUrl() ?>">
         <input type="hidden" name="id" value="<?= $contentId ?>">
+<?php if ($user) : ?>
+        <input type="hidden" name="userId" value="<?= $user['id'] ?>">
+<?php else : ?>
         <p><label>Namn: <input type="text" name="name" maxlength="100" required></label></p>
         <p><label>E-post: <input type="email" name="email" maxlength="200"></label></p>
+<?php endif; ?>
         <p><label>Kommentar:<br><textarea name="text" rows="5" required></textarea></label></p>
         <p><input type="submit" value="Skicka"></p>
     </form>

@@ -25,6 +25,8 @@ class CommentController extends \LRC\App\BaseController
             $user = $this->app->user->getAnonymous($name, $email);
             if (!$user) {
                 $user = $this->app->user->addUser([
+                    'username' => null,
+                    'password' => null,
                     'name' => $name,
                     'email' => $email,
                     'anonymous' => 1,
