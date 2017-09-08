@@ -26,7 +26,7 @@ $app->router->always(function () use ($app) {
     $contentId = (isset($content->frontmatter['id']) ? $content->frontmatter['id'] : null);
 
     // Render a standard page using layout
-    $app->view->add('default/header', [
+    /*$app->view->add('default/header', [
         'flash' => $flash,
         'title' => $app->textfilter->getTitleFromFirstH1($content->text)
     ], 'header');
@@ -36,8 +36,9 @@ $app->router->always(function () use ($app) {
     if (!empty($content->frontmatter['comments']) && $contentId) {
         $app->view->add('default/comments', [
             'contentId' => $contentId,
-            'comments' => $app->comments->getComments($contentId)
+            'comments' => $app->comments->getComments($contentId),
+            'user' => $app->user->getCurrent()
         ], 'main');
-    }
-    $app->renderPage($content->frontmatter);
+    }*/
+    $app->renderPage($app->textfilter->getTitleFromFirstH1($content->text), preg_replace('/<h1.*?>.*?<\/h1>/', '', $content->text), $content->frontmatter);
 });
