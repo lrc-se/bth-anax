@@ -23,6 +23,7 @@ $app->router->always(function () use ($app) {
     // Get content from markdown file
     $content = $app->textfilter->parse(file_get_contents($file), ['yamlfrontmatter', 'shortcode', 'markdown', 'titlefromheader']);
     $flash = (isset($content->frontmatter['flash']) ? $content->frontmatter['flash'] : null);
+    $contentId = (isset($content->frontmatter['id']) ? $content->frontmatter['id'] : null);
 
     // Render a standard page using layout
     $app->view->add('default/header', [
@@ -32,5 +33,11 @@ $app->router->always(function () use ($app) {
     $app->view->add('default/main', [
         'content' => preg_replace('/<h1.*?>.*?<\/h1>/', '', $content->text)
     ], 'main');
+    if (!empty($content->frontmatter['comments']) && $contentId) {
+        $app->view->add('default/comments', [
+            'contentId' => $contentId,
+            'comments' => $app->comments->getComments($contentId)
+        ], 'main');
+    }
     $app->renderPage($content->frontmatter);
 });

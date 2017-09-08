@@ -26,7 +26,9 @@
 
 <?php if ($this->regionHasContent('main')) : ?>
 <div class="wrap main-wrap">
+    <main>
 <?php $this->renderRegion('main') ?>
+    </main>
 </div>
 <?php endif; ?>
 
