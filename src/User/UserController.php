@@ -14,7 +14,7 @@ class UserController extends \LRC\App\BaseController
     {
         $user = $this->app->user->getCurrent();
         if ($user) {
-            $this->app->view->add('user/index', [], 'main');
+            $this->app->view->add('user/index', ['user' => $user], 'main');
             $this->app->renderPage('Välkommen, ' . $user['username'] . '!');
         } else {
             $this->app->view->add('user/login', [], 'main');
@@ -42,7 +42,9 @@ class UserController extends \LRC\App\BaseController
      */
     public function handleLogout()
     {
-        $this->app->user->logout();
+        if ($this->app->request->getPost('logout') == 1) {
+            $this->app->user->logout();
+        }
         $this->app->redirect('user');
     }
 }

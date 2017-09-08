@@ -18,6 +18,10 @@ $navbar = [
         'report' => [
             'title' => 'Redovisning',
             'route' => 'report'
+        ],
+        'user' => [
+            'title' => 'Användare',
+            'route' => 'user'
         ]
     ]
 ];
