@@ -43,6 +43,8 @@ class UserService
                 'password' => '$2y$10$28ANwequzg1BryIAwdXrt.D65WjRjxQHC35mYSXlA2/6KQMUA0.dS',
                 'name' => 'Admin',
                 'email' => 'kabc16@student.bth.se',
+                'anonymous' => 0,
+                'admin' => 1
             ]);
         }
         if (!$this->getByUsername('doe')) {
@@ -51,6 +53,8 @@ class UserService
                 'password' => '$2y$10$5NG8.RGSS/0HZ3lN6PUx7eVFAj10AW8/HMOj6tzV3GhmWuY8SnFCa',
                 'name' => 'John Doe',
                 'email' => 'e@mail.com',
+                'anonymous' => 0,
+                'admin' => 0
             ]);
         }
     }
