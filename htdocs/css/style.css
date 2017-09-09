@@ -2,6 +2,11 @@
     box-sizing: border-box;
 }
 
+*:focus {
+    outline-color: #281fb8;
+    box-shadow: none;
+}
+
 html {
     height: 100%;
     font-size: 16px;
@@ -79,6 +84,19 @@ body {
 
 .navbar > ul > li.active > a {
     background-color: #2a2838;
+}
+
+.navbar-user {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.navbar-user > span {
+    max-width: 100px;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
 }
 
 header {
@@ -321,7 +339,7 @@ textarea {
     max-width: 100%;
     padding: .35em .5em;
     background-color: #fff;
-    border: 1px solid rgba(42, 40, 56, .333);
+    border: 1px solid rgba(42, 40, 56, .5);
     transition: background-color .5s ease;
 }
 
@@ -466,7 +484,7 @@ main > .columns:last-child {
     padding-right: 1em;
     font-weight: 700;
     text-align: right;
-    flex: 0 1 200px;
+    flex: 0 1 150px;
 }
 
 .form-small .form-label {

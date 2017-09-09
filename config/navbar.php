@@ -28,7 +28,7 @@ $navbar = [
 
 $user = $this->app->user->getCurrent();
 if ($user) {
-    $navbar['items']['user']['title'] .= ' (' . $user['username'] . ')';
+    $navbar['items']['user']['title'] .= ' <span class="navbar-user">(<span>' . $user['username'] . '</span>)</span>';
 }
 
 return $navbar;
