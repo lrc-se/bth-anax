@@ -15,6 +15,10 @@ $navbar = [
             'title' => 'Om',
             'route' => 'about'
         ],
+        'rem' => [
+            'title' => 'REM',
+            'route' => 'rem'
+        ],
         'report' => [
             'title' => 'Redovisning',
             'route' => 'report'
