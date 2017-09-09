@@ -286,7 +286,10 @@ h6:first-child {
 }
 
 input,
-button {
+button,
+select,
+textarea {
+    color: #555;
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
@@ -297,6 +300,41 @@ input::-moz-focus-inner {
     margin: 0;
     padding: 0;
     border: none;
+}
+
+input[type=button],
+input[type=submit],
+input[type=reset],
+button {
+    padding: .35em .5em;
+    color: #fff;
+    background-color: #3c384f;
+    border: none;
+    cursor: pointer;
+}
+
+input[type=text],
+input[type=email],
+input[type=password],
+select,
+textarea {
+    max-width: 100%;
+    padding: .35em .5em;
+    background-color: #fff;
+    border: 1px solid rgba(42, 40, 56, .333);
+    transition: background-color .5s ease;
+}
+
+input[type=text]:focus,
+input[type=email]:focus,
+input[type=password]:focus,
+select:focus,
+textarea:focus {
+    background-color: #f4f4f4;
+}
+
+label {
+    font-weight: 700;
 }
 
 code {
@@ -395,6 +433,44 @@ main > .columns:last-child {
     text-align: center;
 }
 
+.form-control {
+    margin-bottom: 1.4em;
+    display: flex;
+}
+
+.form-control:last-child {
+    margin-bottom: 0;
+}
+
+.form-label {
+    padding-top: .35em;
+    padding-right: 1em;
+    font-weight: 700;
+    text-align: right;
+    flex: 0 1 200px;
+}
+
+.form-small .form-label {
+    flex-basis: 100px;
+}
+
+.form-input {
+    overflow: hidden;
+    flex: 0 1 auto;
+}
+
+.form-input input[type=text],
+.form-input input[type=email],
+.form-input input[type=password],
+.form-input select {
+    width: 300px;
+    display: block;
+}
+
+.form-input textarea {
+    width: 450px;
+}
+
 .comments {
     margin-top: 2.1em;
     padding-top: .7em;
@@ -457,7 +533,11 @@ main > .columns:last-child {
 }
 
 .comment-add {
-    padding: .7em 1em 0;
+    padding-top: .7em;
+}
+
+.comment-form {
+    margin-top: .7em;
 }
 
 
@@ -654,6 +734,20 @@ main > .columns:last-child {
     .anchor::before {
         height: 3.667rem;
         margin-top: -3.667rem;
+    }
+    
+    .form-control {
+        flex-wrap: wrap;
+    }
+    
+    .form-label,
+    .form-input {
+        flex-basis: 100%;
+    }
+    
+    .form-label {
+        padding: 0;
+        text-align: left;
     }
     
     .comment-header > img {
