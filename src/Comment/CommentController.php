@@ -10,6 +10,24 @@ namespace LRC\Comment;
 class CommentController extends \LRC\App\BaseController
 {
     /**
+     * Retrieve a comment.
+     *
+     * @param string $contentId     Content ID.
+     * @param string $commentId     Comment ID.
+     *
+     * @return void
+     */
+    public function get($contentId, $commentId)
+    {
+        $comment = $this->app->comments->getById($contentId, $commentId);
+        if ($comment) {
+            $this->app->response->sendJson($comment);
+        }
+        exit;
+    }
+    
+    
+    /**
      * Create a new comment.
      *
      * @param string $contentId     Content ID.

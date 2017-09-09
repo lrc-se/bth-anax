@@ -128,9 +128,10 @@ class CommentService implements ConfigureInterface
     /**
      * Add a comment.
      *
-     * @param string $comment   The comment.
+     * @param string $contentId     Content ID.
+     * @param string $comment       The comment.
      *
-     * @return array            The new comment inserted.
+     * @return array                The new comment inserted.
      */
     public function addComment($contentId, $comment)
     {
@@ -151,12 +152,13 @@ class CommentService implements ConfigureInterface
     /**
      * Upsert/replace a comment.
      *
-     * @param string $id        Comment ID.
-     * @param string $comment   Comment to modify.
+     * @param string $contentId     Content ID.
+     * @param string $commentId     Comment ID.
+     * @param string $comment       Comment to modify.
      *
-     * @return array            The upserted comment.
+     * @return array                The upserted comment.
      */
-    public function upsert($contentId, $commentId, $comment)
+    public function upsertComment($contentId, $commentId, $comment)
     {
         $comments = $this->getComments($contentId);
         $comment['id'] = $commentId;

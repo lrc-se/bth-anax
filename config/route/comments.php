@@ -3,6 +3,9 @@
  * Routes for comments.
  */
 
+/** Get comment text. */
+$app->router->get('comment/get/{contentId:alphanum}/{commentId:digit}', [$app->commentController, 'get']);
+
 /** Create new comment. */
 $app->router->post('comment/create/{contentId:alphanum}', [$app->commentController, 'create']);
 
