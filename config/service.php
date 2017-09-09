@@ -43,9 +43,6 @@ $app->url->setDefaultsFromConfiguration();
 $app->view->setApp($app);
 $app->view->configure('view.php');
 
-// Configure navbar
-$app->navbar->configure('navbar.php');
-
 // Configure user service
 $app->user->inject(['session' => $app->session]);
 $app->user->mock();
@@ -60,6 +57,9 @@ $app->comments->inject([
     'session' => $app->session,
     'user' => $app->user
 ]);
+
+// Configure navbar
+$app->navbar->configure('navbar.php');
 
 // Return the populated $app
 return $app;
