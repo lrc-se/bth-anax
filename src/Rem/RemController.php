@@ -16,7 +16,6 @@ class RemController extends \LRC\App\BaseController
      */
     public function prepare()
     {
-        //$this->app->session->start();
         if (!$this->app->rem->hasDataset()) {
             $this->app->rem->init();
         }

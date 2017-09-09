@@ -128,7 +128,6 @@ class CommentController extends \LRC\App\BaseController
     private function populateComment()
     {
         return [
-            //'id' => $this->app->request->getPost('id'),
             'userId' => $this->app->request->getPost('userId'),
             'text' => $this->app->request->getPost('text', '')
         ];

@@ -18,8 +18,6 @@ class ContentController extends BaseController
         }
         
         // render a standard page with default layout
-        $flash = (isset($content->frontmatter['flash']) ? $content->frontmatter['flash'] : null);
-        $contentId = (isset($content->frontmatter['id']) ? $content->frontmatter['id'] : null);
         $this->app->renderPage($this->app->textfilter->getTitleFromFirstH1($content->text), preg_replace('/<h1.*?>.*?<\/h1>/', '', $content->text), $content->frontmatter);
         exit;
     }
