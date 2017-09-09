@@ -395,6 +395,71 @@ main > .columns:last-child {
     text-align: center;
 }
 
+.comments {
+    margin-top: 2.1em;
+    padding-top: .7em;
+    border-top: 1px dashed rgba(42, 40, 56, .333);
+}
+
+.comment-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.comment {
+    margin: 0 1em;
+    padding: 1.4em 0;
+    border-bottom: 1px dotted rgba(42, 40, 56, .25);
+    display: block;
+}
+
+.comment:first-child {
+    padding-top: .7em;
+}
+
+.comment:last-child {
+    border-bottom: none;
+}
+
+.comment-header {
+    margin-bottom: .7em;
+    overflow: hidden;
+}
+
+.comment-header > img {
+    float: left;
+    margin-right: 1em;
+}
+
+.comment-author {
+    margin-bottom: .35em;
+    font-weight: 700;
+}
+
+.comment-time {
+    font-size: .875em;
+    opacity: .667;
+}
+
+.comment-text > *:last-child {
+    margin-bottom: 0;
+}
+
+.comment-edited {
+    margin-top: .7em;
+    font-style: italic;
+    opacity: .667;
+}
+
+.comment-actions {
+    margin-top: .7em;
+}
+
+.comment-add {
+    padding: .7em 1em 0;
+}
+
 
 
 @media only screen and (min-width: 768px) {
@@ -589,6 +654,15 @@ main > .columns:last-child {
     .anchor::before {
         height: 3.667rem;
         margin-top: -3.667rem;
+    }
+    
+    .comment-header > img {
+        width: 40px;
+        margin-right: .75em;
+    }
+    
+    .comment-author {
+        margin-bottom: 0;
     }
     
 }

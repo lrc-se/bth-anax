@@ -17,7 +17,15 @@ class App
         $this->response->redirect($this->url->create($url));
         exit;
     }
-
+    
+    
+    /**
+     * Escape output.
+     */
+    public function esc($text)
+    {
+        return htmlspecialchars($text);
+    }
 
 
     /**
