@@ -78,9 +78,11 @@
         
         function deleteComment(e) {
             e.preventDefault();
-            var form = document.getElementById("comment-delete-form");
-            form.action = "<?= $this->url("comment/delete/$contentId") ?>/" + e.target.getAttribute("data-id");
-            form.submit();
+            if (confirm("Är du säker på att du vill ta bort kommentaren?")) {
+                var form = document.getElementById("comment-delete-form");
+                form.action = "<?= $this->url("comment/delete/$contentId") ?>/" + e.target.getAttribute("data-id");
+                form.submit();
+            }
         }
         
         Array.prototype.forEach.call(document.getElementsByClassName("comment-edit"), function(a) {
