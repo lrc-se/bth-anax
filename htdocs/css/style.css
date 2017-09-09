@@ -93,6 +93,7 @@ body {
 
 .navbar-user > span {
     max-width: 100px;
+    white-space: nowrap;
     text-overflow: ellipsis;
     display: inline-block;
     vertical-align: top;
@@ -313,6 +314,11 @@ textarea {
     line-height: inherit;
 }
 
+textarea {
+    display: block;
+    resize: none;
+}
+
 button::-moz-focus-inner,
 input::-moz-focus-inner {
     margin: 0;
@@ -370,6 +376,29 @@ code {
 
 code:hover {
     border-style: solid;
+}
+
+pre {
+    margin: 0 0 1.4em;
+    padding: .7em 1em;
+    background-color: #f4f4f4;
+    background-color: rgba(42, 40, 56, .05);
+    border: 1px dashed;
+    border-color: #bbb;
+    border-color: rgba(42, 40, 56, .25);
+    overflow-x: auto;
+}
+
+pre code {
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    font-weight: 400;
+    line-height: inherit;
+}
+
+pre code:hover {
+    border: none;
 }
 
 
@@ -475,7 +504,7 @@ main > .columns:last-child {
 }
 
 .form-control {
-    margin-bottom: 1.4em;
+    margin-bottom: 1.05em;
     display: flex;
 }
 
@@ -513,11 +542,16 @@ main > .columns:last-child {
 }
 
 .comments {
-    margin-top: 2.1em;
-    padding-top: .7em;
-    border-top: 1px dashed;
+    margin-top: 2.8em;
+    padding: 1.4em 1em 0;
+    border-top: 1px solid;
     border-top-color: #bbb;
     border-top-color: rgba(42, 40, 56, .333);
+}
+
+.comments h3,
+.comments h5 {
+    font-family: inherit;
 }
 
 .comment-list {
@@ -782,6 +816,7 @@ main > .columns:last-child {
     }
     
     .form-control {
+        margin-bottom: 1.4em;
         flex-wrap: wrap;
     }
     

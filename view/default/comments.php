@@ -69,10 +69,14 @@
     <form id="comment-edit-form" class="form form-small comment-form" action="" method="post" style="display: none">
         <input type="hidden" name="url" value="<?= $app->request->getCurrentUrl() ?>">
         <input type="hidden" name="userId" value="">
-        <div class="form-input"><textarea name="text" rows="5" required></textarea></div>
-        <div class="form-input">
-            <input type="submit" value="Spara">
-            <input id="comment-edit-cancel" type="button" value="Avbryt">
+        <div class="form-control">
+            <div class="form-input"><textarea name="text" rows="5" required></textarea></div>
+        </div>
+        <div class="form-control">
+            <div class="form-input">
+                <input type="submit" value="Spara">
+                <input id="comment-edit-cancel" type="button" value="Avbryt">
+            </div>
         </div>
     </form>
     <form id="comment-delete-form" action="" method="post"></form>
