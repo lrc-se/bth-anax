@@ -433,6 +433,25 @@ main > .columns:last-child {
     text-align: center;
 }
 
+.msg {
+    margin: 0 0 2.1em;
+}
+
+.msg > div {
+    padding: .7em 1em;
+    color: #34803f;
+    background-color: rgba(52, 128, 63, .09);
+    border: 2px solid #34803f;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.msg.err > div {
+    color: #9c2c30;
+    background-color: rgba(156, 44, 48, .09);
+    border-color: #9c2c30;
+}
+
 .form-control {
     margin-bottom: 1.4em;
     display: flex;

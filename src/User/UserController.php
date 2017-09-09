@@ -31,7 +31,7 @@ class UserController extends \LRC\App\BaseController
         $username = $this->app->request->getPost('username', '');
         $password = $this->app->request->getPost('password', '');
         if ($username === '' || $password === '' || !$this->app->user->login($username, $password)) {
-            // error
+            $this->app->session->set('err', 'Felaktigt användarnamn eller lösenord.');
         }
         $this->app->redirect('user');
     }
@@ -44,6 +44,7 @@ class UserController extends \LRC\App\BaseController
     {
         if ($this->app->request->getPost('logout') == 1) {
             $this->app->user->logout();
+            $this->app->session->set('msg', 'Du har loggats ut.');
         }
         $this->app->redirect('user');
     }

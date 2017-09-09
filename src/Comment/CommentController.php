@@ -40,21 +40,28 @@ class CommentController extends \LRC\App\BaseController
         if (!isset($comment['userId'])) {
             $name = $this->app->request->getPost('name');
             $email = $this->app->request->getPost('email');
-            $user = $this->app->user->getAnonymous($name, $email);
-            if (!$user) {
-                $user = $this->app->user->addUser([
-                    'username' => null,
-                    'password' => null,
-                    'name' => $name,
-                    'email' => $email,
-                    'anonymous' => 1,
-                    'admin' => 0
-                ]);
+            if ($name !== '') {
+                $user = $this->app->user->getAnonymous($name, $email);
+                if (!$user) {
+                    $user = $this->app->user->addUser([
+                        'username' => null,
+                        'password' => null,
+                        'name' => $name,
+                        'email' => $email,
+                        'anonymous' => 1,
+                        'admin' => 0
+                    ]);
+                }
+                $comment['userId'] = $user['id'];
+            } else {
+                $this->app->session->set('err', 'Namn måste anges.');
+                $this->back();
             }
-            $comment['userId'] = $user['id'];
         }
-        if ($comment) {
+        if ($comment && $comment['text'] !== '') {
             $comment = $this->app->comments->addComment($contentId, $comment);
+        } else {
+            $this->app->session->set('err', 'Kommentar saknas.');
         }
         $this->back();
     }
@@ -79,10 +86,10 @@ class CommentController extends \LRC\App\BaseController
                     $comment = $this->app->comments->upsertComment($contentId, $commentId, $comment);
                 }
             } else {
-                // error
+                $this->app->session->set('err', 'Du har inte behörighet att redigera denna kommentar.');
             }
         } else {
-            // error
+            $this->app->session->set('err', 'Du har inte behörighet att redigera denna kommentar.');
         }
         $this->back();
     }
@@ -104,10 +111,10 @@ class CommentController extends \LRC\App\BaseController
             if ($oldComment && ($user['admin'] == 1 || $oldComment['userId'] == $user['id'])) {
                 $this->app->comments->deleteComment($contentId, $commentId);
             } else {
-                // error
+                $this->app->session->set('err', 'Du har inte behörighet att ta bort denna kommentar.');
             }
         } else {
-            // error
+            $this->app->session->set('err', 'Du har inte behörighet att ta bort denna kommentar.');
         }
         $this->back();
     }

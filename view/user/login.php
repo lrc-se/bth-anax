@@ -1,3 +1,4 @@
+<?php $this->renderView('default/msgs'); ?>
 <form class="form" action="<?= $this->url('user/login') ?>" method="post">
     <div class="form-control">
         <div class="form-label"><label for="username">Användarnamn:</label></div>
