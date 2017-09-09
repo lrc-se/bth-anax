@@ -339,7 +339,9 @@ textarea {
     max-width: 100%;
     padding: .35em .5em;
     background-color: #fff;
-    border: 1px solid rgba(42, 40, 56, .5);
+    border: 1px solid;
+    border-color: #b8b7bc;
+    border-color: rgba(42, 40, 56, .5);
     transition: background-color .5s ease;
 }
 
@@ -458,6 +460,7 @@ main > .columns:last-child {
 .msg > div {
     padding: .7em 1em;
     color: #34803f;
+    background-color: #ecf4ed;
     background-color: rgba(52, 128, 63, .09);
     border: 2px solid #34803f;
     font-weight: 700;
@@ -466,6 +469,7 @@ main > .columns:last-child {
 
 .msg.err > div {
     color: #9c2c30;
+    background-color: #f6ecec;
     background-color: rgba(156, 44, 48, .09);
     border-color: #9c2c30;
 }
@@ -511,7 +515,9 @@ main > .columns:last-child {
 .comments {
     margin-top: 2.1em;
     padding-top: .7em;
-    border-top: 1px dashed rgba(42, 40, 56, .333);
+    border-top: 1px dashed;
+    border-top-color: #bbb;
+    border-top-color: rgba(42, 40, 56, .333);
 }
 
 .comment-list {
@@ -523,7 +529,9 @@ main > .columns:last-child {
 .comment {
     margin: 0 1em;
     padding: 1.4em 0;
-    border-bottom: 1px dotted rgba(42, 40, 56, .25);
+    border-bottom: 1px dotted;
+    border-bottom-color: #ccc;
+    border-bottom-color: rgba(42, 40, 56, .25);
     display: block;
 }
 
