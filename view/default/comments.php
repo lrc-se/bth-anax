@@ -17,7 +17,7 @@
         <em>Redigerad <?= $comment['updated'] ?></em>
 <?php       endif; ?>
 <?php       if ($user && ($user['admin'] == 1 || $comment['userId'] == $user['id'])) : ?>
-        <a class="comment-edit" href="#!" data-id="<?= $comment['id'] ?>">Redigera</a> | <a class="comment-delete" href="#!" data-id="<?= $comment['id'] ?>">Ta bort</a>
+        <a class="comment-edit" href="#!" data-id="<?= "$contentId/" . $comment['id'] ?>">Redigera</a> | <a class="comment-delete" href="#!" data-id="<?= "$contentId/" . $comment['id'] ?>">Ta bort</a>
 <?php       endif; ?>
     </div>
 <?php   endforeach; ?>
@@ -41,55 +41,12 @@
         <input type="hidden" name="url" value="<?= $app->request->getCurrentUrl() ?>">
         <input type="hidden" name="userId" value="">
         <p><label>Kommentar:<br><textarea name="text" rows="5" required></textarea></label></p>
-        <p><input type="submit" value="Spara"></p>
+        <p>
+            <input type="submit" value="Spara">
+            <input id="comment-edit-cancel" type="button" value="Avbryt">
+        </p>
     </form>
+    <script src="<?= $this->asset('js/comments.js') ?>"></script>
 <?php endif; ?>
     <form id="comment-delete-form" action="" method="post"></form>
 </div>
-<script>
-    (function() {
-        function editComment(e) {
-            e.preventDefault();
-            var id = e.target.getAttribute("data-id");
-            var form = document.getElementById("comment-edit-form");
-            form.action = "<?= $this->url("comment/update/$contentId") ?>/" + id;
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4) {
-                    if (xhr.status == 200) {
-                        try {
-                            var comment = JSON.parse(xhr.responseText);
-                        } catch (ex) {
-                            alert("Felaktigt dataformat.");
-                            return;
-                        }
-                        form.text.innerHTML = comment.text;
-                        form.userId.value = comment.userId;
-                        document.getElementById("comment-" + id).appendChild(form);
-                        form.style.display = "block";
-                    } else {
-                        alert("Något gick fel.");
-                    }
-                }
-            };
-            xhr.open("GET", "<?= $this->url("comment/get/$contentId") ?>/" + id);
-            xhr.send();
-        }
-        
-        function deleteComment(e) {
-            e.preventDefault();
-            if (confirm("Är du säker på att du vill ta bort kommentaren?")) {
-                var form = document.getElementById("comment-delete-form");
-                form.action = "<?= $this->url("comment/delete/$contentId") ?>/" + e.target.getAttribute("data-id");
-                form.submit();
-            }
-        }
-        
-        Array.prototype.forEach.call(document.getElementsByClassName("comment-edit"), function(a) {
-            a.addEventListener("click", editComment);
-        });
-        Array.prototype.forEach.call(document.getElementsByClassName("comment-delete"), function(a) {
-            a.addEventListener("click", deleteComment);
-        });
-    })();
-</script>
