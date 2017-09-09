@@ -1,5 +1,5 @@
 ---
-title: "REM-server"
+title: "Dokumentation av REM-server"
 flash: "img/bg2.jpg"
 id: "rem"
 comments: true
@@ -8,4 +8,135 @@ comments: true
 REM-server
 ==========
 
-Här är min REM-server!
+Här följer en dokumentation över hur webbplatsens integrerade REM-server fungerar. Servern utgörs av en REST-webbtjänst och alla API-anrop besvaras i JSON-format. 
+Som standard finns en uppsättning poster i datamängden `users`, men det är annars fritt fram att skapa och ta bort godtyckliga poster.
+
+
+### Visa alla poster
+
+###### Anrop
+
+    GET rem/api/<dataset>
+
+###### Parametrar
+
+    offset      // hur många poster som skall skippas (frivillig)
+    limit       // maximalt antal poster (frivillig)
+
+###### Svar
+
+    /* 200 */
+    {
+        "data",     // lista av poster
+        "offset",   // antal skippade poster
+        "limit",    // maximalt antal poster i svaret
+        "total"     // totalt antal poster i datamängden
+    }
+
+Listar alla poster som hör till en viss datamängd. Listan sorteras i stigande ordning på `id`-attributet och kan begränsas med URL-parametrarna.
+
+
+### Visa en post
+
+###### Anrop
+
+    GET rem/api/<dataset>/<id>
+
+###### Svar
+
+    /* 200 */
+    {
+        // postens interna struktur
+    }
+    
+    /* 404 */
+    {
+        "error"     // felmeddelande
+    }
+
+Returnerar en post från en viss datamängd baserat på `id`-attributet.
+
+
+### Lägg till post
+
+###### Anrop
+
+    POST rem/api/<dataset>
+
+###### Svar
+
+    /* 200 */
+    {
+        // postens interna struktur, inklusive tilldelat ID
+    }
+
+Skapar en ny post i en viss datamängd. Ange attribut och värden i formulärformat i anropets innehållsdel.
+
+
+### Uppdatera post
+
+###### Anrop
+
+    PUT rem/api/<dataset>/<id>
+
+###### Svar
+
+    /* 200 */
+    {
+        // postens interna struktur
+    }
+
+Uppdaterar en befintlig post i en viss datamängd, eller lägger till en ny om ingen post med angivet ID hittas. Ange attribut och värden i formulärformat i anropets innehållsdel.
+
+
+### Radera post
+
+###### Anrop
+
+    DELETE rem/api/<dataset>/<id>
+
+###### Svar
+
+    /* 200 */
+    {
+        "message"   // bekräftelsemeddelande
+    }
+    
+    /* 404 */
+    {
+        "error"     // felmeddelande
+    }
+
+Raderar en befintlig post i en viss datamängd baserat på ID.
+
+
+### Återställ standard&shy;värden
+
+###### Anrop
+
+    GET rem/api/init
+
+###### Svar
+
+    /* 200 */
+    {
+        "message"   // bekräftelsemeddelande
+    }
+
+Återställer standard&shy;värden i sessionen från fil.
+
+
+### Rensa sessionen
+
+###### Anrop
+
+    GET rem/api/destroy
+
+###### Svar
+
+    /* 200 */
+    {
+        "message"   // bekräftelsemeddelande
+    }
+
+Rensar hela sessionen. **OBS! Detta innebär även att eventuella användar&shy;inloggningar och kommentarer rensas!**
