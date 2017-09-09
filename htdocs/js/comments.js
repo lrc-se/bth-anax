@@ -38,6 +38,9 @@
                     var div = doc.getElementById("comment-" + comment.id);
                     commentText = div.replaceChild(editForm, div.querySelector(".comment-text"));
                     editForm.style.display = "block";
+                    var input = editForm.querySelector("textarea");
+                    input.focus();
+                    input.setSelectionRange(0, 0);
                     doc.querySelector("#comment-" + comment.id + " .comment-actions").style.display = "none";
                 } else {
                     alert("Något gick fel.");
