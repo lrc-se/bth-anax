@@ -1,6 +1,6 @@
 ---
 title: "Dokumentation av REM-server"
-flash: "img/bg2.jpg"
+flash: "img/bg5.jpg"
 id: "rem"
 comments: true
 ...

@@ -14,11 +14,11 @@ class UserController extends \LRC\App\BaseController
     {
         $user = $this->app->user->getCurrent();
         if ($user) {
-            $this->app->view->add('user/index', ['user' => $user], 'main');
-            $this->app->renderPage('Välkommen, ' . $user['username'] . '!');
+            $this->app->view->add('user/index', ['flash' => 'img/bg4.jpg', 'user' => $user], 'main');
+            $this->app->renderPage('Välkommen, ' . $user['username'] . '!', null, ['flash' => 'img/bg4.jpg']);
         } else {
             $this->app->view->add('user/login', [], 'main');
-            $this->app->renderPage('Logga in');
+            $this->app->renderPage('Logga in', null, ['flash' => 'img/bg4.jpg']);
         }
     }
     
