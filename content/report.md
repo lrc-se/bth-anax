@@ -87,7 +87,89 @@ Någon kod kändes det inte vara någon mening med att skriva än, så jag avvak
 Kmom02  {#kmom02.anchor}
 ------
 
-blubb
+I samband med arbetet med REM-servern och kommentars&shy;modulen (se nedan) har jag gjort en del strukturella ingrepp i ramverket. 
+För det första har jag ändrat i hur standard&shy;layouten hanteras, så att jag på ett enkelt sätt kan låta kontroller anropa `App` 
+för att rendera en godtycklig vy, så att det blir äkta MVC med alla tre ben. Detta var speciellt användbart när jag kom till inloggnings&shy;funktionen (se nedan under kommentars&shy;modulen).
+
+För det andra har jag brutit ut koden ur den tidigare *flat-file-content.php* till två nya klasser -- `ContentController` och `ContentService` -- 
+som tillsammans sköter visningen av Markdownfilerna i *content*-katalogen. Svaret på frågan i uppgift 1 tyckte jag alltså var "ja", 
+så jag inte bara övervägde att skriva om koden utan gjorde det också.
+
+
+###### Vilka tidigare erfarenheter har du av MVC?
+
+Jag har "utsatts" för det i ett antal olika sammanhang, akademiska såväl som "privata" och arbetslivs&shy;relaterade, i lite olika tappningar. 
+Jag har även byggt och underhållit flera applikationer enligt upplägget på flera olika plattformar, men är mest van vid ASP.NET MVC, 
+särskilt eftersom det är det jag (av och till) använder i mitt nuvarande arbete.
+
+###### Använde du någon speciell källa för att läsa på om MVC?
+
+Dbwebb fick räcka.
+
+###### Kan du med egna ord förklara någon fördel med kontroller/modell-begreppet, så som du ser på det?
+
+Det ger en god s.k. *"separation of concerns"*, där varje del ansvarar för en specifik sak, eller en samling relaterade saker, 
+istället för att man har en enda stor klass/<wbr>funktion/<wbr>komponent som gör allt. 
+Detta gör i sin tur koden lättare att underhålla och testa samt gör det möjligt att återanvända och byta ut enskilda delar -- 
+åtminstone i teorin.
+
+Samtidigt är just MVC inte någon magisk *Ultimat Lösning&reg;* på samtliga utvecklings&shy;problem -- 
+dels är det för det mesta som redan nämnts bara en del i ett större sammanhang och dels finns andra sätt att organisera koden som också uppnår samma mål, 
+i samma eller andra sammanhang. Dessutom finns det risk att man gör saker onödigt komplicerade för sig om man *alltid* bryter upp även de minsta problemen i en massa småbitar bara för att man 
+*skall* göra det, då själva upplägget i sig medför en ökad komplexitet som kanske inte är önskvärd i alla typer av projekt.
+
+###### Kom du fram till vad begreppet SOLID innebar och vilka källor använde du? Kan du förklara SOLID på ett par rader med dina egna ord?
+
+Här blev det WikiPedia och några olika YouTube-videor. Rent allmänt tenderar informationen om SOLID att vara något luddig, 
+så det underlättar när förklaringarna innehåller konkreta kodexempel och inte bara abstrakta definitioner. D:et är tydligen särskilt svårfångat och är i mitt tycke dessutom felbenämnt, 
+då det egentligen inte är fråga om en *inversion* -- meningen är inte att man skall gå från att högnivåkod beror av lågnivåkod till att lågnivåkod beror av högnivåkod, 
+utan att bådadera beror av en abstraktion som ligger utanför dem båda.
+
+Så: SOLID innebär att man skall skriva kod som är uppdelad i mindre delar som var och en sköter en specifik, begränsad uppgift och har ett specifikt, begränsat ansvar **(S)** 
+enligt specifika, begränsade kontrakt med övriga delar av koden **(I)**. Vidare skall funktionaliteten hos varje sådan del gå att bygga på utan att något i den existerande implementationen ändras **(O)**, 
+samt att en sådan utökning endast är just en *utökning* och inte påverkar något i den ursprungliga funktionaliteten **(L)**. Slutligen skall alltså beroenden mellan delarna göras abstrakta, 
+så att den styrande koden på hög nivå inte behöver känna till något om hur den implementerande koden på låg nivå faktiskt utför sina uppgifter (t.ex. en databaskoppling), 
+utan endast behöver delegera dessa uppgifter enligt allmänna kontrakt som båda nivåerna förbinder sig att följa **(D)**.
+
+###### Gick arbetet med REM-servern bra och lyckades du integrera den i din me-sida?
+
+Det var inga problem alls -- all kod var ju redan skriven, så det fanns liksom inte så mycket att misslyckas med... 
+Därför tog jag tillfället i akt och skrev om delar av koden enligt eget gottfinnande, med lite enligt mitt tycke smartare lösningar, 
+och gjorde även så att posterna alltid returneras i stigande ordning baserat på ID.
+
+*__OBS:__ Eftersom det som sagt egentligen var så lite att göra brydde jag mig aldrig om att spara och testa något någon annanstans, utan lyfte in koden direkt i Anax.*
+
+###### Berätta om arbetet med din kommentarsmodul – hur långt har du kommit och hur tänker du?
+
+Rätt långt -- längre än väntat och kanske till och med lite *väl* långt för att vara så pass tidigt, men vi får se. 
+Jag började med att tänka igenom arkitekturen för hela systemet ordentligt, ur ett framåtblickande perspektiv för att inte måla in mig i hörn, 
+så det tog någon dag innan jag ens skrev en enda kodrad.
+
+När jag väl satte mig vid tangentbordet hade jag bestämt mig för att dels göra som föreslagit och endast använda sessionen för lagring och dels integrera användar&shy;inloggning direkt. 
+Datastrukturerna är att betrakta som förlagor till en kommande databasmodell, med "simulerade" främmande nyckel-kopplingar och vissa special&shy;lösningar för att passa inom de för tillfället valda ramarna. 
+Jag övervägde en kort stund att nyttja REM-servern fullt ut även här, men bestämde mig för att hålla modulen separat, även om det innebar en del duplicerad eller snarlik kod i det här skedet. 
+Tanken är att det skall vara så enkelt som möjligt att övergå till en databas som datakälla för M:et senare och att så mycket som möjligt av V:et och C:et skall gå att återanvända då.
+
+Jag stötte dock genast på ett uppenbart problem, nämligen det att så länge innehållet är filbaserat finns inget 100 % tillförlitligt sätt att unikt identifiera enskilda sidor -- 
+filer kan byta namn, URL:er kan ändras och värden kan skrivas över, medan en primärnyckel i en databas är konstant över tid. 
+Jag bestämde mig till slut för att välja det i mitt tycke minst dåliga alternativet och lade in två nya rader in frontmattern: `id` som identifierar sidan och `comments` 
+som styr huruvida det skall gå att kommentera den eller inte. För tillfället tillåts kommentarer endast på "Om"- och "REM"-sidorna.
+
+Jag valde även att tillåta både anonyma och inloggade kommentarer, där jag skapar och återanvänder användarposter (för tillfället alltså i sessionen, på sikt i databasen) 
+även för den första typen så att jag kan nyttja samma koppling mellan "tabellerna" på ett konsekvent sätt. E-postadressen är frivillig och används för att hämta en retrobild från Gravatar. 
+En inloggad användare kan redigera och ta bort sina egna kommentarer medan en inloggad administratör kan redigera och ta bort samtliga kommentarer 
+(*doe*/*doe* och *admin*/*admin* läggs automatiskt till i användarlistan i sessionen om de inte redan finns där).
+
+När det kommer till presentationen av kommentarerna lät jag mig svepas med lite grann, så även om det bara skulle vara en prototyp är systemet ganska väl utbyggt redan nu. 
+Jag har lagt till stöd för att konfigurera sorteringsordning (standard: fallande på datum) och maximal ålder (standard: ingen) 
+och har stilsatt såväl lista som formulär ordentligt, även responsivt (så klart). Texten skrivs som föreslaget i Markdown, 
+men för att man inte skall kunna påverka sidans övriga struktur, avsiktligt eller av misstag, rensar jag bort eventuella HTML-taggar innan den renderas. 
+Jag kunde heller inte hålla mig från att göra en lite mer dynamisk hantering av redigeringen, som nu hämtar Markdowntexten med AJAX och ersätter den renderade texten med ett redigerings&shy;formulär 
+(som kan döljas igen). Vad kan jag säga, jag gillar frontend&shy;utveckling...
+
+Kommentars&shy;systemet och användar&shy;hanteringen följer samma uppdelning i routefunktioner, kontroller och datalager, 
+där den senare alltså även har helt egna vyer. Just nu finns det inte så mycket där, men det är enkelt att utöka saker och ting härifrån vad det lider. 
+Själva inloggningen sker på sedvanligt sätt med hashade lösenord och användar-ID:t sparas sedan i sessionen.
 
 
 Kmom03  {#kmom03.anchor}
