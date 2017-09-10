@@ -9,6 +9,9 @@ namespace LRC\App;
  */
 class ContentController extends BaseController
 {
+    /**
+     * Default view.
+     */
     public function defaultView()
     {
         // retrieve content

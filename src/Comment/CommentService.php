@@ -67,9 +67,11 @@ class CommentService implements ConfigureInterface
     
     
     /**
-     * Get all comments.
+     * Get all comments for specific content.
      *
-     * @return array    All comments.
+     * @param string $contentId     Content ID.
+     * 
+     * @return array                All matching comments.
      *
      * @SuppressWarnings(PHPMD.StaticAccess)
      */
@@ -105,9 +107,10 @@ class CommentService implements ConfigureInterface
 
 
     /**
-     * Save all comments.
+     * Save all comments for specific content.
      *
-     * @param array $comments   Comments to save.
+     * @param string $contentId     Content ID.
+     * @param array  $comments      Comments to save.
      *
      * @return self
      */
@@ -129,7 +132,7 @@ class CommentService implements ConfigureInterface
      * Add a comment.
      *
      * @param string $contentId     Content ID.
-     * @param string $comment       The comment.
+     * @param array  $comment       The comment.
      *
      * @return array                The new comment inserted.
      */
@@ -154,7 +157,7 @@ class CommentService implements ConfigureInterface
      *
      * @param string $contentId     Content ID.
      * @param string $commentId     Comment ID.
-     * @param string $comment       Comment to modify.
+     * @param array  $comment       Comment to modify.
      *
      * @return array                The upserted comment.
      */
@@ -163,7 +166,7 @@ class CommentService implements ConfigureInterface
         $comments = $this->getComments($contentId);
         $comment['id'] = $commentId;
 
-        // Replace the comment if it exists
+        // replace the comment if it exists
         $found = false;
         foreach ($comments as $idx => $entry) {
             if ($commentId === $entry['id']) {
@@ -175,11 +178,13 @@ class CommentService implements ConfigureInterface
             }
         }
 
+        // create new comment if it didn't exist
         if (!$found) {
             $comment['created'] = date('Y-m-d H:i:s');
             $comment['updated'] = null;
             $comments[] = $comment;
         }
+        
         $this->saveComments($contentId, $comments);
         return $comment;
     }
@@ -197,7 +202,7 @@ class CommentService implements ConfigureInterface
     {
         $comments = $this->getComments($contentId);
 
-        // Delete the comment if it exists
+        // delete the comment if it exists
         foreach ($comments as $idx => $entry) {
             if ($commentId === $entry['id']) {
                 unset($comments[$idx]);

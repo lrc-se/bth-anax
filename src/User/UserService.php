@@ -132,7 +132,7 @@ class UserService
     /**
      * Add a user.
      *
-     * @param string $user  The user.
+     * @param array $user   The user.
      *
      * @return array        The new user inserted.
      */

@@ -124,7 +124,7 @@ class RemServer implements ConfigureInterface
      * Add an item to a dataset.
      *
      * @param string $key  for the dataset
-     * @param string $item to add
+     * @param array  $item to add
      *
      * @return array as new item inserted
      */
@@ -147,7 +147,7 @@ class RemServer implements ConfigureInterface
      *
      * @param string $key    for the dataset
      * @param string $itemId where to store it
-     * @param string $entry  to store
+     * @param array  $entry  to store
      *
      * @return array as item upserted
      */
@@ -180,7 +180,7 @@ class RemServer implements ConfigureInterface
      * @param string $key    for the dataset
      * @param string $itemId to delete
      *
-     * @return bool     true if item found, false otherwise
+     * @return bool true if item found, false otherwise
      */
     public function deleteItem($key, $itemId)
     {

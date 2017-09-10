@@ -13,6 +13,8 @@ $app->view = new \Anax\View\ViewContainer();
 $app->textfilter = new \Anax\TextFilter\TextFilter();
 $app->session = new \Anax\Session\SessionConfigurable();
 $app->navbar = new \LRC\Navbar\Navbar($app);
+
+// MVC infrastructure
 $app->content = new \LRC\App\ContentService($app->textfilter);
 $app->contentController = new \LRC\App\ContentController($app);
 $app->user = new \LRC\User\UserService();

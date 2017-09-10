@@ -35,19 +35,24 @@ class App
     {
         $data['stylesheets'] = ['css/style.css'];
 
-        // Add common navbar and footer
+        // common navbar and footer
         $this->view->add('default/navbar', [], 'navbar');
         $this->view->add('default/footer', [], 'footer');
         
+        // page header
         $this->view->add('default/header', [
             'flash' => (!empty($data['flash']) ? $data['flash'] : null),
             'title' => $title
         ], 'header');
+        
+        // content
         if (!is_null($content)) {
             $this->view->add('default/main', [
                 'content' => $content
             ]);
         }
+        
+        // comments
         if (!empty($data['comments']) && !empty($data['id'])) {
             $this->view->add('default/comments', [
                 'contentId' => $data['id'],
@@ -56,7 +61,7 @@ class App
             ], 'main');
         }
 
-        // Add layout, render it, add to response and send.
+        // render layout
         if (!isset($data['title'])) {
             $data['title'] = $title;
         }
