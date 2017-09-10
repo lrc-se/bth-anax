@@ -1,5 +1,5 @@
 <section class="comments">
-    <h3 id="comments" class="anchor">Kommentarer</h3>
+    <h3 id="comments" class="anchor">Kommentarer<?= (!empty($comments) ? ' (' . count($comments) . ')' : '') ?></h3>
 <?php $this->renderView('default/msgs'); ?>
     <ol class="comment-list">
 <?php if (!empty($comments)) : ?>
