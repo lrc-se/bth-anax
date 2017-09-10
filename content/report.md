@@ -156,8 +156,7 @@ som styr huruvida det skall gå att kommentera den eller inte. För tillfället 
 
 Jag valde även att tillåta både anonyma och inloggade kommentarer, där jag skapar och återanvänder användarposter (för tillfället alltså i sessionen, på sikt i databasen) 
 även för den första typen så att jag kan nyttja samma koppling mellan "tabellerna" på ett konsekvent sätt. E-postadressen är frivillig och används för att hämta en retrobild från Gravatar. 
-En inloggad användare kan redigera och ta bort sina egna kommentarer medan en inloggad administratör kan redigera och ta bort samtliga kommentarer 
-(*doe*/*doe* och *admin*/*admin* läggs automatiskt till i användarlistan i sessionen om de inte redan finns där).
+En inloggad användare kan redigera och ta bort sina egna kommentarer medan en inloggad administratör kan redigera och ta bort samtliga kommentarer. Om en kommentar har redigerats visas det i vyn.
 
 När det kommer till presentationen av kommentarerna lät jag mig svepas med lite grann, så även om det bara skulle vara en prototyp är systemet ganska väl utbyggt redan nu. 
 Jag har lagt till stöd för att konfigurera sorterings&shy;ordning (standard: fallande på datum) och maximal ålder (standard: ingen) 
@@ -168,7 +167,8 @@ Jag kunde heller inte hålla mig från att göra en lite mer dynamisk hantering 
 
 Kommentars&shy;systemet och användar&shy;hanteringen följer samma uppdelning i routefunktioner, kontroller och datalager, 
 där den senare alltså även har helt egna vyer som ändras beroende på om man är inloggad eller inte. Just nu finns det inte så mycket där, 
-men det är enkelt att utöka saker och ting härifrån vad det lider. Själva inloggningen sker på sedvanligt sätt med hashade lösenord och användar-ID:t sparas sedan i sessionen. 
+men det är enkelt att utöka saker och ting härifrån vad det lider. Själva inloggningen sker på sedvanligt sätt med hashade lösenord och användar-ID:t sparas sedan i sessionen 
+(kontona *doe*/*doe* och *admin*/*admin* läggs automatiskt till i användarlistan i sessionen vid varje anrop om de inte redan finns där, så att de alltid går att använda). 
 Flash&shy;meddelanden är även implementerade och kan användas var som helst.
 
 
