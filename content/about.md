@@ -1,6 +1,8 @@
 ---
 title: "Om webbplatsen"
 flash: "img/bg2.jpg"
+id: "about"
+comments: true
 ...
 
 Om webb&shy;platsen
