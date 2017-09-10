@@ -9,7 +9,7 @@ REM-server
 ==========
 
 Här följer en dokumentation över hur webbplatsens integrerade REM-server fungerar. Servern utgörs av en REST-webbtjänst och alla API-anrop besvaras i JSON-format. 
-Som standard finns en uppsättning poster i datamängden `users`, men det är annars fritt fram att skapa och ta bort godtyckliga poster.
+Som standard finns en uppsättning poster i datamängden `users`, men det är annars fritt fram att skapa och ta bort godtyckliga poster i godtyckliga mängder.
 
 
 ### Visa alla poster
@@ -67,10 +67,10 @@ Returnerar en post från en viss datamängd baserat på `id`-attributet.
 
     /* 200 */
     {
-        // postens interna struktur, inklusive tilldelat ID
+        // den nya postens interna struktur, inklusive tilldelat ID
     }
 
-Skapar en ny post i en viss datamängd. Ange attribut och värden i formulärformat i anropets innehållsdel.
+Skapar en ny post i en viss datamängd. Ange attribut och värden i JSON-format i anropets innehållsdel.
 
 
 ### Uppdatera post
@@ -83,10 +83,10 @@ Skapar en ny post i en viss datamängd. Ange attribut och värden i formulärfor
 
     /* 200 */
     {
-        // postens interna struktur
+        // den uppdaterade postens interna struktur
     }
 
-Uppdaterar en befintlig post i en viss datamängd, eller lägger till en ny om ingen post med angivet ID hittas. Ange attribut och värden i formulärformat i anropets innehållsdel.
+Uppdaterar en befintlig post i en viss datamängd, eller lägger till en ny om ingen post med angivet ID hittas. Ange attribut och värden i JSON-format i anropets innehållsdel.
 
 
 ### Radera post
