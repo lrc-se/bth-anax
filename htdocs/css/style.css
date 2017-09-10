@@ -367,14 +367,16 @@ code {
     padding: 1px 3px 0;
     background-color: #f4f4f4;
     background-color: rgba(42, 40, 56, .05);
-    border: 1px dashed;
+    border: 1px dotted;
     border-color: #bbb;
-    border-color: rgba(42, 40, 56, .25);
-    font-weight: 700;
+    border-color: rgba(42, 40, 56, .333);
+    font-family: monospace, monospace;
     line-height: 1em;
 }
 
 code:hover {
+    border-color: #ccc;
+    border-color: rgba(42, 40, 56, .25);
     border-style: solid;
 }
 
@@ -385,7 +387,8 @@ pre {
     background-color: rgba(42, 40, 56, .05);
     border: 1px dashed;
     border-color: #bbb;
-    border-color: rgba(42, 40, 56, .25);
+    border-color: rgba(42, 40, 56, .333);
+    font-family: monospace, monospace;
     overflow-x: auto;
 }
 
@@ -393,7 +396,6 @@ pre code {
     padding: 0;
     background-color: transparent;
     border: none;
-    font-weight: 400;
     line-height: inherit;
 }
 
@@ -604,7 +606,8 @@ main > .columns:last-child {
 }
 
 .comment-edited {
-    margin-top: .7em;
+    margin-top: .7rem;
+    font-size: .875em;
     font-style: italic;
     opacity: .667;
 }
