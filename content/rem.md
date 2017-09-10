@@ -44,15 +44,19 @@ Listar alla poster som hör till en viss datamängd. Listan sorteras i stigande 
 
 ###### Svar
 
-    /* 200 */
-    {
-        // postens interna struktur
-    }
-    
-    /* 404 */
-    {
-        "error"     // felmeddelande
-    }
+~~~
+/* 200 */
+{
+    // postens interna struktur
+}
+~~~
+
+~~~
+/* 404 */
+{
+    "error"     // felmeddelande
+}
+~~~
 
 Returnerar en post från en viss datamängd baserat på `id`-attributet.
 
@@ -65,15 +69,19 @@ Returnerar en post från en viss datamängd baserat på `id`-attributet.
 
 ###### Svar
 
-    /* 200 */
-    {
-        // den nya postens interna struktur, inklusive tilldelat ID
-    }
-    
-    /* 500 */
-    {
-        "error"     // felmeddelande
-    }
+~~~
+/* 200 */
+{
+    // den nya postens interna struktur, inklusive tilldelat ID
+}
+~~~
+
+~~~
+/* 500 */
+{
+    "error"     // felmeddelande
+}
+~~~
 
 Skapar en ny post i en viss datamängd. Ange attribut och värden i JSON-format i anropets innehållsdel.
 
@@ -86,15 +94,19 @@ Skapar en ny post i en viss datamängd. Ange attribut och värden i JSON-format 
 
 ###### Svar
 
-    /* 200 */
-    {
-        // den uppdaterade postens interna struktur
-    }
-    
-    /* 500 */
-    {
-        "error"     // felmeddelande
-    }
+~~~
+/* 200 */
+{
+    // den uppdaterade postens interna struktur
+}
+~~~
+
+~~~
+/* 500 */
+{
+    "error"     // felmeddelande
+}
+~~~
 
 Uppdaterar en befintlig post i en viss datamängd, eller lägger till en ny om ingen post med angivet ID hittas. Ange attribut och värden i JSON-format i anropets innehållsdel.
 
@@ -107,15 +119,19 @@ Uppdaterar en befintlig post i en viss datamängd, eller lägger till en ny om i
 
 ###### Svar
 
-    /* 200 */
-    {
-        "message"   // bekräftelsemeddelande
-    }
-    
-    /* 404 */
-    {
-        "error"     // felmeddelande
-    }
+~~~
+/* 200 */
+{
+    "message"   // bekräftelsemeddelande
+}
+~~~
+
+~~~
+/* 404 */
+{
+    "error"     // felmeddelande
+}
+~~~
 
 Raderar en befintlig post i en viss datamängd baserat på ID.
 
