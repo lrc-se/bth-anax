@@ -69,6 +69,11 @@ Returnerar en post från en viss datamängd baserat på `id`-attributet.
     {
         // den nya postens interna struktur, inklusive tilldelat ID
     }
+    
+    /* 500 */
+    {
+        "error"     // felmeddelande
+    }
 
 Skapar en ny post i en viss datamängd. Ange attribut och värden i JSON-format i anropets innehållsdel.
 
@@ -84,6 +89,11 @@ Skapar en ny post i en viss datamängd. Ange attribut och värden i JSON-format 
     /* 200 */
     {
         // den uppdaterade postens interna struktur
+    }
+    
+    /* 500 */
+    {
+        "error"     // felmeddelande
     }
 
 Uppdaterar en befintlig post i en viss datamängd, eller lägger till en ny om ingen post med angivet ID hittas. Ange attribut och värden i JSON-format i anropets innehållsdel.

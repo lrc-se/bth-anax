@@ -58,8 +58,8 @@ class RemController extends \LRC\App\BaseController
     public function getDataset($key)
     {
         $dataset = $this->app->rem->getDataset($key);
-        $offset = $this->app->request->getGet('offset', 0);
-        $limit = $this->app->request->getGet('limit', 25);
+        $offset = (int)$this->app->request->getGet('offset', 0);
+        $limit = (int)$this->app->request->getGet('limit', 25);
         $data = array_slice($dataset, $offset, $limit);
         usort($data, function ($item1, $item2) {
             return strnatcmp($item1['id'], $item2['id']);
@@ -110,6 +110,8 @@ class RemController extends \LRC\App\BaseController
         if ($item) {
             $item = $this->app->rem->addItem($key, $item);
             $this->app->response->sendJson($item);
+        } else {
+            $this->app->response->sendJson(['error' => 'Error in JSON data.'], 500);
         }
         exit;
     }
@@ -129,6 +131,8 @@ class RemController extends \LRC\App\BaseController
         if ($item) {
             $item = $this->app->rem->upsertItem($key, $itemId, $item);
             $this->app->response->sendJson($item);
+        } else {
+            $this->app->response->sendJson(['error' => 'Error in JSON data.'], 500);
         }
         exit;
     }
