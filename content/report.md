@@ -137,6 +137,8 @@ då jag inte iddes skriva en egen modul bara för den saken. Jag gjorde även s�
 
 *__OBS:__ Eftersom det som sagt egentligen var så lite att göra brydde jag mig aldrig om att spara och testa något någon annanstans först, utan lyfte in koden direkt i Anax.*
 
+*__Uppdatering 2017-09-11:__ Efter att Anaxmodulen ifråga uppdaterats returnerar nu REM-servern som önskat statuskod 400 vid felaktigt indataformat.*
+
 ###### Berätta om arbetet med din kommentarsmodul. Hur långt har du kommit och hur tänker du?
 
 Rätt långt -- längre än väntat och kanske till och med lite *väl* långt för att vara så pass tidigt, men vi får se. 
