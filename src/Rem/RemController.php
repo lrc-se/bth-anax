@@ -111,7 +111,7 @@ class RemController extends \LRC\App\BaseController
             $item = $this->app->rem->addItem($key, $item);
             $this->app->response->sendJson($item);
         } else {
-            $this->app->response->sendJson(['error' => 'Error in JSON data.'], 500);
+            $this->app->response->sendJson(['error' => 'Error in JSON data.'], 400);
         }
         exit;
     }
@@ -132,7 +132,7 @@ class RemController extends \LRC\App\BaseController
             $item = $this->app->rem->upsertItem($key, $itemId, $item);
             $this->app->response->sendJson($item);
         } else {
-            $this->app->response->sendJson(['error' => 'Error in JSON data.'], 500);
+            $this->app->response->sendJson(['error' => 'Error in JSON data.'], 400);
         }
         exit;
     }

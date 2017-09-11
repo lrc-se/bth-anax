@@ -54,7 +54,7 @@ Listar alla poster som hör till en viss datamängd. Listan sorteras i stigande 
 ~~~
 /* 404 */
 {
-    "error"     // felmeddelande
+    "error"     // felmeddelande om posten inte hittas
 }
 ~~~
 
@@ -77,9 +77,9 @@ Returnerar en post från en viss datamängd baserat på `id`-attributet.
 ~~~
 
 ~~~
-/* 500 */
+/* 400 */
 {
-    "error"     // felmeddelande
+    "error"     // felmeddelande om indatan har ogiltigt format
 }
 ~~~
 
@@ -102,9 +102,9 @@ Skapar en ny post i en viss datamängd. Ange attribut och värden i JSON-format 
 ~~~
 
 ~~~
-/* 500 */
+/* 400 */
 {
-    "error"     // felmeddelande
+    "error"     // felmeddelande om indatan har ogiltigt format
 }
 ~~~
 
@@ -129,7 +129,7 @@ Uppdaterar en befintlig post i en viss datamängd, eller lägger till en ny om i
 ~~~
 /* 404 */
 {
-    "error"     // felmeddelande
+    "error"     // felmeddelande om posten inte hittas
 }
 ~~~
 
