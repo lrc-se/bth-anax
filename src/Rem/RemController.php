@@ -59,7 +59,8 @@ class RemController extends \LRC\App\BaseController
     {
         $dataset = $this->app->rem->getDataset($key);
         $offset = (int)$this->app->request->getGet('offset', 0);
-        $limit = (int)$this->app->request->getGet('limit', 25);
+        $limit = $this->app->request->getGet('limit', null);
+        $limit = (is_null($limit) || !is_numeric($limit) ? null : (int)$limit);
         $data = array_slice($dataset, $offset, $limit);
         usort($data, function ($item1, $item2) {
             return strnatcmp($item1['id'], $item2['id']);
