@@ -2,6 +2,8 @@
 
 namespace LRC\Common;
 
+use \Anax\DI as DI;
+
 /**
  * Base class for services.
  *
@@ -10,33 +12,44 @@ namespace LRC\Common;
 class BaseService
 {
     /**
-     * @var \Anax\DI\DIInterface    DI container.
+     * @var DI\DIInterface  DI container.
      */
     protected $di;
+    
+    /**
+     * @var boolean     Whether the DI container is local to the service.
+     */
+    private $localDI;
     
     
     /**
      * Constructor.
      *
-     * @param DIInterface   $di     DI container reference.
+     * @param DIInterface   $di     Non-local DI container reference, if any.
      */
     public function __construct($di = null)
     {
-        $this->di = ($di ?: new DISimple());
+        $this->localDI = is_null($di);
+        $this->di = ($this->localDI ? new DISimple() : $di);
     }
     
     
     /**
      * Inject dependencies.
      * 
-     * @param array $dependencies   Array of dependencies to inject.
+     * @param array $dependencies       Array of dependencies to inject.
+     *
+     * @throws DI\Exception\Exception   If the DI container is non-local.
      *
      * @return self
      */
     public function inject($dependencies)
     {
+        if (!$this->localDI) {
+            throw new DI\Exception\Exception('Cannot add service-level dependencies to non-local DI container.');
+        }
         foreach ($dependencies as $name => $dep) {
-            $this->di->setShared($name, $dep);
+            $this->di->add($name, $dep);
         }
         return $this;
     }

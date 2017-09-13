@@ -19,12 +19,12 @@ class DISimple implements DI\DIInterface
     
     
     /**
-     * Add shared dependency.
+     * Add dependency.
      * 
      * @param string    $name       Dependency name.
      * @param mixed     $dependency Dependency reference.
      */
-    public function setShared($name, $dependency)
+    public function add($name, $dependency)
     {
         $this->refs[$name] = $dependency;
     }
