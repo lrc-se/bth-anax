@@ -1,29 +1,12 @@
 <?php
 
-namespace LRC\App;
+namespace LRC\Content;
 
 /**
  * Service for file-based content.
  */
-class ContentService
+class ContentService extends \LRC\Common\BaseService
 {
-    /**
-     * @var \Anax\Textfilter $textfilter    Textfilter reference.
-     */
-    private $textfilter;
-    
-    
-    /**
-     * Constructor.
-     *
-     * @param \Anax\Textfilter $textfilter  Textfilter reference.
-     */
-    public function __construct($textfilter)
-    {
-        $this->textfilter = $textfilter;
-    }
-    
-    
     /**
      * Get file-based content by path.
      *
@@ -49,6 +32,6 @@ class ContentService
         }
         
         // Get content from markdown file
-        return $this->textfilter->parse(file_get_contents($file), ['yamlfrontmatter', 'shortcode', 'markdown', 'titlefromheader']);
+        return $this->di->textfilter->parse(file_get_contents($file), ['yamlfrontmatter', 'shortcode', 'markdown', 'titlefromheader']);
     }
 }
