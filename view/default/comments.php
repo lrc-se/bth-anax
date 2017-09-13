@@ -9,14 +9,14 @@
                 <img src="https://www.gravatar.com/avatar/<?= md5(strtolower(trim($comment['user']['email']))) ?>?s=50&amp;d=retro">
                 <div class="comment-author">
 <?php       if (!empty($comment['user']['email'])) : ?>
-                    <a href="mailto:<?= $app->esc($comment['user']['email']) ?>"><?= $app->esc($comment['user']['name']) ?></a>
+                    <a href="mailto:<?= $di->common->esc($comment['user']['email']) ?>"><?= $di->common->esc($comment['user']['name']) ?></a>
 <?php       else : ?>
-                    <?= $app->esc($comment['user']['name']) ?>
+                    <?= $di->common->esc($comment['user']['name']) ?>
 <?php       endif; ?>
                 </div>
                 <div class="comment-time"><?= $comment['created'] ?></div>
             </div>
-            <div class="comment-text"><?= $app->textfilter->markdown(strip_tags($comment['text'])) ?></div>
+            <div class="comment-text"><?= $di->textfilter->markdown(strip_tags($comment['text'])) ?></div>
 <?php       if (isset($comment['updated'])) : ?>
             <div class="comment-edited">Redigerad <?= $comment['updated'] ?></div>
 <?php       endif; ?>
@@ -35,7 +35,7 @@
     <div class="comment-add">
         <h5>Skriv kommentar</h5>
         <form class="form form-small comment-form" action="<?= $this->url("comment/create/$contentId")?>" method="post">
-            <input type="hidden" name="url" value="<?= $app->request->getCurrentUrl() ?>">
+            <input type="hidden" name="url" value="<?= $di->request->getCurrentUrl() ?>">
 <?php if ($user) : ?>
             <input type="hidden" name="userId" value="<?= $user['id'] ?>">
             <div class="form-control">
@@ -67,7 +67,7 @@
     </div>
 <?php if ($user) : ?>
     <form id="comment-edit-form" class="form form-small comment-form" action="" method="post" style="display: none">
-        <input type="hidden" name="url" value="<?= $app->request->getCurrentUrl() ?>">
+        <input type="hidden" name="url" value="<?= $di->request->getCurrentUrl() ?>">
         <input type="hidden" name="userId" value="">
         <div class="form-control">
             <div class="form-input"><textarea name="text" rows="5" required></textarea></div>

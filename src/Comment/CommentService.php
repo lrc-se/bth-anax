@@ -8,40 +8,15 @@ use \Anax\Configure\ConfigureTrait;
 /**
  * Comment system.
  */
-class CommentService implements ConfigureInterface
+class CommentService extends \LRC\Common\BaseService implements ConfigureInterface
 {
     use ConfigureTrait;
 
 
     /**
-     * @var \Anax\Session $session inject a reference to the session.
-     */
-    private $session;
-    
-    /**
-     * @var \LRC\User\UserService $user inject a reference to the user service.
-     */
-    private $user;
-    
-    /**
      * @var string $key to use when storing in session.
      */
     const KEY = 'comments';
-
-
-    /**
-     * Inject dependencies.
-     *
-     * @param array $dependency key/value array with dependencies.
-     *
-     * @return self
-     */
-    public function inject($dependency)
-    {
-        $this->session = $dependency['session'];
-        $this->user = $dependency['user'];
-        return $this;
-    }
 
 
     /**
@@ -54,7 +29,7 @@ class CommentService implements ConfigureInterface
      */
     public function getById($contentId, $commentId)
     {
-        $data = $this->session->get(self::KEY);
+        $data = $this->di->session->get(self::KEY);
         if (isset($data[$contentId])) {
             foreach ($data[$contentId] as $comment) {
                 if ($comment['id'] == $commentId) {
@@ -77,7 +52,7 @@ class CommentService implements ConfigureInterface
      */
     public function getComments($contentId)
     {
-        $data = $this->session->get(self::KEY);
+        $data = $this->di->session->get(self::KEY);
         if (isset($data[$contentId])) {
             $comments = $data[$contentId];
             
@@ -88,7 +63,7 @@ class CommentService implements ConfigureInterface
             
             // retrieve user info
             foreach ($comments as &$entry) {
-                $entry['user'] = $this->user->getById($entry['userId']);
+                $entry['user'] = $this->di->user->getById($entry['userId']);
             }
             
             // filter comments by age
@@ -121,9 +96,9 @@ class CommentService implements ConfigureInterface
             unset($entry['user']);
         }
             
-        $data = $this->session->get(self::KEY, []);
+        $data = $this->di->session->get(self::KEY, []);
         $data[$contentId] = $comments;
-        $this->session->set(self::KEY, $data);
+        $this->di->session->set(self::KEY, $data);
         return $this;
     }
     

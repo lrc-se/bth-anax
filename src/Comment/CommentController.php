@@ -7,7 +7,7 @@ namespace LRC\Comment;
  *
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
-class CommentController extends \LRC\App\BaseController
+class CommentController extends \LRC\Common\BaseController
 {
     /**
      * Retrieve a comment.
@@ -19,9 +19,9 @@ class CommentController extends \LRC\App\BaseController
      */
     public function get($contentId, $commentId)
     {
-        $comment = $this->app->comments->getById($contentId, $commentId);
+        $comment = $this->di->comments->getById($contentId, $commentId);
         if ($comment) {
-            $this->app->response->sendJson($comment);
+            $this->di->response->sendJson($comment);
         }
         exit;
     }
@@ -38,12 +38,12 @@ class CommentController extends \LRC\App\BaseController
     {
         $comment = $this->populateComment();
         if (!isset($comment['userId'])) {
-            $name = $this->app->request->getPost('name');
-            $email = $this->app->request->getPost('email');
+            $name = $this->di->request->getPost('name');
+            $email = $this->di->request->getPost('email');
             if ($name !== '') {
-                $user = $this->app->user->getAnonymous($name, $email);
+                $user = $this->di->user->getAnonymous($name, $email);
                 if (!$user) {
-                    $user = $this->app->user->addUser([
+                    $user = $this->di->user->addUser([
                         'username' => null,
                         'password' => null,
                         'name' => $name,
@@ -54,14 +54,14 @@ class CommentController extends \LRC\App\BaseController
                 }
                 $comment['userId'] = $user['id'];
             } else {
-                $this->app->session->set('err', 'Namn måste anges.');
+                $this->di->session->set('err', 'Namn måste anges.');
                 $this->back();
             }
         }
         if ($comment && $comment['text'] !== '') {
-            $comment = $this->app->comments->addComment($contentId, $comment);
+            $comment = $this->di->comments->addComment($contentId, $comment);
         } else {
-            $this->app->session->set('err', 'Kommentar saknas.');
+            $this->di->session->set('err', 'Kommentar saknas.');
         }
         $this->back();
     }
@@ -77,19 +77,19 @@ class CommentController extends \LRC\App\BaseController
      */
     public function update($contentId, $commentId)
     {
-        $user = $this->app->user->getCurrent();
+        $user = $this->di->user->getCurrent();
         if ($user) {
-            $oldComment = $this->app->comments->getById($contentId, $commentId);
+            $oldComment = $this->di->comments->getById($contentId, $commentId);
             if ($oldComment && ($user['admin'] == 1 || $oldComment['userId'] == $user['id'])) {
                 $comment = $this->populateComment();
                 if ($comment) {
-                    $comment = $this->app->comments->upsertComment($contentId, $commentId, $comment);
+                    $comment = $this->di->comments->upsertComment($contentId, $commentId, $comment);
                 }
             } else {
-                $this->app->session->set('err', 'Du har inte behörighet att redigera denna kommentar.');
+                $this->di->session->set('err', 'Du har inte behörighet att redigera denna kommentar.');
             }
         } else {
-            $this->app->session->set('err', 'Du har inte behörighet att redigera denna kommentar.');
+            $this->di->session->set('err', 'Du har inte behörighet att redigera denna kommentar.');
         }
         $this->back();
     }
@@ -105,16 +105,16 @@ class CommentController extends \LRC\App\BaseController
      */
     public function delete($contentId, $commentId)
     {
-        $user = $this->app->user->getCurrent();
+        $user = $this->di->user->getCurrent();
         if ($user) {
-            $oldComment = $this->app->comments->getById($contentId, $commentId);
+            $oldComment = $this->di->comments->getById($contentId, $commentId);
             if ($oldComment && ($user['admin'] == 1 || $oldComment['userId'] == $user['id'])) {
-                $this->app->comments->deleteComment($contentId, $commentId);
+                $this->di->comments->deleteComment($contentId, $commentId);
             } else {
-                $this->app->session->set('err', 'Du har inte behörighet att ta bort denna kommentar.');
+                $this->di->session->set('err', 'Du har inte behörighet att ta bort denna kommentar.');
             }
         } else {
-            $this->app->session->set('err', 'Du har inte behörighet att ta bort denna kommentar.');
+            $this->di->session->set('err', 'Du har inte behörighet att ta bort denna kommentar.');
         }
         $this->back();
     }
@@ -128,8 +128,8 @@ class CommentController extends \LRC\App\BaseController
     private function populateComment()
     {
         return [
-            'userId' => $this->app->request->getPost('userId'),
-            'text' => $this->app->request->getPost('text', '')
+            'userId' => $this->di->request->getPost('userId'),
+            'text' => $this->di->request->getPost('text', '')
         ];
     }
     
@@ -138,6 +138,6 @@ class CommentController extends \LRC\App\BaseController
      */
     private function back()
     {
-        $this->app->redirect($this->app->request->getPost('url', $this->app->request->getServer('HTTP_REFERER')) . '#comments');
+        $this->di->common->redirect($this->di->request->getPost('url', $this->di->request->getServer('HTTP_REFERER')) . '#comments');
     }
 }
