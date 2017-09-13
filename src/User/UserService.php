@@ -5,13 +5,8 @@ namespace LRC\User;
 /**
  * User service.
  */
-class UserService
+class UserService extends \LRC\Common\BaseService
 {
-    /**
-     * @var \Anax\Session $session inject a reference to the session.
-     */
-    private $session;
-    
     /**
      * @var string $key to use when storing in session.
      */
@@ -19,21 +14,9 @@ class UserService
 
 
     /**
-     * Inject dependencies.
-     *
-     * @param array $dependency key/value array with dependencies.
+     * Mock data.
      *
      * @return self
-     */
-    public function inject($dependency)
-    {
-        $this->session = $dependency['session'];
-        return $this;
-    }
-    
-    
-    /**
-     * Mock data.
      */
     public function mock()
     {
@@ -57,6 +40,7 @@ class UserService
                 'admin' => 0
             ]);
         }
+        return $this;
     }
 
 
@@ -69,7 +53,7 @@ class UserService
      */
     public function getById($id)
     {
-        foreach ($this->session->get(self::KEY, []) as $user) {
+        foreach ($this->di->session->get(self::KEY, []) as $user) {
             if ($user['id'] == $id) {
                 return $user;
             }
@@ -87,7 +71,7 @@ class UserService
      */
     public function getByUsername($username)
     {
-        foreach ($this->session->get(self::KEY, []) as $user) {
+        foreach ($this->di->session->get(self::KEY, []) as $user) {
             if ($user['username'] === $username) {
                 return $user;
             }
@@ -106,7 +90,7 @@ class UserService
      */
     public function getAnonymous($name, $email)
     {
-        foreach ($this->session->get(self::KEY, []) as $user) {
+        foreach ($this->di->session->get(self::KEY, []) as $user) {
             if ($user['anonymous'] == 1 && $user['name'] === $name && $user['email'] === $email) {
                 return $user;
             }
@@ -122,8 +106,8 @@ class UserService
      */
     public function getCurrent()
     {
-        if ($this->session->has('userId')) {
-            return $this->getById($this->session->get('userId'));
+        if ($this->di->session->has('userId')) {
+            return $this->getById($this->di->session->get('userId'));
         }
         return null;
     }
@@ -138,14 +122,14 @@ class UserService
      */
     public function addUser($user)
     {
-        $users = $this->session->get(self::KEY, []);
+        $users = $this->di->session->get(self::KEY, []);
         
         // Get next available value for the id
         $ids = array_column($users, 'id');
         $user['id'] = (empty($ids) ? 1 : max($ids) + 1);
         
         $users[] = $user;
-        $this->session->set(self::KEY, $users);
+        $this->di->session->set(self::KEY, $users);
         return $user;
     }
     
@@ -160,9 +144,9 @@ class UserService
      */
     public function login($username, $password)
     {
-        foreach ($this->session->get(self::KEY, []) as $user) {
+        foreach ($this->di->session->get(self::KEY, []) as $user) {
             if ($user['username'] === $username && password_verify($password, $user['password'])) {
-                $this->session->set('userId', $user['id']);
+                $this->di->session->set('userId', $user['id']);
                 return true;
             }
         }
@@ -175,6 +159,6 @@ class UserService
      */
     public function logout()
     {
-        $this->session->delete('userId');
+        $this->di->session->delete('userId');
     }
 }
