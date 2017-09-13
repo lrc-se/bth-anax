@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0ffa8e838b64a84d22f19430897fddd2",
-    "content-hash": "b140a12f09d3aff1d9bbadea5a3e46de",
+    "hash": "10d9a7ad8a40b28ac016b62ef75b087a",
+    "content-hash": "4e23f503e40ec2265ce0c53ff23d81e4",
     "packages": [
         {
             "name": "anax/common",
@@ -107,16 +107,16 @@
         },
         {
             "name": "anax/di",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/canax/di.git",
-                "reference": "76fccd044f750751a420ad738b75b9438978cb1c"
+                "reference": "8033b7dce83d0b0a679113338c56dfca867ef548"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/canax/di/zipball/76fccd044f750751a420ad738b75b9438978cb1c",
-                "reference": "76fccd044f750751a420ad738b75b9438978cb1c",
+                "url": "https://api.github.com/repos/canax/di/zipball/8033b7dce83d0b0a679113338c56dfca867ef548",
+                "reference": "8033b7dce83d0b0a679113338c56dfca867ef548",
                 "shasum": ""
             },
             "require": {
@@ -150,7 +150,7 @@
                 "micro",
                 "mvc"
             ],
-            "time": "2017-08-17 13:41:49"
+            "time": "2017-09-11 21:00:12"
         },
         {
             "name": "anax/request",
@@ -454,16 +454,16 @@
         },
         {
             "name": "anax/view",
-            "version": "v1.0.19",
+            "version": "v1.0.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/canax/view.git",
-                "reference": "b0c280efe565a091ac464b9f227116f2db35abc6"
+                "reference": "1c5b542d2050d99c6822b9f2942c3485f3d0235b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/canax/view/zipball/b0c280efe565a091ac464b9f227116f2db35abc6",
-                "reference": "b0c280efe565a091ac464b9f227116f2db35abc6",
+                "url": "https://api.github.com/repos/canax/view/zipball/1c5b542d2050d99c6822b9f2942c3485f3d0235b",
+                "reference": "1c5b542d2050d99c6822b9f2942c3485f3d0235b",
                 "shasum": ""
             },
             "require": {
@@ -499,7 +499,7 @@
                 "micro",
                 "mvc"
             ],
-            "time": "2017-09-11 14:12:42"
+            "time": "2017-09-12 21:02:37"
         },
         {
             "name": "ezyang/htmlpurifier",
