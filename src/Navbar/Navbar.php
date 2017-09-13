@@ -5,22 +5,9 @@ namespace LRC\Navbar;
 /**
  * Navbar class.
  */
-class Navbar implements \Anax\Common\ConfigureInterface
+class Navbar extends \LRC\Common\BaseService implements \Anax\Common\ConfigureInterface
 {
     use \Anax\Common\ConfigureTrait;
-    
-    private $app;
-    
-    
-    /**
-     * Constructor.
-     *
-     * @param   \Anax\App\App   $app    Framework application object.
-     */
-    public function __construct($app)
-    {
-        $this->app = $app;
-    }
     
     /**
      * Returns config data.
@@ -51,7 +38,7 @@ class Navbar implements \Anax\Common\ConfigureInterface
      */
     private function isActiveRoute($route)
     {
-        $current = $this->app->request->getRoute();
+        $current = $this->di->request->getRoute();
         if (empty($route)) {
             return ($current === $route);
         }
@@ -102,7 +89,7 @@ class Navbar implements \Anax\Common\ConfigureInterface
             
             // render link, if any
             if (!is_null($item['route'])) {
-                $list .= '<a href="' . $this->app->url->create($item['route']) . '">' . $item['title']  . '</a>';
+                $list .= '<a href="' . $this->di->url->create($item['route']) . '">' . $item['title']  . '</a>';
             } else {
                 $list .= '<span>' . $item['title'] . '</span>';
             }

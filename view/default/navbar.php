@@ -3,5 +3,5 @@
         <img src="<?= $this->asset('img/kalle.png') ?>" alt="KB" title="Kalles sida">
     </a>
     <button id="menu-toggle">Sektioner</button>
-<?= $app->navbar->renderItems() ?>
+<?= $di->navbar->renderItems() ?>
 </nav>

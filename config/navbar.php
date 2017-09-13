@@ -30,7 +30,7 @@ $navbar = [
     ]
 ];
 
-$user = $this->app->user->getCurrent();
+$user = $this->di->user->getCurrent();
 if ($user) {
     $navbar['items']['user']['title'] .= ' <span class="navbar-user">(<span>' . $user['username'] . '</span>)</span>';
 }
