@@ -7,7 +7,7 @@ namespace LRC\Rem;
  *
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
-class RemController extends \LRC\App\BaseController
+class RemController extends \LRC\Common\BaseController
 {
     /**
      * Start the session and initiate the REM Server.
@@ -16,8 +16,8 @@ class RemController extends \LRC\App\BaseController
      */
     public function prepare()
     {
-        if (!$this->app->rem->hasDataset()) {
-            $this->app->rem->init();
+        if (!$this->di->rem->hasDataset()) {
+            $this->di->rem->init();
         }
     }
 
@@ -29,8 +29,8 @@ class RemController extends \LRC\App\BaseController
      */
     public function init()
     {
-        $this->app->rem->init();
-        $this->app->response->sendJson(['message' => 'Session initiated with default dataset.']);
+        $this->di->rem->init();
+        $this->di->response->sendJson(['message' => 'Session initiated with default dataset.']);
         exit;
     }
 
@@ -42,8 +42,8 @@ class RemController extends \LRC\App\BaseController
      */
     public function destroy()
     {
-        $this->app->session->destroy();
-        $this->app->response->sendJson(['message' => 'Session destroyed.']);
+        $this->di->session->destroy();
+        $this->di->response->sendJson(['message' => 'Session destroyed.']);
         exit;
     }
 
@@ -57,9 +57,9 @@ class RemController extends \LRC\App\BaseController
      */
     public function getDataset($key)
     {
-        $dataset = $this->app->rem->getDataset($key);
-        $offset = (int)$this->app->request->getGet('offset', 0);
-        $limit = $this->app->request->getGet('limit', null);
+        $dataset = $this->di->rem->getDataset($key);
+        $offset = (int)$this->di->request->getGet('offset', 0);
+        $limit = $this->di->request->getGet('limit', null);
         $limit = (is_null($limit) || !is_numeric($limit) ? null : (int)$limit);
         $data = array_slice($dataset, $offset, $limit);
         usort($data, function ($item1, $item2) {
@@ -71,7 +71,7 @@ class RemController extends \LRC\App\BaseController
             'limit' => $limit,
             'total' => count($dataset)
         ];
-        $this->app->response->sendJson($res);
+        $this->di->response->sendJson($res);
         exit;
     }
 
@@ -86,13 +86,13 @@ class RemController extends \LRC\App\BaseController
      */
     public function getItem($key, $itemId)
     {
-        $item = $this->app->rem->getItem($key, $itemId);
+        $item = $this->di->rem->getItem($key, $itemId);
         if (!$item) {
-            $this->app->response->sendJson(['error' => 'Item not found.'], 404);
+            $this->di->response->sendJson(['error' => 'Item not found.'], 404);
             exit;
         }
 
-        $this->app->response->sendJson($item);
+        $this->di->response->sendJson($item);
         exit;
     }
 
@@ -109,10 +109,10 @@ class RemController extends \LRC\App\BaseController
     {
         $item = $this->populateItem();
         if ($item) {
-            $item = $this->app->rem->addItem($key, $item);
-            $this->app->response->sendJson($item);
+            $item = $this->di->rem->addItem($key, $item);
+            $this->di->response->sendJson($item);
         } else {
-            $this->app->response->sendJson(['error' => 'Error in JSON data.'], 400);
+            $this->di->response->sendJson(['error' => 'Error in JSON data.'], 400);
         }
         exit;
     }
@@ -130,10 +130,10 @@ class RemController extends \LRC\App\BaseController
     {
         $item = $this->populateItem();
         if ($item) {
-            $item = $this->app->rem->upsertItem($key, $itemId, $item);
-            $this->app->response->sendJson($item);
+            $item = $this->di->rem->upsertItem($key, $itemId, $item);
+            $this->di->response->sendJson($item);
         } else {
-            $this->app->response->sendJson(['error' => 'Error in JSON data.'], 400);
+            $this->di->response->sendJson(['error' => 'Error in JSON data.'], 400);
         }
         exit;
     }
@@ -149,10 +149,10 @@ class RemController extends \LRC\App\BaseController
      */
     public function deleteItem($key, $itemId)
     {
-        if ($this->app->rem->deleteItem($key, $itemId)) {
-            $this->app->response->sendJson(['message' => 'Item deleted.']);
+        if ($this->di->rem->deleteItem($key, $itemId)) {
+            $this->di->response->sendJson(['message' => 'Item deleted.']);
         } else {
-            $this->app->response->sendJson(['error' => 'Item not found.'], 404);
+            $this->di->response->sendJson(['error' => 'Item not found.'], 404);
         }
         exit;
     }
@@ -165,7 +165,7 @@ class RemController extends \LRC\App\BaseController
      */
     public function unsupported()
     {
-        $this->app->response->sendJson(['error' => 'The API does not support the requested operation.'], 404);
+        $this->di->response->sendJson(['error' => 'The API does not support the requested operation.'], 404);
         exit;
     }
     
@@ -177,6 +177,6 @@ class RemController extends \LRC\App\BaseController
      */
     private function populateItem()
     {
-        return json_decode($this->app->request->getBody(), true);
+        return json_decode($this->di->request->getBody(), true);
     }
 }

@@ -8,35 +8,15 @@ use \Anax\Configure\ConfigureTrait;
 /**
  * REM Server.
  */
-class RemServer implements ConfigureInterface
+class RemServer extends \LRC\Common\BaseService implements ConfigureInterface
 {
     use ConfigureTrait;
-
-
-    /**
-     * @var array $session inject a reference to the session.
-     */
-    private $session;
 
 
     /**
      * @var string $key to use when storing in session.
      */
     const KEY = 'remserver';
-
-
-    /**
-     * Inject dependencies.
-     *
-     * @param array $dependency key/value array with dependencies.
-     *
-     * @return self
-     */
-    public function inject($dependency)
-    {
-        $this->session = $dependency['session'];
-        return $this;
-    }
 
 
     /**
@@ -53,7 +33,7 @@ class RemServer implements ConfigureInterface
             $dataset[$key] = json_decode(file_get_contents($file), true);
         }
 
-        $this->session->set(self::KEY, $dataset);
+        $this->di->session->set(self::KEY, $dataset);
         return $this;
     }
 
@@ -65,7 +45,7 @@ class RemServer implements ConfigureInterface
      */
     public function hasDataset()
     {
-        return $this->session->has(self::KEY);
+        return $this->di->session->has(self::KEY);
     }
 
 
@@ -78,7 +58,7 @@ class RemServer implements ConfigureInterface
      */
     public function getDataset($key)
     {
-        $data = $this->session->get(self::KEY);
+        $data = $this->di->session->get(self::KEY);
         return (isset($data[$key]) ? $data[$key] : []);
     }
 
@@ -93,9 +73,9 @@ class RemServer implements ConfigureInterface
      */
     public function saveDataset($key, $dataset)
     {
-        $data = $this->session->get(self::KEY);
+        $data = $this->di->session->get(self::KEY);
         $data[$key] = $dataset;
-        $this->session->set(self::KEY, $data);
+        $this->di->session->set(self::KEY, $data);
         return $this;
     }
 
