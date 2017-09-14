@@ -10,9 +10,8 @@ $config = [
         'request' => [
             'shared' => true,
             'callback' => function () {
-                $request = new \Anax\Request\Request();
-                $request->init();
-                return $request;
+                return (new \Anax\Request\Request())
+                    ->init();
             }
         ],
         'response' => [
@@ -22,50 +21,44 @@ $config = [
         'url' => [
             'shared' => true,
             'callback' => function () {
-                $req = $this->request;
-                $url = new \Anax\Url\Url();
-                $url->setSiteUrl($req->getSiteUrl());
-                $url->setBaseUrl($req->getBaseUrl());
-                $url->setStaticSiteUrl($req->getSiteUrl());
-                $url->setStaticBaseUrl($req->getBaseUrl());
-                $url->setScriptName($req->getScriptName());
-                $url->configure('url.php');
-                $url->setDefaultsFromConfiguration();
-                return $url;
+                return (new \Anax\Url\Url())
+                    ->setSiteUrl($this->request->getSiteUrl())
+                    ->setBaseUrl($this->request->getBaseUrl())
+                    ->setStaticSiteUrl($this->request->getSiteUrl())
+                    ->setStaticBaseUrl($this->request->getBaseUrl())
+                    ->setScriptName($this->request->getScriptName())
+                    ->configure('url.php')
+                    ->setDefaultsFromConfiguration();
             }
         ],
         'router' => [
             'shared' => true,
             'callback' => function () {
-                $router = new \Anax\Route\Router();
-                $router->configure('route2.php');
-                $router->setDI($this);
-                return $router;
+                return (new \Anax\Route\Router())
+                    ->configure('route2.php')
+                    ->setDI($this);
             }
         ],
         'view' => [
             'shared' => true,
             'callback' => function () {
-                $view = new \Anax\View\ViewCollection();
-                $view->configure('view.php');
-                $view->setDI($this);
-                return $view;
+                return (new \Anax\View\ViewCollection())
+                    ->configure('view.php')
+                    ->setDI($this);
             }
         ],
         'viewRenderFile' => [
             'shared' => true,
             'callback' => function () {
-                $viewRender = new \Anax\View\ViewRenderFile2();
-                $viewRender->setDI($this);
-                return $viewRender;
+                return (new \Anax\View\ViewRenderFile2())
+                    ->setDI($this);
             }
         ],
         'session' => [
             'shared' => true,
             'callback' => function () {
-                $session = new \Anax\Session\SessionConfigurable();
-                $session->configure('session.php');
-                return $session;
+                return (new \Anax\Session\SessionConfigurable())
+                    ->configure('session.php');
             }
         ],
         'textfilter' => [
@@ -98,7 +91,8 @@ $config = [
             'shared' => true,
             'callback' => function () {
                 return (new \LRC\User\UserService())
-                    ->inject(['session' => $this->session]);
+                    ->inject(['session' => $this->session])
+                    ->mock();
             }
         ],
         'rem' => [
