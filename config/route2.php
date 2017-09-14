@@ -15,15 +15,15 @@ return [
             'file' => __DIR__ . '/route2/flat-file-content.php'
         ],
         [
-            'mount' => null,
+            'mount' => 'rem/api',
             'file' => __DIR__ . '/route2/remserver.php'
         ],
         [
-            'mount' => null,
+            'mount' => 'comment',
             'file' => __DIR__ . '/route2/comments.php'
         ],
         [
-            'mount' => null,
+            'mount' => 'user',
             'file' => __DIR__ . '/route2/user.php'
         ],
         [

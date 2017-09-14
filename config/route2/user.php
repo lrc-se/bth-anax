@@ -8,19 +8,19 @@ return [
         [
             'info' => 'Login page.',
             'requestMethod' => 'get',
-            'path' => 'user',
+            'path' => '',
             'callable' => ['userController', 'login']
         ],
         [
             'info' => 'Login handler.',
             'requestMethod' => 'post',
-            'path' => 'user/login',
+            'path' => 'login',
             'callable' => ['userController', 'handleLogin']
         ],
         [
             'info' => 'Logout handler.',
             'requestMethod' => 'post',
-            'path' => 'user/logout',
+            'path' => 'logout',
             'callable' => ['userController', 'handleLogout']
         ]
     ]
