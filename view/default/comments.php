@@ -16,7 +16,7 @@
                 </div>
                 <div class="comment-time"><?= $comment['created'] ?></div>
             </div>
-            <div class="comment-text"><?= $di->textfilter->markdown(strip_tags($comment['text'])) ?></div>
+            <div class="comment-text"><?= $di->textfilter->markdown($di->common->esc($comment['text'])) ?></div>
 <?php       if (isset($comment['updated'])) : ?>
             <div class="comment-edited">Redigerad <?= $comment['updated'] ?></div>
 <?php       endif; ?>
