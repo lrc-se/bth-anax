@@ -9,16 +9,6 @@ class Navbar extends \LRC\Common\BaseService implements \Anax\Common\ConfigureIn
 {
     use \Anax\Common\ConfigureTrait;
     
-    /**
-     * Returns config data.
-     *
-     * @param   string      $key    The key to get the data for.
-     * @return  mixed|null          The config data stored under the requested key.
-     */
-    public function getData($key)
-    {
-        return (array_key_exists($key, $this->config['data']) ? $this->config['data'][$key] : null);
-    }
     
     /**
      * Returns the rendered HTML for the navbar items.
@@ -29,6 +19,7 @@ class Navbar extends \LRC\Common\BaseService implements \Anax\Common\ConfigureIn
     {
         return $this->renderLevel($this->config['items']);
     }
+    
     
     /**
      * Checks whether the specified route is active.
@@ -44,6 +35,7 @@ class Navbar extends \LRC\Common\BaseService implements \Anax\Common\ConfigureIn
         }
         return (substr($current . '/', 0, strlen($route) + 1) === $route . '/');
     }
+    
     
     /**
      * Checks whether the specified nav item is active.
@@ -64,6 +56,7 @@ class Navbar extends \LRC\Common\BaseService implements \Anax\Common\ConfigureIn
         
         return $this->isActiveRoute($item['route']);
     }
+    
     
     /**
      * Recursively renders a list of navbar items.

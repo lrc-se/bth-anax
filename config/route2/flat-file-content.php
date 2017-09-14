@@ -9,7 +9,7 @@ return [
             'info' => 'Render flat file content.',
             'requestMethod' => null,
             'path' => null,
-            'callable' => ['contentController', 'defaultView'],
+            'callable' => ['contentController', 'defaultView']
         ]
     ]
 ];

@@ -25,7 +25,7 @@ class BaseService
     /**
      * Constructor.
      *
-     * @param DIInterface   $di     Non-local DI container reference, if any.
+     * @param DI\DIInterface    $di     Non-local DI container reference, if any.
      */
     public function __construct($di = null)
     {
