@@ -178,7 +178,7 @@ Kmom03  {#kmom03.anchor}
 ------
 
 Det tog sin lilla stund att "konvertera" hela ramverket till DI-läge, men det gick ändå bra -- en sak i taget bara. 
-Problemet var dock att i princip allting måste vara på plats innan man kan testköra någonting, så det blev mycket att skriva "i blindo", 
+Problemet var dock att i princip allting måste vara på plats innan man kunde testköra någonting, så det blev mycket att skriva "i blindo", 
 men felen var lyckligtvis få och enkla att rätta (tack även till *mos* som snabbt fixade en del buggar/<wbr>tillägg i Anax&shy;komponenterna).
 
 Jag har valt att skicka in hela `$di`-objektet i samtliga kontroller, genom att uppdatera min tidigare basklass för dessa. 
@@ -186,7 +186,7 @@ Jag kunde egentligen valt att göra detsamma med tjänsterna -- och gjorde det f
 så att man kan tillgängliggöra godtyckliga beroenden för godtyckliga tjänster.
 
 Jag ville dock fortfarande kunna använda samma anropsformat överallt (se nedan), så jag skapade en ny klass `DISimple` som implementerar `DIInterface` och använder `DIMagicTrait`, 
-men enbart lagrar referenser och inte laddar några egna tjänster. Jag kunde sedan göra en basklass för mina tjänster som använder denna enklare behållare för att lagra inskickade referenser, 
+men enbart lagrar referenser och inte laddar några egna tjänster. Jag kunde sedan göra en basklass för mina tjänster som använder denna enklare behållare för att lagra och nyttja inskickade beroenden, 
 men för att behålla full flexibilitet lade jag även till möjligheten att skicka in en existerande behållare i konstruktorn istället -- 
 vissa tjänster har så pass många beroenden att det är enklare att ge dem tillgång till hela `$di` istället för att skicka in alla referenser för sig. 
 Om detta är det bästa sättet att lösa problemet vet jag inte, men jag känner mig rätt nöjd med hur det färdiga resultatet kan användas i den anropande koden, 
@@ -204,18 +204,18 @@ då det är lätt hänt att man skapar oförutsägbara och svårlösta problem f
 
 ###### Hur känns det att göra dig av med beroendet till `$app`? Blir `$di` bättre?
 
-Bättre och bättre... I sista ledet, där anropen till tjänsterna ligger, är den enda egentligen ändringen för min del att `$this->app` nu blivit `$this->di` istället, 
+Bättre och bättre... I sista ledet, där anropen till tjänsterna ligger, är den enda egentliga ändringen för min del att `$this->app` nu blivit `$this->di` istället, 
 eftersom jag använder mig av den "magiska" DI-klassen för att slippa en massa metodanrop hela tiden. 
-Övriga ändringar är mer vittgående och överlag känns det som att koden blivit krångligare och svårare att överblicka, 
+Övriga ändringar är mer vittgående och överlag känns det som att koden blivit krångligare, större, mer krävande och svårare att överblicka, 
 så det återstår att se huruvida det här upplägget faktiskt medför reella fördelar *i det här sammanhanget*.
 
-En tydlig effekt är dock att det inte bara är beroendet av `$app` som är borta, utan även den klassens hela existens&shy;berättigande då det nu inte finns några referenser kvar alls -- 
+En tydlig effekt är dock att det inte bara är beroendet av `$app` som är borta, utan även den klassens hela existens&shy;berättigande då det nu inte finns några referenser kvar alls till den -- 
 det finns helt enkelt ingen anledning att instantiera `$app` i *index.php* längre och definitivt inte att dessutom skjuta in `$di` däri. 
-Den tidigare källkoden finns dock kvar i repot tills vidare, liksom den gamla konfigurationen.
+Den tidigare källkoden finns dock kvar i repot tills vidare, liksom de gamla konfigurations&shy;filerna.
 
 ###### Hur känns det att återigen göra refaktorering på din me-sida? Blir det förbättringar på kodstrukturen, eller bara annorlunda?
 
-Det tarvades alltså en rejäl omstrukturering för att få till det nya upplägget och min upplevelse är alltså att det är *mindre* tydligt vad koden gör nu än tidigare. 
+Det tarvades alltså en rejäl omstrukturering för att få till det nya upplägget och min upplevelse är som sagt att det på sina håll är *mindre* tydligt vad koden gör nu än tidigare. 
 Det känns också som att det blivit mer upprepningar -- särskilt om jag hade följt förlagorna fullt ut, så jag har istället gjort vad jag kunnat för att automatisera återkommande saker, 
 såsom instantieringen av kontroller i *config/di.php* som nyttjar PHP:s variabel&shy;expansion till det yttersta.
 
@@ -223,17 +223,17 @@ såsom instantieringen av kontroller i *config/di.php* som nyttjar PHP:s variabe
 
 Inga problem -- eller i alla fall inga större problem än att få in `$di` i någon av de andra komponenterna. 
 Snarare var det mest bara att byta ut referenserna (med sök och ersätt, till och med) och lyfta ut instantieringen/<wbr>konfigurationen av tjänsterna till de nya konfigfilerna, 
-så det gick rätt snabbt i och med att resten redan var på plats.
+så det gick rätt snabbt i och med att allt annat redan var på plats.
 
 ###### Påbörjade du arbetet (hur gick det?) med databasmodellen eller avvaktar du till kommande kmom?
 
-Jag hade redan tänkt ut det mesta kring den kommande databasstrukturen i [Kmom02](#kmom02), så det jobbet är mer eller mindre avklarat, inklusive inloggningsbiten. 
-Däremot valde jag att *inte* implementera någon databaskoppling nu, eftersom jag vill vänta och se hur vi förväntas hantera en sådan först (med AR, troligen/<wbr>möjligen), 
-så att jag slipper skriva om koden direkt.
+Jag hade redan tänkt ut det mesta kring den kommande databas&shy;strukturen när jag gjorde prototypen i [Kmom02](#kmom02), så det jobbet är mer eller mindre avklarat, 
+inklusive inloggningsbiten och behörighets&shy;kontroller. Däremot valde jag att *inte* implementera någon databas&shy;koppling nu, 
+eftersom jag vill vänta och se hur vi förväntas hantera en sådan först (med AR, troligen/<wbr>möjligen), så att jag slipper skriva om koden direkt.
 
 ###### Allmänna kommentarer kring din me-sida och dess kodstruktur?
 
-Den ses över och förbättras/<wbr>justeras kontinuerligt i takt med att kodbasen växer och nya insikter dyker upp. Rent allmänt är min ambition att slippa upprepa mig så långt som möjligt, 
+Den ses över och förbättras/<wbr>justeras kontinuerligt i takt med att kodbasen växer och nya krav och insikter dyker upp. Rent allmänt är min ambition att slippa upprepa mig så långt som möjligt, 
 men det är en hel del i upplägget och komponenterna som motarbetar denna strävan. Vi får se vem som vinner i slutändan...
 
 
