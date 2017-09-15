@@ -1,1 +1,3 @@
+        <article>
 <?= $content ?>
+        </article>

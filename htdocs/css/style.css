@@ -149,8 +149,12 @@ main {
     padding: 2em;
 }
 
-main > *:last-child {
-    margin-bottom: .7em;
+article {
+    overflow: hidden;
+}
+
+article > *:last-child {
+    margin-bottom: 0;
 }
 
 .footer-wrap {
@@ -227,6 +231,7 @@ blockquote {
 
 img {
     max-width: 100%;
+    vertical-align: bottom;
 }
 
 h1 {
@@ -432,7 +437,7 @@ pre code:hover {
     flex: 0 1 auto;
 }
 
-main > .columns:last-child {
+article > .columns:last-child {
     margin-bottom: -.25em;
 }
 
