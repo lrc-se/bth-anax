@@ -65,6 +65,13 @@ $config = [
             'shared' => true,
             'callback' => '\Anax\TextFilter\TextFilter',
         ],
+        'db' => [
+            'shared' => true,
+            'callback' => function () {
+                return (new \Anax\Database\DatabaseQueryBuilder())
+                    ->configure('db.php');
+            }
+        ],
         
         // extensions
         'common' => [

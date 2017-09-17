@@ -2,3 +2,4 @@
 /build
 /vendor
 /.scaffold
+/config/db.php
