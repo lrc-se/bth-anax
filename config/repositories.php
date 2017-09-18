@@ -9,6 +9,10 @@ return [
         'books' => [
             'table' => 'book',
             'model' => '\\LRC\\Book\\Book'
+        ],
+        'users' => [
+            'table' => 'user',
+            'model' => '\\LRC\\User\\User'
         ]
     ]
 

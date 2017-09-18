@@ -15,7 +15,7 @@ class UserController extends \LRC\Common\BaseController
         $user = $this->di->user->getCurrent();
         if ($user) {
             $this->di->view->add('user/index', ['flash' => 'img/bg4.jpg', 'user' => $user], 'main');
-            $this->di->common->renderPage('Välkommen, ' . $user['username'] . '!', null, ['flash' => 'img/bg4.jpg']);
+            $this->di->common->renderPage('Välkommen, ' . $user->username . '!', null, ['flash' => 'img/bg4.jpg']);
         } else {
             $this->di->view->add('user/login', [], 'main');
             $this->di->common->renderPage('Logga in', null, ['flash' => 'img/bg4.jpg']);

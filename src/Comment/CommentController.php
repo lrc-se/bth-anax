@@ -43,16 +43,9 @@ class CommentController extends \LRC\Common\BaseController
             if ($name !== '') {
                 $user = $this->di->user->getAnonymous($name, $email);
                 if (!$user) {
-                    $user = $this->di->user->addUser([
-                        'username' => null,
-                        'password' => null,
-                        'name' => $name,
-                        'email' => $email,
-                        'anonymous' => 1,
-                        'admin' => 0
-                    ]);
+                    $user = $this->di->user->addAnonymous($name, $email);
                 }
-                $comment['userId'] = $user['id'];
+                $comment['userId'] = $user->id;
             } else {
                 $this->di->session->set('err', 'Namn måste anges.');
                 $this->back();
@@ -80,7 +73,7 @@ class CommentController extends \LRC\Common\BaseController
         $user = $this->di->user->getCurrent();
         if ($user) {
             $oldComment = $this->di->comments->getById($contentId, $commentId);
-            if ($oldComment && ($user['admin'] == 1 || $oldComment['userId'] == $user['id'])) {
+            if ($oldComment && ($user->admin || $oldComment['userId'] == $user->id)) {
                 $comment = $this->populateComment();
                 if ($comment) {
                     $comment = $this->di->comments->upsertComment($contentId, $commentId, $comment);
@@ -108,7 +101,7 @@ class CommentController extends \LRC\Common\BaseController
         $user = $this->di->user->getCurrent();
         if ($user) {
             $oldComment = $this->di->comments->getById($contentId, $commentId);
-            if ($oldComment && ($user['admin'] == 1 || $oldComment['userId'] == $user['id'])) {
+            if ($oldComment && ($user->admin || $oldComment['userId'] == $user->id)) {
                 $this->di->comments->deleteComment($contentId, $commentId);
             } else {
                 $this->di->session->set('err', 'Du har inte behörighet att ta bort denna kommentar.');

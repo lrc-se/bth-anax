@@ -8,57 +8,15 @@ namespace LRC\User;
 class UserService extends \LRC\Common\BaseService
 {
     /**
-     * @var string $key to use when storing in session.
-     */
-    const KEY = 'users';
-
-
-    /**
-     * Mock data.
-     *
-     * @return self
-     */
-    public function mock()
-    {
-        if (!$this->getByUsername('admin')) {
-            $this->addUser([
-                'username' => 'admin',
-                'password' => '$2y$10$28ANwequzg1BryIAwdXrt.D65WjRjxQHC35mYSXlA2/6KQMUA0.dS',
-                'name' => 'Admin',
-                'email' => 'kabc16@student.bth.se',
-                'anonymous' => 0,
-                'admin' => 1
-            ]);
-        }
-        if (!$this->getByUsername('doe')) {
-            $this->addUser([
-                'username' => 'doe',
-                'password' => '$2y$10$5NG8.RGSS/0HZ3lN6PUx7eVFAj10AW8/HMOj6tzV3GhmWuY8SnFCa',
-                'name' => 'John Doe',
-                'email' => 'e@mail.com',
-                'anonymous' => 0,
-                'admin' => 0
-            ]);
-        }
-        return $this;
-    }
-
-
-    /**
      * Get a user by ID.
      *
-     * @param string $id    User ID.
+     * @param int $id       User ID.
      *
-     * @return array|null   Array with the user if found, null otherwise.
+     * @return User|null    User model instance if found, null otherwise.
      */
     public function getById($id)
     {
-        foreach ($this->di->session->get(self::KEY, []) as $user) {
-            if ($user['id'] == $id) {
-                return $user;
-            }
-        }
-        return null;
+        return ($this->di->users->find('id', $id) ?: null);
     }
     
     
@@ -67,16 +25,11 @@ class UserService extends \LRC\Common\BaseService
      *
      * @param string $username  Username.
      *
-     * @return array|null       Array with the user if found, null otherwise.
+     * @return User|null        User model instance if found, null otherwise.
      */
     public function getByUsername($username)
     {
-        foreach ($this->di->session->get(self::KEY, []) as $user) {
-            if ($user['username'] === $username) {
-                return $user;
-            }
-        }
-        return null;
+        return ($this->di->users->find('username', $username) ?: null);
     }
     
     
@@ -86,23 +39,18 @@ class UserService extends \LRC\Common\BaseService
      * @param string $name      User name.
      * @param string $email     User e-mail.
      *
-     * @return array|null       Array with the user if found, null otherwise.
+     * @return User|null        User model instance if found, null otherwise.
      */
     public function getAnonymous($name, $email)
     {
-        foreach ($this->di->session->get(self::KEY, []) as $user) {
-            if ($user['anonymous'] == 1 && $user['name'] === $name && $user['email'] === $email) {
-                return $user;
-            }
-        }
-        return null;
+        return ($this->di->users->findFirst('username IS NULL AND name = ? AND email = ?', [$name, $email]) ?: null);
     }
     
     
     /**
      * Get the currently logged-in user, if any.
      * 
-     * @return array|null   Array with the user if found, null otherwise.
+     * @return User|null    User model instance if found, null otherwise.
      */
     public function getCurrent()
     {
@@ -114,22 +62,19 @@ class UserService extends \LRC\Common\BaseService
     
 
     /**
-     * Add a user.
+     * Add an anonymous user.
      *
      * @param array $user   The user.
      *
-     * @return array        The new user inserted.
+     * @return User         The new user inserted.
      */
-    public function addUser($user)
+    public function addAnonymous($name, $email)
     {
-        $users = $this->di->session->get(self::KEY, []);
-        
-        // Get next available value for the id
-        $ids = array_column($users, 'id');
-        $user['id'] = (empty($ids) ? 1 : max($ids) + 1);
-        
-        $users[] = $user;
-        $this->di->session->set(self::KEY, $users);
+        $user = new User();
+        $user->name = $name;
+        $user->email = $email;
+        $user->admin = 0;
+        $this->di->users->save($user);
         return $user;
     }
     
@@ -144,11 +89,10 @@ class UserService extends \LRC\Common\BaseService
      */
     public function login($username, $password)
     {
-        foreach ($this->di->session->get(self::KEY, []) as $user) {
-            if ($user['username'] === $username && password_verify($password, $user['password'])) {
-                $this->di->session->set('userId', $user['id']);
-                return true;
-            }
+        $user = $this->getByUsername($username);
+        if ($user && $user->verifyPassword($password)) {
+            $this->di->session->set('userId', $user->id);
+            return true;
         }
         return false;
     }

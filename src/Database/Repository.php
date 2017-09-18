@@ -59,6 +59,29 @@ class Repository
     
     
     /**
+     * Find and return first entry, optionally filtered by search criteria.
+     * 
+     * @param string $conditions    Where conditions.
+     * @param array  $values        Array of condition values to bind.
+     * 
+     * @return mixed                Model instance.
+     */
+    public function findFirst($conditions = null, $values = [])
+    {
+        $query = $this->db
+            ->connect()
+            ->select()
+            ->from($this->table);
+        if (!is_null($conditions)) {
+            $query = $query->where($conditions)->execute($values);
+        } else {
+            $query = $query->execute();
+        }
+        return $query->fetchClass($this->modelClass);
+    }
+    
+    
+    /**
      * Find and return all entries, optionally filtered by search criteria.
      * 
      * @param string $conditions    Where conditions.

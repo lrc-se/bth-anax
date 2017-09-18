@@ -106,8 +106,10 @@ $config = [
             'shared' => true,
             'callback' => function () {
                 return (new \LRC\User\UserService())
-                    ->inject(['session' => $this->session])
-                    ->mock();
+                    ->inject([
+                        'session' => $this->session,
+                        'users' => $this->repository->users
+                    ]);
             }
         ],
         'rem' => [

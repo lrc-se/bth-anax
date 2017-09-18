@@ -6,12 +6,12 @@
 <?php   foreach ($comments as $comment) : ?>
         <li id="comment-<?= $comment['id'] ?>" class="comment">
             <div class="comment-header">
-                <img src="https://www.gravatar.com/avatar/<?= md5(strtolower(trim($comment['user']['email']))) ?>?s=50&amp;d=retro">
+                <img src="https://www.gravatar.com/avatar/<?= md5(strtolower(trim($comment['user']->email))) ?>?s=50&amp;d=retro">
                 <div class="comment-author">
-<?php       if (!empty($comment['user']['email'])) : ?>
-                    <a href="mailto:<?= $di->common->esc($comment['user']['email']) ?>"><?= $di->common->esc($comment['user']['name']) ?></a>
+<?php       if (!empty($comment['user']->email)) : ?>
+                    <a href="mailto:<?= $di->common->esc($comment['user']->email) ?>"><?= $di->common->esc($comment['user']->name) ?></a>
 <?php       else : ?>
-                    <?= $di->common->esc($comment['user']['name']) ?>
+                    <?= $di->common->esc($comment['user']->name) ?>
 <?php       endif; ?>
                 </div>
                 <div class="comment-time"><?= $comment['created'] ?></div>
@@ -20,7 +20,7 @@
 <?php       if (isset($comment['updated'])) : ?>
             <div class="comment-edited">Redigerad <?= $comment['updated'] ?></div>
 <?php       endif; ?>
-<?php       if ($user && ($user['admin'] == 1 || $comment['userId'] == $user['id'])) : ?>
+<?php       if ($user && ($user->admin || $comment['userId'] == $user->id)) : ?>
             <div class="comment-actions">
                 <a class="comment-edit" href="#!" data-id="<?= "$contentId/" . $comment['id'] ?>">Redigera</a> |
                 <a class="comment-delete" href="#!" data-id="<?= "$contentId/" . $comment['id'] ?>">Ta bort</a>
@@ -37,7 +37,7 @@
         <form class="form form-small comment-form" action="<?= $this->url("comment/create/$contentId")?>" method="post">
             <input type="hidden" name="url" value="<?= $di->request->getCurrentUrl() ?>">
 <?php if ($user) : ?>
-            <input type="hidden" name="userId" value="<?= $user['id'] ?>">
+            <input type="hidden" name="userId" value="<?= $user->id ?>">
             <div class="form-control">
                 <div class="form-input">
                     <textarea id="comment-text" name="text" rows="7" required></textarea>
