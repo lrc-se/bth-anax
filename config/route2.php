@@ -27,6 +27,10 @@ return [
             'file' => __DIR__ . '/route2/user.php'
         ],
         [
+            'mount' => 'book',
+            'file' => __DIR__ . '/route2/book.php'
+        ],
+        [
             'mount' => null,
             'file' => __DIR__ . '/route2/404.php'
         ]
