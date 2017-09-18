@@ -35,4 +35,18 @@ class BaseModel
     {
         return in_array($attr, $this->nullables);
     }
+    
+    
+    /**
+     * Retrieve a reference by foreign key.
+     *
+     * @param string                    $attr       Name of foreign key attribute.
+     * @param \LRC\Database\Repository  $repository Repository to query.
+     *
+     * @return mixed                                Model instance if found, null otherwise.
+     */
+    public function getReference($attr, $repository)
+    {
+        return (isset($this->$attr) ? $repository->find('id', $this->$attr) : null);
+    }
 }
