@@ -8,25 +8,25 @@ return [
         [
             'info' => 'Get comment text.',
             'requestMethod' => 'get',
-            'path' => 'get/{contentId:alphanum}/{commentId:digit}',
+            'path' => 'get/{id:digit}',
             'callable' => ['commentController', 'get']
         ],
         [
             'info' => 'Create new comment.',
             'requestMethod' => 'post',
-            'path' => 'create/{contentId:alphanum}',
+            'path' => 'create',
             'callable' => ['commentController', 'create']
         ],
         [
             'info' => 'Upsert/replace a comment.',
             'requestMethod' => 'post',
-            'path' => 'update/{contentId:alphanum}/{commentId:digit}',
+            'path' => 'update/{id:digit}',
             'callable' => ['commentController', 'update']
         ],
         [
             'info' => 'Delete a comment.',
             'requestMethod' => 'post',
-            'path' => 'delete/{contentId:alphanum}/{commentId:digit}',
+            'path' => 'delete/{id:digit}',
             'callable' => ['commentController', 'delete']
         ]
     ]

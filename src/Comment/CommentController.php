@@ -12,16 +12,17 @@ class CommentController extends \LRC\Common\BaseController
     /**
      * Retrieve a comment.
      *
-     * @param string $contentId     Content ID.
-     * @param string $commentId     Comment ID.
+     * @param int $id   Comment ID.
      *
      * @return void
      */
-    public function get($contentId, $commentId)
+    public function get($id)
     {
-        $comment = $this->di->comments->getById($contentId, $commentId);
+        $comment = $this->di->comments->getById($id);
         if ($comment) {
             $this->di->response->sendJson($comment);
+        } else {
+            $this->di->response->send(404);
         }
         exit;
     }
@@ -30,14 +31,13 @@ class CommentController extends \LRC\Common\BaseController
     /**
      * Create a new comment.
      *
-     * @param string $contentId     Content ID.
-     *
      * @return void
      */
-    public function create($contentId)
+    public function create()
     {
         $comment = $this->populateComment();
-        if (!isset($comment['userId'])) {
+        $user = $this->di->user->getCurrent();
+        if (!$user) {
             $name = $this->di->request->getPost('name');
             $email = $this->di->request->getPost('email');
             if ($name !== '') {
@@ -45,16 +45,20 @@ class CommentController extends \LRC\Common\BaseController
                 if (!$user) {
                     $user = $this->di->user->addAnonymous($name, $email);
                 }
-                $comment['userId'] = $user->id;
             } else {
                 $this->di->session->set('err', 'Namn måste anges.');
                 $this->back();
             }
         }
-        if ($comment && $comment['text'] !== '') {
-            $comment = $this->di->comments->addComment($contentId, $comment);
+        if ($comment->isValid()) {
+            $comment->userId = $user->id;
+            $this->di->comments->addComment($comment);
         } else {
-            $this->di->session->set('err', 'Kommentar saknas.');
+            $errors = '';
+            foreach ($comment->getValidationErrors() as $error) {
+                $errors .= "<li>$error</li>";
+            }
+            $this->di->session->set('err', "<p>Följande fel uppstod:</p><ul>$errors</ul>");
         }
         $this->back();
     }
@@ -63,27 +67,43 @@ class CommentController extends \LRC\Common\BaseController
     /**
      * Upsert/replace a comment.
      *
-     * @param string $contentId     Content ID.
-     * @param string $commentId     Comment ID.
+     * @param int $id   Comment ID.
      *
      * @return void
      */
-    public function update($contentId, $commentId)
+    public function update($id)
     {
         $user = $this->di->user->getCurrent();
-        if ($user) {
-            $oldComment = $this->di->comments->getById($contentId, $commentId);
-            if ($oldComment && ($user->admin || $oldComment['userId'] == $user->id)) {
-                $comment = $this->populateComment();
-                if ($comment) {
-                    $comment = $this->di->comments->upsertComment($contentId, $commentId, $comment);
+        if (!$user) {
+            $this->di->session->set('err', 'Du har inte behörighet att redigera denna kommentar.');
+            $this->back();
+        }
+        
+        $oldComment = $this->di->comments->getById($id);
+        if (!$oldComment) {
+            $this->di->session->set('err', 'Kunde inte hitta kommentaren.');
+            $this->back();
+        }
+        
+        if ($user->admin || $oldComment->userId === $user->id) {
+            $comment = $this->populateComment();
+            if ($comment->isValid()) {
+                $comment->id = $id;
+                $comment->editorId = $user->id;
+                if (!$this->di->comments->updateComment($comment)) {
+                    $this->di->session->set('err', 'Kunde inte hitta kommentaren.');
                 }
             } else {
-                $this->di->session->set('err', 'Du har inte behörighet att redigera denna kommentar.');
+                $errors = '';
+                foreach ($comment->getValidationErrors() as $error) {
+                    $errors .= "<li>$error</li>";
+                }
+                $this->di->session->set('err', "<p>Följande fel uppstod:</p><ul>$errors</ul>");
             }
         } else {
             $this->di->session->set('err', 'Du har inte behörighet att redigera denna kommentar.');
         }
+        
         $this->back();
     }
 
@@ -91,20 +111,25 @@ class CommentController extends \LRC\Common\BaseController
     /**
      * Delete a comment.
      *
-     * @param string $contentId     Content ID.
-     * @param string $commentId     Comment ID.
+     * @param int $id   Comment ID.
      *
      * @return void
      */
-    public function delete($contentId, $commentId)
+    public function delete($id)
     {
         $user = $this->di->user->getCurrent();
         if ($user) {
-            $oldComment = $this->di->comments->getById($contentId, $commentId);
-            if ($oldComment && ($user->admin || $oldComment['userId'] == $user->id)) {
-                $this->di->comments->deleteComment($contentId, $commentId);
+            $oldComment = $this->di->comments->getById($id);
+            if ($oldComment) {
+                if ($user->admin || $oldComment->userId === $user->id) {
+                    if (!$this->di->comments->deleteComment($oldComment)) {
+                        $this->di->session->set('err', 'Kunde inte hitta kommentaren.');
+                    }
+                } else {
+                    $this->di->session->set('err', 'Du har inte behörighet att ta bort denna kommentar.');
+                }
             } else {
-                $this->di->session->set('err', 'Du har inte behörighet att ta bort denna kommentar.');
+                $this->di->session->set('err', 'Kunde inte hitta kommentaren.');
             }
         } else {
             $this->di->session->set('err', 'Du har inte behörighet att ta bort denna kommentar.');
@@ -116,15 +141,16 @@ class CommentController extends \LRC\Common\BaseController
     /**
      * Populate comment from request form data.
      *
-     * @return array
+     * @return Comment
      */
     private function populateComment()
     {
-        return [
-            'userId' => $this->di->request->getPost('userId'),
-            'text' => $this->di->request->getPost('text', '')
-        ];
+        $comment = new Comment();
+        $comment->contentId = $this->di->request->getPost('contentId');
+        $comment->text = $this->di->request->getPost('text');
+        return $comment;
     }
+    
     
     /**
      * Return to calling page.

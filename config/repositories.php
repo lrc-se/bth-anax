@@ -13,6 +13,10 @@ return [
         'users' => [
             'table' => 'user',
             'model' => '\\LRC\\User\\User'
+        ],
+        'comments' => [
+            'table' => 'comment',
+            'model' => '\\LRC\Comment\\Comment'
         ]
     ]
 

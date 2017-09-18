@@ -18,12 +18,11 @@
         if (editForm.style.display != "none") {
             cancelEdit();
         }
+        commentId = e.target.getAttribute("data-id");
+        editForm.action = RV1.basePath + "comment/update/" + commentId;
 
-        var id = e.target.getAttribute("data-id");
         var xhr = new XMLHttpRequest();
 
-        commentId = id.substring(id.indexOf("/") + 1);
-        editForm.action = RV1.basePath + "comment/update/" + id;
         xhr.onreadystatechange = function() {
             if (xhr.readyState != 4) {
                 return;
@@ -44,7 +43,6 @@
 
             editForm.text.innerHTML = comment.text;
             editForm.text.value = comment.text;
-            editForm.userId.value = comment.userId;
 
             var div = doc.getElementById("comment-" + comment.id);
 
@@ -58,7 +56,7 @@
             doc.querySelector("#comment-" + comment.id + " .comment-actions").style.display
                 = "none";
         };
-        xhr.open("GET", RV1.basePath + "comment/get/" + id);
+        xhr.open("GET", RV1.basePath + "comment/get/" + commentId);
         xhr.send();
     }
 
