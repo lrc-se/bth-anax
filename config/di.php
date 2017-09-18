@@ -72,6 +72,14 @@ $config = [
                     ->configure('db.php');
             }
         ],
+        'repository' => [
+            'shared' => true,
+            'callback' => function () {
+                return (new \LRC\Database\RepositoryService())
+                    ->inject(['db' => $this->db])
+                    ->configure('repositories.php');
+            }
+        ],
         
         // extensions
         'common' => [
@@ -131,7 +139,8 @@ $controllers = [
     'error' => 'Content\Error',
     'rem' => 'Rem\Rem',
     'comment' => 'Comment\Comment',
-    'user' => 'User\User'
+    'user' => 'User\User',
+    'book' => 'Book\Book'
 ];
 
 foreach ($controllers as $key => $controller) {
