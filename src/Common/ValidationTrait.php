@@ -45,7 +45,7 @@ trait ValidationTrait
     {
         switch ($rule['rule']) {
             case 'required':
-                $passed = isset($this->$attr);
+                $passed = (isset($this->$attr) && $this->$attr !== '');
                 break;
             case 'number':
                 $passed = (empty($this->$attr) || is_numeric($this->$attr));
