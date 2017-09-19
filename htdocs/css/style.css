@@ -225,6 +225,35 @@ ol > li:last-child {
     margin-bottom: 0;
 }
 
+dl {
+    margin: 0 0 1.4em;
+    overflow: hidden;
+}
+
+dt {
+    float: left;
+    clear: left;
+    width: 150px;
+    margin: 0;
+    font-weight: 700;
+    text-align: right;
+    display: block;
+}
+
+dl.dl-small dt {
+    width: 100px;
+}
+
+dd {
+    margin: 0 0 0 150px;
+    padding-left: 1em;
+    display: block;
+}
+
+dl.dl-small dd {
+    margin-left: 100px;
+}
+
 blockquote {
     margin: 0 2em 1.4em;
 }
@@ -334,17 +363,28 @@ input::-moz-focus-inner {
 input[type=button],
 input[type=submit],
 input[type=reset],
-button {
-    padding: .35em .5em;
+button,
+a.btn {
+    margin-right: .5em;
+    padding: .35em .7em;
     color: #fff;
     background-color: #3c384f;
     border: none;
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: middle;
     cursor: pointer;
+}
+
+.btn.btn-2 {
+    color: #2a2838;
+    background-color: #b8b7bc;
 }
 
 input[type=text],
 input[type=email],
 input[type=password],
+input[type=number],
 select,
 textarea {
     max-width: 100%;
@@ -359,6 +399,7 @@ textarea {
 input[type=text]:focus,
 input[type=email]:focus,
 input[type=password]:focus,
+input[type=number]:focus,
 select:focus,
 textarea:focus {
     background-color: #f4f4f4;
@@ -539,6 +580,7 @@ article > .columns:last-child {
 .form-input input[type=text],
 .form-input input[type=email],
 .form-input input[type=password],
+.form-input input[type=number],
 .form-input select {
     width: 300px;
     display: block;
@@ -546,6 +588,35 @@ article > .columns:last-child {
 
 .form-input textarea {
     width: 450px;
+}
+
+.xscroll {
+    overflow-x: auto;
+}
+
+.table {
+    margin-bottom: 1.4em;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+.xscroll > .table {
+    margin-bottom: 0;
+}
+
+.table th,
+.table td {
+    padding: .35em .7em;
+    border: 1px solid #2a2838;
+    font-size: .9em;
+    vertical-align: top;
+}
+
+.table th {
+    color: #2a2838;
+    background-color: #b8b7bc;
+    font-weight: 700;
+    text-align: left;
 }
 
 .comments {
@@ -820,6 +891,16 @@ article > .columns:last-child {
         padding: 1.25em 1em;
     }
     
+    dl:not(.dl-small) dt {
+        float: none;
+        width: auto;
+        text-align: left;
+    }
+    
+    dl:not(.dl-small) dd {
+        margin: 0 0 .7em;
+    }
+    
     .anchor::before {
         height: 3.667rem;
         margin-top: -3.667rem;
@@ -877,6 +958,16 @@ article > .columns:last-child {
     
     .navbar > ul > li {
         text-align: center;
+    }
+    
+    dl.dl-small dt {
+        float: none;
+        width: auto;
+        text-align: left;
+    }
+    
+    dl.dl-small dd {
+        margin: 0 0 .7em;
     }
     
     .columns > * {

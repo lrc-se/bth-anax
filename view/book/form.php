@@ -1,42 +1,57 @@
-<form id="<?= $form->id ?>" action="<?= $di->request->getCurrentUrl() ?>" method="post">
+<form id="<?= $form->id ?>" class="form" action="<?= $di->request->getCurrentUrl() ?>" method="post">
 <?php if ($book && $book->id) : ?>
     <?= $form->input('id', 'hidden') ?>
 <?php endif; ?>
-    <div>
-        <?= $form->label('title', 'Titel:') ?>
-        <?= $form->textfield('title', ['maxlength' => 200, 'required' => true, 'autofocus' => true]) ?>
+    <div class="form-control">
+        <div class="form-label"><?= $form->label('title', 'Titel:') ?></label></div>
+        <div class="form-input">
+            <?= $form->textfield('title', ['maxlength' => 200, 'required' => true, 'autofocus' => true]) ?>
 <?php if ($form->hasError('title')) : ?>
-        <em><?= $form->getError('title') ?></em>
+            <div class="form-error"><?= $form->getError('title') ?></div>
 <?php endif; ?>
+        </div>
     </div>
-    <div>
-        <?= $form->label('author', 'Författare:') ?>
-        <?= $form->textfield('author', ['maxlength' => 200, 'required' => true]) ?>
+    <div class="form-control">
+        <div class="form-label"><?= $form->label('author', 'Författare:') ?></div>
+        <div class="form-input">
+            <?= $form->textfield('author', ['maxlength' => 200, 'required' => true]) ?>
 <?php if ($form->hasError('author')) : ?>
-        <em><?= $form->getError('author') ?></em>
+            <div class="form-error"><?= $form->getError('author') ?></div>
 <?php endif; ?>
+        </div>
     </div>
-    <div>
-        <?= $form->label('published', 'Publiceringsår:') ?>
-        <?= $form->input('published', 'number', ['max' => date('Y')]) ?>
+    <div class="form-control">
+        <div class="form-label"><?= $form->label('published', 'Publiceringsår:') ?></div>
+        <div class="form-input">
+            <?= $form->input('published', 'number', ['max' => date('Y')]) ?>
 <?php if ($form->hasError('published')) : ?>
-        <em><?= $form->getError('published') ?></em>
+            <div class="form-error"><?= $form->getError('published') ?></div>
 <?php endif; ?>
+        </div>
     </div>
-    <div>
-        <?= $form->label('isbn', 'IBSN:') ?>
-        <?= $form->textfield('isbn', ['maxlength' => 13]) ?>
+    <div class="form-control">
+        <div class="form-label"><?= $form->label('isbn', 'IBSN:') ?></div>
+        <div class="form-input">
+            <?= $form->textfield('isbn', ['maxlength' => 13]) ?>
 <?php if ($form->hasError('isbn')) : ?>
-        <em><?= $form->getError('isbn') ?></em>
+            <div class="form-error"><?= $form->getError('isbn') ?></div>
 <?php endif; ?>
+        </div>
     </div>
-    <div>
-        <?= $form->label('language', 'Språk:') ?>
-        <?= $form->textfield('language', ['maxlength' => 50]) ?>
+    <div class="form-control">
+        <div class="form-label"><?= $form->label('language', 'Språk:') ?></div>
+        <div class="form-input">
+            <?= $form->textfield('language', ['maxlength' => 50]) ?>
 <?php if ($form->hasError('language')) : ?>
-        <em><?= $form->getError('language') ?></em>
+            <div class="form-error"><?= $form->getError('language') ?></div>
 <?php endif; ?>
+        </div>
     </div>
-    <input type="submit" value="<?= $submit ?>">
-    <a class="btn" href="<?= $this->url('book') ?>">Avbryt</a> 
+    <div class="form-control">
+        <div class="form-label"></div>
+        <div class="form-input">
+            <input type="submit" value="<?= $submit ?>">
+            <a class="btn btn-2" href="<?= $this->url('book') ?>">Avbryt</a> 
+        </div>
+    </div>
 </form>

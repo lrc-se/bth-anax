@@ -1,4 +1,4 @@
-<dl>
+<dl class="dl-small">
     <dt>ID:</dt>
     <dd><?= $book->id ?></dd>
     <dt>Titel:</dt>
