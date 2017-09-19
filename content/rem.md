@@ -165,4 +165,4 @@ Raderar en befintlig post i en viss datamängd baserat på ID.
         "message"   // bekräftelsemeddelande
     }
 
-Rensar hela sessionen. **OBS! Detta innebär även att eventuella användar&shy;inloggningar och kommentarer rensas!**
+Rensar hela sessionen. **OBS! Detta innebär även att en eventuell användar&shy;inloggning rensas!**
