@@ -15,9 +15,19 @@ $navbar = [
             'title' => 'Om',
             'route' => 'about'
         ],
-        'rem' => [
-            'title' => 'REM',
-            'route' => 'rem'
+        'tasks' => [
+            'title' => 'Uppgifter',
+            'route' => null,
+            'items' => [
+                [
+                    'title' => 'REM-server',
+                    'route' => 'rem'
+                ],
+                [
+                    'title' => 'Böcker',
+                    'route' => 'book'
+                ]
+            ]
         ],
         'report' => [
             'title' => 'Redovisning',
