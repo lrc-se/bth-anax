@@ -8,9 +8,9 @@ namespace LRC\User;
 class UserController extends \LRC\Common\BaseController
 {
     /**
-     * Login page.
+     * Login/profile page.
      */
-    public function login()
+    public function index()
     {
         $user = $this->di->user->getCurrent();
         if ($user) {
@@ -33,7 +33,7 @@ class UserController extends \LRC\Common\BaseController
         if ($username === '' || $password === '' || !$this->di->user->login($username, $password)) {
             $this->di->session->set('err', 'Felaktigt användarnamn eller lösenord.');
         }
-        $this->di->common->redirect('user');
+        $this->di->common->redirect('user/start');
     }
     
     
@@ -42,10 +42,10 @@ class UserController extends \LRC\Common\BaseController
      */
     public function handleLogout()
     {
-        if ($this->di->request->getPost('logout') == 1) {
+        if ($this->di->user->getCurrent()) {
             $this->di->user->logout();
             $this->di->session->set('msg', 'Du har loggats ut.');
         }
-        $this->di->common->redirect('user');
+        $this->di->common->redirect('user/start');
     }
 }

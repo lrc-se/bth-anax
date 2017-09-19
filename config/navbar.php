@@ -35,7 +35,7 @@ $navbar = [
         ],
         'user' => [
             'title' => 'Användare',
-            'route' => 'user'
+            'route' => null
         ]
     ]
 ];
@@ -44,6 +44,27 @@ $navbar = [
 $user = $this->di->user->getCurrent();
 if ($user) {
     $navbar['items']['user']['title'] .= ' <span class="navbar-user">(<span>' . $this->di->common->esc($user->username) . '</span>)</span>';
+    $navbar['items']['user']['items'] = [
+        [
+            'title' => 'Profil',
+            'route' => 'user/start'
+        ],
+        [
+            'title' => 'Logga ut',
+            'route' => 'user/logout'
+        ]
+    ];
+} else {
+    $navbar['items']['user']['items'] = [
+        [
+            'title' => 'Skapa ny',
+            'route' => 'user/create'
+        ],
+        [
+            'title' => 'Logga in',
+            'route' => 'user/start'
+        ]
+    ];
 }
 
 return $navbar;

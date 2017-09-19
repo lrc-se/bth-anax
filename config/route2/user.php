@@ -6,10 +6,10 @@
 return [
     'routes' => [
         [
-            'info' => 'Login page.',
+            'info' => 'Login/profile page.',
             'requestMethod' => 'get',
-            'path' => '',
-            'callable' => ['userController', 'login']
+            'path' => 'start',
+            'callable' => ['userController', 'index']
         ],
         [
             'info' => 'Login handler.',
@@ -19,7 +19,7 @@ return [
         ],
         [
             'info' => 'Logout handler.',
-            'requestMethod' => 'post',
+            'requestMethod' => 'get',
             'path' => 'logout',
             'callable' => ['userController', 'handleLogout']
         ]
