@@ -799,8 +799,9 @@ article > .columns:last-child {
 @media only screen and (max-width: 1023px) {
     
     .navbar > ul > li > a {
-        padding-top: 1.05em;
-        padding-bottom: 1.05em;
+        /*padding-top: 1.05em;
+        padding-bottom: 1.05em;*/
+        padding: 1.05em 1.5em;
     }
     
     header {
