@@ -1,5 +1,4 @@
 (function(win, doc) {
-
     "use strict";
 
     var toggle = doc.getElementById("menu-toggle");
@@ -19,9 +18,11 @@
     function toggleMenu(e) {
         e.preventDefault();
         e.stopPropagation();
+
         var item = e.currentTarget.parentElement;
         var isOpen = item.classList.contains("open");
         var level = +item.getAttribute("data-level");
+
         if (level == 1) {
             hideMenu();
         } else {
@@ -46,5 +47,4 @@
         toggle.classList.toggle("open");
         hideMenu();
     });
-
 })(window, document);
