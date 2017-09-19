@@ -1,3 +1,4 @@
+<?php $this->renderView('default/msgs'); ?>
 <form id="<?= $form->id ?>" class="form" action="<?= $di->request->getCurrentUrl() ?>" method="post">
 <?php if ($book && $book->id) : ?>
     <?= $form->input('id', 'hidden') ?>
@@ -5,7 +6,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('title', 'Titel:') ?></label></div>
         <div class="form-input">
-            <?= $form->textfield('title', ['maxlength' => 200, 'required' => true, 'autofocus' => true]) ?>
+            <?= $form->textfield('title', ['maxlength' => 200, 'required' => false, 'autofocus' => true]) ?>
 <?php if ($form->hasError('title')) : ?>
             <div class="form-error"><?= $form->getError('title') ?></div>
 <?php endif; ?>
@@ -14,7 +15,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('author', 'Författare:') ?></div>
         <div class="form-input">
-            <?= $form->textfield('author', ['maxlength' => 200, 'required' => true]) ?>
+            <?= $form->textfield('author', ['maxlength' => 200, 'required' => false]) ?>
 <?php if ($form->hasError('author')) : ?>
             <div class="form-error"><?= $form->getError('author') ?></div>
 <?php endif; ?>
@@ -30,9 +31,9 @@
         </div>
     </div>
     <div class="form-control">
-        <div class="form-label"><?= $form->label('isbn', 'IBSN:') ?></div>
+        <div class="form-label"><?= $form->label('isbn', 'ISBN:') ?></div>
         <div class="form-input">
-            <?= $form->textfield('isbn', ['maxlength' => 13]) ?>
+            <?= $form->textfield('isbn', ['maxlength' => 15]) ?>
 <?php if ($form->hasError('isbn')) : ?>
             <div class="form-error"><?= $form->getError('isbn') ?></div>
 <?php endif; ?>

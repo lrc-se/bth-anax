@@ -590,6 +590,19 @@ article > .columns:last-child {
     width: 450px;
 }
 
+.form-input .has-error,
+.form-input .has-error:focus {
+    background-color: #f6ecec;
+    background-color: rgba(156, 44, 48, .09);
+    border-color: #9c2c30;
+}
+
+.form-error {
+    margin-top: .35em;
+    color: #9c2c30;
+    font-style: italic;
+}
+
 .xscroll {
     overflow-x: auto;
 }

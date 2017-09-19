@@ -67,6 +67,8 @@ class BookController extends \LRC\Common\BaseController
                 $this->books->save($book);
                 $this->di->session->set('msg', 'Boken "' . htmlspecialchars($book->title) . '" har lagts till.');
                 $this->di->common->redirect('book');
+            } else {
+                $this->di->session->set('err', 'Formuläret innehåller ' . count($form->getErrors()) . ' fel.');
             }
         } else {
             //$form = new Form('book-form');
@@ -105,6 +107,8 @@ class BookController extends \LRC\Common\BaseController
                 $this->books->save($book);
                 $this->di->session->set('msg', 'Boken "' . htmlspecialchars($book->title) . '" har uppdaterats.');
                 $this->di->common->redirect('book');
+            } else {
+                $this->di->session->set('err', 'Formuläret innehåller ' . count($form->getErrors()) . ' fel.');
             }
         } else {
             $book = $oldBook;
