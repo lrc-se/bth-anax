@@ -81,11 +81,7 @@ class Navbar extends \LRC\Common\BaseService implements \Anax\Common\ConfigureIn
             $list .= '<li' . (count($classes) > 0 ? ' class="' . implode(' ', $classes) . '"' : '') . ' data-level="' . $level . '">';
             
             // render link, if any
-            if (!is_null($item['route'])) {
-                $list .= '<a href="' . $this->di->url->create($item['route']) . '">' . $item['title']  . '</a>';
-            } else {
-                $list .= '<span>' . $item['title'] . '</span>';
-            }
+            $list .= '<a href="' . (!is_null($item['route']) ? $this->di->url->create($item['route']) : '#!') . '">' . $item['title']  . '</a>';
             
             // render subitems, if any
             if ($hasChildren) {

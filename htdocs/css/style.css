@@ -67,7 +67,6 @@ body {
     float: left;
     margin: 0;
     border: none;
-    text-align: center;
     display: block;
 }
 
@@ -77,13 +76,56 @@ body {
     transition: background-color .5s ease;
 }
 
-.navbar > ul > li:hover > a {
+.navbar > ul > li:hover > a,
+.navbar > ul > li.open > a {
     background-color: rgb(50, 48, 64);
     background-color: rgba(42, 40, 56, .5);
 }
 
-.navbar > ul > li.active > a {
+.navbar > ul li.active > a {
     background-color: #2a2838;
+}
+
+.navbar > ul li.sub > a::after {
+    content: ">";
+    position: relative;
+    top: 1px;
+    margin-left: .75em;
+    margin-right: -.5em;
+    font-weight: 400;
+    display: inline-block;
+    transition: transform .5s ease;
+}
+
+.navbar > ul ul li.sub > a::after {
+    float: right;
+    margin-right: 0;
+}
+
+.navbar > ul li.sub.open > a::after {
+    transform: rotate(90deg);
+}
+
+.navbar > ul li.open > ul {
+    visibility: visible;
+    opacity: 1;
+}
+
+.navbar > ul ul > li {
+    margin: 0;
+    display: block;
+}
+
+.navbar > ul ul > li > a {
+    padding: .7em 1em;
+    background-color: rgb(66, 64, 80);
+    background-color: rgba(42, 40, 56, .85);
+    display: block;
+}
+
+.navbar > ul ul > li:not(.active):hover > a {
+    background-color: rgb(58, 56, 72);
+    background-color: rgba(42, 40, 56, .9);
 }
 
 .navbar-user {
@@ -721,6 +763,36 @@ article > .columns:last-child {
         display: none;
     }
     
+    .navbar > ul ul {
+        position: absolute;
+        list-style-type: none;
+        min-width: 175px;
+        max-width: 200px;
+        margin: 0;
+        padding: 0;
+        visibility: hidden;
+        opacity: 0;
+        z-index: 10;
+        transition: opacity .5s ease, visibility .5s ease;
+    }
+    
+    .navbar > ul ul ul {
+        margin-top: -2.1em;
+        transform: translateX(95%);
+    }
+    
+    .navbar > ul > li:last-child ul ul {
+        transform: translateX(-95%);
+    }
+    
+    .navbar > ul > li:last-child ul li.sub > a::after {
+        content: "<";
+    }
+    
+    .navbar > ul ul li.sub.open > a::after {
+        transform: rotateY(180deg);
+    }
+    
 }
 
 
@@ -780,6 +852,7 @@ article > .columns:last-child {
     .navbar > button {
         height: 3em;
         margin-left: auto;
+        margin-right: 0;
         padding: 0 1em;
         color: #fff;
         background-color: transparent;
@@ -828,9 +901,8 @@ article > .columns:last-child {
         visibility: visible;
     }
     
-    .navbar > ul > li {
+    .navbar > ul li {
         float: none;
-        text-align: right;
     }
     
     .navbar > ul > li > a {
@@ -840,9 +912,30 @@ article > .columns:last-child {
         display: block;
     }
     
-    .navbar > ul > li:not(.active):hover > a {
+    .navbar > ul li:not(.active):hover > a,
+    .navbar > ul li:not(.active).open > a {
         background-color: rgb(58, 56, 72);
         background-color: rgba(42, 40, 56, .9);
+    }
+    
+    .navbar > ul ul {
+        margin: 0 0 0 1em;
+        padding: 0;
+        font-size: .9em;
+        display: none;
+    }
+    
+    .navbar > ul li.open > ul {
+        display: block;
+    }
+    
+    .navbar > ul li.sub::after {
+        margin-right: 0;
+    }
+    
+    .navbar > ul ul li.sub > a::after {
+        float: none;
+        top: 0;
     }
     
     main {
@@ -971,6 +1064,10 @@ article > .columns:last-child {
     
     .navbar > ul > li {
         text-align: center;
+    }
+    
+    .navbar > ul li.open > ul {
+        margin-right: 1em;
     }
     
     dl.dl-small dt {
