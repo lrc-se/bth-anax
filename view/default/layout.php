@@ -32,7 +32,9 @@
 <?php if ($this->regionHasContent('main')) : ?>
 <div class="wrap main-wrap">
     <main>
+        <article>
 <?php $this->renderRegion('main') ?>
+        </article>
     </main>
 </div>
 <?php endif; ?>
