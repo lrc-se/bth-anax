@@ -50,8 +50,14 @@ trait ValidationTrait
             case 'number':
                 $passed = (empty($this->$attr) || is_numeric($this->$attr));
                 break;
+            case 'minlength':
+                $passed = (mb_strlen($this->$attr) >= $rule['value']);
+                break;
             case 'maxlength':
                 $passed = (mb_strlen($this->$attr) <= $rule['value']);
+                break;
+            case 'email':
+                $passed = (preg_match('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}/', $this->$attr) == 1);
                 break;
             case 'custom':
                 if (isset($rule['value'])) {
