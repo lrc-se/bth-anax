@@ -8,7 +8,8 @@ CREATE TABLE rv1_user (
 	password VARCHAR(255) NULL,
 	name VARCHAR(100) NOT NULL,
 	email VARCHAR(200) NULL,
-	admin TINYINT NOT NULL DEFAULT 0
+	admin TINYINT NOT NULL DEFAULT 0,
+	deleted DATETIME NULL
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
 INSERT INTO rv1_user VALUES (1, 'admin', '$2y$10$28ANwequzg1BryIAwdXrt.D65WjRjxQHC35mYSXlA2/6KQMUA0.dS', 'Admin', 'kabc16@student.bth.se', 1);

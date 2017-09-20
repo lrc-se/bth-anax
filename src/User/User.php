@@ -16,11 +16,12 @@ class User extends \LRC\Common\BaseModel
     public $name;
     public $email;
     public $admin;
+    public $deleted;
     
     
     public function __construct()
     {
-        $this->setNullables(['username', 'password', 'email']);
+        $this->setNullables(['username', 'password', 'email', 'deleted']);
         $this->setValidation([
             'username' => [
                 [
