@@ -55,13 +55,7 @@ class Repository
      */
     public function find($column, $value)
     {
-        return $this->db
-            ->connect()
-            ->select()
-            ->from($this->table)
-            ->where("$column = ?")
-            ->execute([$value])
-            ->fetchClass($this->modelClass);
+        return $this->findFirst("$column = ?", [$value]);
     }
     
     
@@ -75,13 +69,7 @@ class Repository
      */
     public function findSoft($column, $value)
     {
-        return $this->db
-            ->connect()
-            ->select()
-            ->from($this->table)
-            ->where("$column = ? AND " . $this->deleted . ' IS NULL')
-            ->execute([$value])
-            ->fetchClass($this->modelClass);
+        return $this->findFirstSoft("$column = ?", [$value]);
     }
     
         
@@ -95,8 +83,7 @@ class Repository
      */
     public function findFirst($conditions = null, $values = [])
     {
-        return $this->buildQuery($conditions, $values)
-            ->execute($values)
+        return $this->executeQuery($conditions, $values)
             ->fetchClass($this->modelClass);
     }
     
@@ -111,8 +98,7 @@ class Repository
      */
     public function findFirstSoft($conditions = null, $values = [])
     {
-        return $this->buildQuery($conditions, $values, true)
-            ->execute($values)
+        return $this->executeQuery($conditions, $values, true)
             ->fetchClass($this->modelClass);
     }
     
@@ -127,8 +113,7 @@ class Repository
      */
     public function findAll($conditions = null, $values = [])
     {
-        return $this->buildQuery($conditions, $values)
-            ->execute($values)
+        return $this->executeQuery($conditions, $values)
             ->fetchAllClass($this->modelClass);
     }
     
@@ -143,8 +128,7 @@ class Repository
      */
     public function findAllSoft($conditions = null, $values = [])
     {
-        return $this->buildQuery($conditions, $values, true)
-            ->execute($values)
+        return $this->executeQuery($conditions, $values, true)
             ->fetchAllClass($this->modelClass);
     }
     
@@ -210,15 +194,15 @@ class Repository
 
 
     /**
-     * Build query for selection methods.
+     * Execute query for selection methods.
      * 
      * @param string $conditions                    Where conditions.
      * @param array  $values                        Array of condition values to bind.
      * @param bool   $soft                          Whether to take soft deletion into account.
      * 
-     * @return \Anax\Database\DatabaseQueryBuilder  Database service instance with configured internal query.
+     * @return \Anax\Database\DatabaseQueryBuilder  Database service instance with executed internal query.
      */
-    private function buildQuery($conditions = null, $values = [], $soft = false)
+    private function executeQuery($conditions = null, $values = [], $soft = false)
     {
         $query = $this->db
             ->connect()
@@ -231,7 +215,7 @@ class Repository
             $softCond = $this->deleted . ' IS NULL';
             $query = (!is_null($conditions) ? $query->andWhere($softCond) : $query->where($softCond));
         }
-        return $query;
+        return $query->execute($values);
     }
     
     
