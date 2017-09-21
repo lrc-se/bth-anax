@@ -87,6 +87,44 @@ class UserService extends \LRC\Common\BaseService
     
     
     /**
+     * Update user from model-bound form.
+     *
+     * @param \LRC\Form\ModelForm   $form       Model-bound form.
+     * @param User                  $oldUser    Model instance of existing user.
+     * @param bool                  $isAdmin    Whether the update is performed from the admin panel.
+     *
+     * @return bool                             True if the update was performed, false is validation failed.
+     */
+    public function updateFromForm($form, $oldUser, $isAdmin = false)
+    {
+        $user = $form->populateModel();
+        $user->id = $oldUser->id;
+        $user->username = $oldUser->username;
+        if (is_null($user->password)) {
+            $user->password = $oldUser->password;
+            $form->validate();
+        } else {
+            $form->validate();
+            if ($user->password === $form->getExtra('password2')) {
+                $user->hashPassword();
+            } else {
+                $form->addError('password', 'Lösenorden stämmer inte överens.');
+                $form->addError('password2', 'Lösenorden stämmer inte överens.');
+            }
+        }
+        
+        if ($form->isValid()) {
+            if (!$isAdmin || $user->id != $oldUser->id) {
+                $user->admin = $oldUser->admin;
+            }
+            $this->di->users->save($user);
+            return true;
+        }
+        return false;
+    }
+    
+    
+    /**
      * Attempt to log in a user.
      *
      * @param string $username  Username.

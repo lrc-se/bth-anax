@@ -34,7 +34,7 @@ class UserController extends \LRC\Common\BaseController
             'user' => null,
             'admin' => null,
             'update' => false,
-            'form' => new Form('user-form', '\\LRC\\User\\User')
+            'form' => new Form('user-form', User::class)
         ], 'Registrera användare');
     }
     
@@ -44,7 +44,7 @@ class UserController extends \LRC\Common\BaseController
      */
     public function handleCreate()
     {
-        $form = new Form('user-form', '\\LRC\\User\\User');
+        $form = new Form('user-form', User::class);
         $user = $form->populateModel([$this->di->request, 'getPost']);
         $form->validate();
         if ($user->password !== $this->di->request->getPost('password2')) {
@@ -90,41 +90,24 @@ class UserController extends \LRC\Common\BaseController
     
     
     /**
-     * Registration handler.
+     * Edit profile handler.
      */
     public function handleUpdate($id)
     {
-        $curUser = $this->di->common->verifyUser();
-        if ($curUser->id != $id) {
+        $oldUser = $this->di->common->verifyUser();
+        if ($oldUser->id != $id) {
             $this->di->session->set('Du har inte behörighet att redigera den begärda profilen.');
             $this->di->common->redirect('user/profile');
         }
         
-        $form = new Form('user-form', '\\LRC\\User\\User');
-        $user = $form->populateModel([$this->di->request, 'getPost']);
-        $user->id = $id;
-        $user->username = $curUser->username;
-        if (is_null($user->password)) {
-            $user->password = $curUser->password;
-            $form->validate();
-        } else {
-            $form->validate();
-            if ($user->password === $this->di->request->getPost('password2')) {
-                $user->hashPassword();
-            } else {
-                $form->addError('password', 'Lösenorden stämmer inte överens.');
-                $form->addError('password2', 'Lösenorden stämmer inte överens.');
-            }
-        }
-        if ($form->isValid()) {
-            $user->admin = 0;
-            $this->di->repository->users->save($user);
+        $form = new Form('user-form', User::class);
+        if ($this->di->user->updateFromForm($form, $oldUser)) {
             $this->di->session->set('msg', 'Din profil har uppdaterats.');
             $this->di->common->redirect('user/profile');
         }
         
         $this->renderPage('user/form', [
-            'user' => $user,
+            'user' => $form->getModel(),
             'admin' => null,
             'update' => true,
             'form' => $form
