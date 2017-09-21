@@ -93,6 +93,14 @@ class ModelForm
     }
     
     
+    public function form($action = '', $method = 'post', $attrs = [])
+    {
+        $attrs['action'] = $action;
+        $attrs['method'] = $method;
+        return '<form ' . $this->getAttributeString(null, $attrs, false) . '>';
+    }
+    
+    
     public function input($prop, $type, $attrs = [])
     {
         $attrs['type'] = $type;
@@ -144,7 +152,7 @@ class ModelForm
             $attrs['id'] = $this->id . '-' . $prop;
             $attrs['name'] = $prop;
         }
-        if (isset($this->errors[$prop])) {
+        if (!is_null($prop) && isset($this->errors[$prop])) {
             $attrs['class'] = (empty($attrs['class']) ? 'has-error' : $attrs['class'] . ' has-error');
         }
         $res = [];
@@ -161,6 +169,9 @@ class ModelForm
     
     private function getModelValue($prop)
     {
-        return (!is_null($this->model) ? $this->model->$prop : null);
+        if (!is_null($this->model) && isset($this->model->$prop)) {
+            return $this->model->$prop;
+        }
+        return null;
     }
 }
