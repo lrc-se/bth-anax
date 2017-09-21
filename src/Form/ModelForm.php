@@ -120,7 +120,9 @@ class ModelForm
     public function input($prop, $type, $attrs = [])
     {
         $attrs['type'] = $type;
-        $attrs['value'] = (strtolower($type) != 'password' ? htmlspecialchars($this->getModelValue($prop)) : '');
+        if ($type != 'checkbox' && $type != 'radio') {
+            $attrs['value'] = (strtolower($type) != 'password' ? htmlspecialchars($this->getModelValue($prop)) : '');
+        }
         return '<input ' . $this->getAttributeString($prop, $attrs) . '>';
     }
     
