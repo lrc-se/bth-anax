@@ -408,6 +408,7 @@ input[type=reset],
 button,
 a.btn {
     margin-right: .5em;
+    margin-bottom: .35em;
     padding: .35em .7em;
     color: #fff;
     background-color: #3c384f;
@@ -634,6 +635,12 @@ article > .columns:last-child {
 
 .form-input textarea {
     width: 450px;
+}
+
+.form-input input[type=checkbox],
+.form-input input[type=radio] {
+    margin-top: .7em;
+    padding: 0;
 }
 
 .form-input .has-error,
@@ -1028,6 +1035,15 @@ article > .columns:last-child {
     .form-label {
         padding: 0;
         text-align: left;
+    }
+    
+    .form-input input[type=checkbox],
+    .form-input input[type=radio] {
+        margin-top: .35em;
+    }
+    
+    .form-static {
+        padding-top: 0;
     }
     
     .comment-header > img {
