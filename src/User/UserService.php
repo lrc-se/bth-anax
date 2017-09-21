@@ -8,6 +8,12 @@ namespace LRC\User;
 class UserService extends \LRC\Common\BaseService
 {
     /**
+     * @var User    Current logged-in user.
+     */
+    private $curUser = null;
+    
+    
+    /**
      * Get a user by ID.
      *
      * @param int $id       User ID.
@@ -54,10 +60,10 @@ class UserService extends \LRC\Common\BaseService
      */
     public function getCurrent()
     {
-        if ($this->di->session->has('userId')) {
-            return $this->getById($this->di->session->get('userId'));
+        if (!$this->curUser && $this->di->session->has('userId')) {
+            $this->curUser = $this->getById($this->di->session->get('userId'));
         }
-        return null;
+        return $this->curUser;
     }
     
 
@@ -105,5 +111,6 @@ class UserService extends \LRC\Common\BaseService
     public function logout()
     {
         $this->di->session->delete('userId');
+        $this->curUser = null;
     }
 }
