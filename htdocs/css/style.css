@@ -602,9 +602,13 @@ article > .columns:last-child {
     margin-bottom: 0;
 }
 
-.form-label {
+.form-label,
+.form-static {
     padding-top: .35em;
     padding-right: 1em;
+}
+
+.form-label {
     font-weight: 700;
     text-align: right;
     flex: 0 1 150px;
