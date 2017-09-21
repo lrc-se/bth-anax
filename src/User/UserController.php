@@ -21,8 +21,7 @@ class UserController extends \LRC\Common\BaseController
     public function profile()
     {
         $user = $this->di->common->verifyUser();        
-        $this->di->view->add('user/index', ['user' => $user], 'main');
-        $this->di->common->renderPage('Välkommen, ' . $user->username . '!', null, ['flash' => $this->flash]);
+        $this->renderPage('user/index', ['user' => $user], 'Välkommen, ' . $user->username . '!');
     }
     
     
@@ -31,13 +30,12 @@ class UserController extends \LRC\Common\BaseController
      */
     public function create()
     {
-        $this->di->view->add('user/form', [
+        $this->renderPage('user/form', [
             'user' => null,
             'admin' => null,
             'update' => false,
             'form' => new Form('user-form', '\\LRC\\User\\User')
-        ], 'main');
-        $this->di->common->renderPage('Registrera användare', null, ['flash' => $this->flash]);
+        ], 'Registrera användare');
     }
     
     
@@ -62,13 +60,12 @@ class UserController extends \LRC\Common\BaseController
             $this->di->common->redirect('user/profile');
         }
         
-        $this->di->view->add('user/form', [
+        $this->renderPage('user/form', [
             'user' => $form->getModel(),
             'admin' => null,
             'update' => false,
             'form' => $form
-        ], 'main');
-        $this->di->common->renderPage('Registrera användare', null, ['flash' => $this->flash]);
+        ], 'Registrera användare');
     }
     
     
@@ -83,13 +80,12 @@ class UserController extends \LRC\Common\BaseController
             $this->di->common->redirect('user/profile');
         }
         
-        $this->di->view->add('user/form', [
+        $this->renderPage('user/form', [
             'user' => $user,
             'admin' => null,
             'update' => true,
             'form' => new Form('user-form', $user)
-        ], 'main');
-        $this->di->common->renderPage('Redigera profil', null, ['flash' => $this->flash]);
+        ], 'Redigera profil');
     }
     
     
@@ -127,13 +123,12 @@ class UserController extends \LRC\Common\BaseController
             $this->di->common->redirect('user/profile');
         }
         
-        $this->di->view->add('user/form', [
+        $this->renderPage('user/form', [
             'user' => $user,
             'admin' => null,
             'update' => true,
             'form' => $form
-        ], 'main');
-        $this->di->common->renderPage('Redigera profil', null, ['flash' => $this->flash]);
+        ], 'Redigera profil');
     }
     
     
@@ -148,8 +143,7 @@ class UserController extends \LRC\Common\BaseController
             $this->di->common->redirect('user/profile');
         }
         
-        $this->di->view->add('user/login', ['returnUrl' => $returnUrl], 'main');
-        $this->di->common->renderPage('Logga in', null, ['flash' => $this->flash]);
+        $this->renderPage('user/login', ['returnUrl' => $returnUrl], 'Logga in');
     }
     
     
@@ -186,7 +180,16 @@ class UserController extends \LRC\Common\BaseController
     public function admin()
     {
         $admin = $this->di->common->verifyAdmin();
-        $this->di->view->add('user/admin', [], 'main');
-        $this->di->common->renderPage('Administration', null, ['flash' => $this->flash]);
+        $this->renderPage('user/admin', [], 'Administration');
+    }
+    
+    
+    /**
+     * Convenience method to render page.
+     */
+    private function renderPage($view, $data, $title)
+    {
+        $this->di->view->add($view, $data, 'main');
+        $this->di->common->renderPage($title, null, ['flash' => $this->flash]);
     }
 }
