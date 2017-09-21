@@ -6,10 +6,40 @@
 return [
     'routes' => [
         [
-            'info' => 'Login/profile page.',
+            'info' => 'Profile page.',
             'requestMethod' => 'get',
-            'path' => 'start',
-            'callable' => ['userController', 'index']
+            'path' => 'profile',
+            'callable' => ['userController', 'profile']
+        ],
+        [
+            'info' => 'Registration page.',
+            'requestMethod' => 'get',
+            'path' => 'profile/create',
+            'callable' => ['userController', 'create']
+        ],
+        [
+            'info' => 'Registration handler.',
+            'requestMethod' => 'post',
+            'path' => 'profile/create',
+            'callable' => ['userController', 'handleCreate']
+        ],
+        [
+            'info' => 'Edit profile page.',
+            'requestMethod' => 'get',
+            'path' => 'profile/edit/{id:digit}',
+            'callable' => ['userController', 'update']
+        ],
+        [
+            'info' => 'Profile edit handler.',
+            'requestMethod' => 'post',
+            'path' => 'profile/edit/{id:digit}',
+            'callable' => ['userController', 'handleUpdate']
+        ],
+        [
+            'info' => 'Login page.',
+            'requestMethod' => 'get',
+            'path' => 'login',
+            'callable' => ['userController', 'login']
         ],
         [
             'info' => 'Login handler.',

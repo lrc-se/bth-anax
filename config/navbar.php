@@ -47,7 +47,7 @@ if ($user) {
     $navbar['items']['user']['items'] = [
         [
             'title' => 'Profil',
-            'route' => 'user/start'
+            'route' => 'user/profile'
         ],
         [
             'title' => 'Logga ut',
@@ -58,11 +58,11 @@ if ($user) {
     $navbar['items']['user']['items'] = [
         [
             'title' => 'Skapa ny',
-            'route' => 'user/create'
+            'route' => 'user/profile/create'
         ],
         [
             'title' => 'Logga in',
-            'route' => 'user/start'
+            'route' => 'user/login'
         ]
     ];
 }
