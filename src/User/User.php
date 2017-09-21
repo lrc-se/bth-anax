@@ -40,9 +40,9 @@ class User extends \LRC\Common\BaseModel
                     'message' => 'Lösenord måste anges.'
                 ],
                 [
-                    'rule' => 'maxlength',
-                    'value' => 50,
-                    'message' => 'Lösenordet får vara maximalt 50 tecken långt.'
+                    'rule' => 'minlength',
+                    'value' => 8,
+                    'message' => 'Lösenordet måste vara minst 8 tecken långt.'
                 ]
             ],
             'name' => [
@@ -61,6 +61,10 @@ class User extends \LRC\Common\BaseModel
                     'rule' => 'maxlength',
                     'value' => 200,
                     'message' => 'E-postadressen får vara maximalt 200 tecken lång.'
+                ],
+                [
+                    'rule' => 'email',
+                    'message' => 'E-postadressen är ogiltig.'
                 ]
             ]
         ]);
