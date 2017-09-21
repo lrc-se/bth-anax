@@ -20,11 +20,7 @@ class UserController extends \LRC\Common\BaseController
      */
     public function profile()
     {
-        $user = $this->di->user->getCurrent();
-        if (!$user) {
-            $this->di->common->redirect('user/login');
-        }
-        
+        $user = $this->di->common->verifyUser();        
         $this->di->view->add('user/index', ['user' => $user], 'main');
         $this->di->common->renderPage('Välkommen, ' . $user->username . '!', null, ['flash' => $this->flash]);
     }
@@ -81,8 +77,9 @@ class UserController extends \LRC\Common\BaseController
      */
     public function update($id)
     {
-        $user = $this->di->user->getCurrent();
-        if (!$user || $user->id != $id) {
+        $user = $this->di->common->verifyUser();
+        if ($user->id != $id) {
+            $this->di->session->set('err', 'Du har inte behörighet att redigera den begärda profilen.');
             $this->di->common->redirect('user/profile');
         }
         
@@ -101,8 +98,9 @@ class UserController extends \LRC\Common\BaseController
      */
     public function handleUpdate($id)
     {
-        $curUser = $this->di->user->getCurrent();
-        if (!$curUser || $curUser->id != $id) {
+        $curUser = $this->di->common->verifyUser();
+        if ($curUser->id != $id) {
+            $this->di->session->set('Du har inte behörighet att redigera den begärda profilen.');
             $this->di->common->redirect('user/profile');
         }
         
@@ -149,7 +147,7 @@ class UserController extends \LRC\Common\BaseController
             $this->di->common->redirect('user/profile');
         }
         
-        $this->di->view->add('user/login', [], 'main');
+        $this->di->view->add('user/login', ['returnUrl' => $this->di->session->getOnce('returnUrl')], 'main');
         $this->di->common->renderPage('Logga in', null, ['flash' => $this->flash]);
     }
     
@@ -164,7 +162,7 @@ class UserController extends \LRC\Common\BaseController
         if ($username === '' || $password === '' || !$this->di->user->login($username, $password)) {
             $this->di->session->set('err', 'Felaktigt användarnamn eller lösenord.');
         }
-        $this->di->common->redirect('user/login');
+        $this->di->common->redirect($this->di->request->getPost('url', 'user/login'));
     }
     
     
