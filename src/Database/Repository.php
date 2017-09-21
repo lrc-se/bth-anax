@@ -66,6 +66,26 @@ class Repository
     
     
     /**
+     * Find and return first entry by key, ignoring soft-deleted entries.
+     *
+     * @param string $column    Key column name.
+     * @param mixed  $value     Key value.
+     *
+     * @return mixed            Model instance.
+     */
+    public function findSoft($column, $value)
+    {
+        return $this->db
+            ->connect()
+            ->select()
+            ->from($this->table)
+            ->where("$column = ? AND " . $this->deleted . ' IS NULL')
+            ->execute([$value])
+            ->fetchClass($this->modelClass);
+    }
+    
+        
+    /**
      * Find and return first entry, optionally filtered by search criteria.
      * 
      * @param string $conditions    Where conditions.
@@ -75,16 +95,25 @@ class Repository
      */
     public function findFirst($conditions = null, $values = [])
     {
-        $query = $this->db
-            ->connect()
-            ->select()
-            ->from($this->table);
-        if (!is_null($conditions)) {
-            $query = $query->where($conditions)->execute($values);
-        } else {
-            $query = $query->execute();
-        }
-        return $query->fetchClass($this->modelClass);
+        return $this->buildQuery($conditions, $values)
+            ->execute($values)
+            ->fetchClass($this->modelClass);
+    }
+    
+    
+    /**
+     * Find and return first entry ignoring soft-deleted ones, optionally filtered by search criteria.
+     * 
+     * @param string $conditions    Where conditions.
+     * @param array  $values        Array of condition values to bind.
+     * 
+     * @return mixed                Model instance.
+     */
+    public function findFirstSoft($conditions = null, $values = [])
+    {
+        return $this->buildQuery($conditions, $values, true)
+            ->execute($values)
+            ->fetchClass($this->modelClass);
     }
     
     
@@ -98,16 +127,25 @@ class Repository
      */
     public function findAll($conditions = null, $values = [])
     {
-        $query = $this->db
-            ->connect()
-            ->select()
-            ->from($this->table);
-        if (!is_null($conditions)) {
-            $query = $query->where($conditions)->execute($values);
-        } else {
-            $query = $query->execute();
-        }
-        return $query->fetchAllClass($this->modelClass);
+        return $this->buildQuery($conditions, $values)
+            ->execute($values)
+            ->fetchAllClass($this->modelClass);
+    }
+    
+    
+    /**
+     * Find and return all entries ignoring soft-deleted ones, optionally filtered by search criteria.
+     * 
+     * @param string $conditions    Where conditions.
+     * @param array  $values        Array of condition values to bind.
+     * 
+     * @return array                Array of all matching entries.
+     */
+    public function findAllSoft($conditions = null, $values = [])
+    {
+        return $this->buildQuery($conditions, $values, true)
+            ->execute($values)
+            ->fetchAllClass($this->modelClass);
     }
     
     
@@ -125,42 +163,6 @@ class Repository
         }
         
         return $this->create($model);
-    }
-    
-    
-    /**
-     * Create new entry.
-     * 
-     * @param mixed $model  Model instance.
-     */
-    private function create($model)
-    {
-        $props = get_object_vars($model);
-        unset($props['id']);
-        $this->db
-            ->connect()
-            ->insert($this->table, array_keys($props))
-            ->execute(array_values($props));
-        $model->id = $this->db->lastInsertId();
-    }
-    
-    
-    /**
-     * Update entry.
-     * 
-     * @param mixed $model  Model instance.
-     */
-    private function update($model)
-    {
-        $props = get_object_vars($model);
-        unset($props['id']);
-        $values = array_values($props);
-        $values[] = $model->id;
-        $this->db
-            ->connect()
-            ->update($this->table, array_keys($props))
-            ->where('id = ?')
-            ->execute($values);
     }
     
     
@@ -204,5 +206,67 @@ class Repository
             ->update($this->table, [$this->deleted])
             ->where('id = ?')
             ->execute([null, $model->id]);
+    }
+
+
+    /**
+     * Build query for selection methods.
+     * 
+     * @param string $conditions                    Where conditions.
+     * @param array  $values                        Array of condition values to bind.
+     * @param bool   $soft                          Whether to take soft deletion into account.
+     * 
+     * @return \Anax\Database\DatabaseQueryBuilder  Database service instance with configured internal query.
+     */
+    private function buildQuery($conditions = null, $values = [], $soft = false)
+    {
+        $query = $this->db
+            ->connect()
+            ->select()
+            ->from($this->table);
+        if (!is_null($conditions)) {
+            $query = $query->where($conditions);
+        }
+        if ($soft) {
+            $softCond = $this->deleted . ' IS NULL';
+            $query = (!is_null($conditions) ? $query->andWhere($softCond) : $query->where($softCond));
+        }
+        return $query;
+    }
+    
+    
+    /**
+     * Create new entry.
+     * 
+     * @param mixed $model  Model instance.
+     */
+    private function create($model)
+    {
+        $props = get_object_vars($model);
+        unset($props['id']);
+        $this->db
+            ->connect()
+            ->insert($this->table, array_keys($props))
+            ->execute(array_values($props));
+        $model->id = $this->db->lastInsertId();
+    }
+    
+    
+    /**
+     * Update entry.
+     * 
+     * @param mixed $model  Model instance.
+     */
+    private function update($model)
+    {
+        $props = get_object_vars($model);
+        unset($props['id']);
+        $values = array_values($props);
+        $values[] = $model->id;
+        $this->db
+            ->connect()
+            ->update($this->table, array_keys($props))
+            ->where('id = ?')
+            ->execute($values);
     }
 }
