@@ -254,6 +254,60 @@ class UserController extends \LRC\Common\BaseController
     
     
     /**
+     * Admin delete user page.
+     */
+    public function adminDelete($id)
+    {
+        $admin = $this->di->common->verifyAdmin();
+        $user = $this->di->user->getById($id);
+        if (!$user) {
+            $this->di->session->set('err', "Kunde inte hitta användaren med ID $id.");
+            $this->di->common->redirect('user/admin/user');
+        }
+        
+        $this->renderPage('user/delete', ['user' => $user], 'Ta bort användare');
+    }
+    
+    
+    /**
+     * Admin delete user handler.
+     */
+    public function handleAdminDelete($id)
+    {
+        $admin = $this->di->common->verifyAdmin();
+        $user = $this->di->user->getById($id);
+        if (!$user) {
+            $this->di->session->set('err', "Kunde inte hitta användaren med ID $id.");
+            $this->di->common->redirect('user/admin/user');
+        }
+        
+        if ($this->di->request->getPost('action') == 'delete') {
+            $this->di->user->delete($user);
+            $this->di->session->set('msg', "Användaren '" . htmlspecialchars($user->username) . "' har tagits bort.");
+        }
+        $this->di->common->redirect('user/admin/user');
+    }
+    
+    
+    /**
+     * Admin restore user handler.
+     */
+    public function handleAdminRestore($id)
+    {
+        $admin = $this->di->common->verifyAdmin();
+        $user = $this->di->user->getById($id);
+        if (!$user) {
+            $this->di->session->set('err', "Kunde inte hitta användaren med ID $id.");
+            $this->di->common->redirect('user/admin/user');
+        }
+        
+        $this->di->user->restore($user);
+        $this->di->session->set('msg', "Användaren '" . htmlspecialchars($user->username) . "' har återställts.");
+        $this->di->common->redirect('user/admin/user');
+    }
+    
+    
+    /**
      * Convenience method to render page.
      */
     private function renderPage($view, $data, $title)

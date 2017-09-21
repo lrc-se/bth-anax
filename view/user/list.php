@@ -19,7 +19,7 @@
         </thead>
         <tbody>
 <?php   foreach ($users as $user) : ?>
-            <tr>
+            <tr<?= ($user->deleted ? ' class="deleted"' : '') ?>>
                 <td><?= $user->id ?></td>
                 <td><?= $di->common->esc($user->username) ?></a></td>
                 <td><?= $di->common->esc($user->name) ?></td>
@@ -27,8 +27,12 @@
                 <td><?= ($user->admin ? 'Ja' : 'Nej') ?></td>
                 <td><?= $user->deleted ?></td>
                 <td>
+<?php       if ($user->deleted) : ?>
+                    <a href="<?= $this->url('user/admin/user/restore/' . $user->id) ?>">Återställ</a>
+<?php       else : ?>
                     <a href="<?= $this->url('user/admin/user/edit/' . $user->id) ?>">Redigera</a><br>
                     <a href="<?= $this->url('user/admin/user/delete/' . $user->id) ?>">Ta bort</a>
+<?php endif; ?>
                 </td>
             </tr>
 <?php   endforeach; ?>

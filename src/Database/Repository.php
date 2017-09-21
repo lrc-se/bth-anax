@@ -170,4 +170,32 @@ class Repository
                  ->execute([$model->id]);
         $model->id = null;
     }
+    
+    
+    /**
+     * Soft delete entry.
+     *
+     * @param mixed $model  Model instance.
+     */
+    public function deleteSoft($model)
+    {
+        $this->db->connect()
+                 ->update($this->table, ['deleted'])
+                 ->where('id = ?')
+                 ->execute([date('Y-m-d H:i:s'), $model->id]);
+    }
+    
+    
+    /**
+     * Restore soft-deleted entry.
+     *
+     * @param mixed $model  Model instance.
+     */
+    public function restoreSoft($model)
+    {
+        $this->db->connect()
+                 ->update($this->table, ['deleted'])
+                 ->where('id = ?')
+                 ->execute([null, $model->id]);
+    }
 }

@@ -154,6 +154,28 @@ class UserService extends \LRC\Common\BaseService
     
     
     /**
+     * Delete a user.
+     *
+     * @param User $user    User model instance.
+     */
+    public function delete($user)
+    {
+        $this->di->users->deleteSoft($user);
+    }
+    
+    
+    /**
+     * Restore a deleted user.
+     *
+     * @param User $user    User model instance.
+     */
+    public function restore($user)
+    {
+        $this->di->users->restoreSoft($user);
+    }
+    
+    
+    /**
      * Attempt to log in a user.
      *
      * @param string $username  Username.

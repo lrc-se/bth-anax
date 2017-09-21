@@ -88,6 +88,24 @@ return [
             'requestMethod' => 'post',
             'path' => 'admin/user/edit/{id:digit}',
             'callable' => ['userController', 'handleAdminUpdate']
+        ],
+        [
+            'info' => 'Admin user delete.',
+            'requestMethod' => 'get',
+            'path' => 'admin/user/delete/{id:digit}',
+            'callable' => ['userController', 'adminDelete']
+        ],
+        [
+            'info' => 'Admin user delete handler.',
+            'requestMethod' => 'post',
+            'path' => 'admin/user/delete/{id:digit}',
+            'callable' => ['userController', 'handleAdminDelete']
+        ],
+        [
+            'info' => 'Admin user restore handler.',
+            'requestMethod' => 'get',
+            'path' => 'admin/user/restore/{id:digit}',
+            'callable' => ['userController', 'handleAdminRestore']
         ]
     ]
 ];
