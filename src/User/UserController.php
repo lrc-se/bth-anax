@@ -165,7 +165,7 @@ class UserController extends \LRC\Common\BaseController
     {
         $admin = $this->di->common->verifyAdmin();
         $users = $this->di->repository->users->findAll();
-        $this->renderPage('user/list', ['users' => $users], 'Administrera användare');
+        $this->renderPage('user/list', ['users' => $users, 'admin' => $admin], 'Administrera användare');
     }
     
     
@@ -263,6 +263,9 @@ class UserController extends \LRC\Common\BaseController
         if (!$user) {
             $this->di->session->set('err', "Kunde inte hitta användaren med ID $id.");
             $this->di->common->redirect('user/admin/user');
+        } elseif ($user->id == $admin->id) {
+            $this->di->session->set('err', "Du kan inte ta bort din egen användare.");
+            $this->di->common->redirect('user/admin/user');
         }
         
         $this->renderPage('user/delete', ['user' => $user], 'Ta bort användare');
@@ -278,6 +281,9 @@ class UserController extends \LRC\Common\BaseController
         $user = $this->di->user->getById($id);
         if (!$user) {
             $this->di->session->set('err', "Kunde inte hitta användaren med ID $id.");
+            $this->di->common->redirect('user/admin/user');
+        } elseif ($user->id == $admin->id) {
+            $this->di->session->set('err', "Du kan inte ta bort din egen användare.");
             $this->di->common->redirect('user/admin/user');
         }
         

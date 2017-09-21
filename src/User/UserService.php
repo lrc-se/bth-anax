@@ -186,7 +186,7 @@ class UserService extends \LRC\Common\BaseService
     public function login($username, $password)
     {
         $user = $this->getByUsername($username);
-        if ($user && $user->verifyPassword($password)) {
+        if ($user && !$user->deleted && $user->verifyPassword($password)) {
             $this->di->session->set('userId', $user->id);
             return true;
         }

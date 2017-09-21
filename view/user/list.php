@@ -31,8 +31,10 @@
                     <a href="<?= $this->url('user/admin/user/restore/' . $user->id) ?>">Återställ</a>
 <?php       else : ?>
                     <a href="<?= $this->url('user/admin/user/edit/' . $user->id) ?>">Redigera</a><br>
+<?php           if ($user->id != $admin->id) : ?>
                     <a href="<?= $this->url('user/admin/user/delete/' . $user->id) ?>">Ta bort</a>
-<?php endif; ?>
+<?php           endif; ?>
+<?php       endif; ?>
                 </td>
             </tr>
 <?php   endforeach; ?>
