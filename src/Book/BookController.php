@@ -58,10 +58,10 @@ class BookController extends \LRC\Common\BaseController
      */
     public function create()
     {
+        $form = new Form('book-form', Book::class);
         if ($this->di->request->getMethod() == 'POST') {
             // handle form post
-            $form = new Form('book-form', '\\LRC\\Book\\Book');
-            $book = $form->populateModel([$this->di->request, 'getPost'], null, ['id']);
+            $book = $form->populateModel(null, ['id']);
             $form->validate();
             if ($form->isValid()) {
                 $this->books->save($book);
@@ -70,15 +70,11 @@ class BookController extends \LRC\Common\BaseController
             } else {
                 $this->di->session->set('err', 'Formuläret innehåller ' . count($form->getErrors()) . ' fel.');
             }
-        } else {
-            //$form = new Form('book-form');
-            $form = new Form('book-form', '\\LRC\\Book\\Book');
-            $book = new Book();
         }
         
         $this->di->view->add('book/form', [
             'form' => $form,
-            'book' => $book,
+            'book' => $form->getModel(),
             'submit' => 'Lägg till'
         ]);
         $this->di->common->renderPage('Lägg till bok');
@@ -101,7 +97,7 @@ class BookController extends \LRC\Common\BaseController
         $form = new Form('book-form', $oldBook);
         if ($this->di->request->getMethod() == 'POST') {
             // handle form post
-            $book = $form->populateModel([$this->di->request, 'getPost'], null, ['id']);
+            $book = $form->populateModel(null, ['id']);
             $form->validate();
             if ($form->isValid()) {
                 $this->books->save($book);

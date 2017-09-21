@@ -11,6 +11,7 @@ class ModelForm
 {
     public $id;
     private $model;
+    private $extra;
     private $errors;
     
     
@@ -18,6 +19,7 @@ class ModelForm
     {
         $this->id = $id;
         $this->model = (is_object($model) ? $model : (!is_null($model) ? new $model() : null));
+        $this->extra = [];
         $this->errors = [];
     }
     
@@ -28,7 +30,13 @@ class ModelForm
     }
     
     
-    public function populateModel($getter, $include = null, $exclude = null)
+    public function getExtra($param, $default = null)
+    {
+        return (array_key_exists($param, $this->extra) ? $this->extra[$param] : $default);
+    }
+    
+    
+    public function populateModel($include = null, $exclude = null, $source = null)
     {
         // determine which properties to bind
         $props = (is_array($include) ? $include : array_keys(get_object_vars($this->model)));
@@ -37,12 +45,20 @@ class ModelForm
         }
         
         // bind properties from provided data source
-        foreach ($props as $prop) {
-            $value = $getter($prop);
-            if ($value === '' && $this->model->isNullable($prop)) {
-                $value = null;
+        if (is_null($source)) {
+            $source = $_POST;
+        }
+        foreach ($source as $param => $value) {
+            if (in_array($param, $props)) {
+                // save model property
+                if ($value === '' && $this->model->isNullable($param)) {
+                    $value = null;
+                }
+                $this->model->$param = $value;
+            } else {
+                // save extraneous parameter
+                $this->extra[$param] = $value;
             }
-            $this->model->$prop = $value;
         }
         
         return $this->model;
