@@ -60,6 +60,7 @@
 <?php   if ($user->id != $admin->id) : ?>
             <?= $form->checkbox('admin', 1) ?>
 <?php   else : ?>
+            <input type="hidden" name="admin" value="1">
             <div class="form-static">Ja</div>
 <?php   endif; ?>
         </div>
@@ -70,7 +71,7 @@
         <div class="form-input">
             <input type="submit" value="<?= ($update ? 'Spara' : 'Registrera') ?>">
 <?php if ($update) : ?>
-            <a class="btn btn-2" href="<?= $this->url('user/profile') ?>">Avbryt</a> 
+            <a class="btn btn-2" href="<?= $this->url('user/' . ($admin ? 'admin/user' : 'profile')) ?>">Avbryt</a> 
 <?php endif; ?>
         </div>
     </div>

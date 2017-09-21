@@ -58,6 +58,24 @@ return [
             'requestMethod' => 'get',
             'path' => 'admin',
             'callable' => ['userController', 'admin']
+        ],
+        [
+            'info' => 'Admin user list.',
+            'requestMethod' => 'get',
+            'path' => 'admin/user',
+            'callable' => ['userController', 'users']
+        ],
+        [
+            'info' => 'Admin user profile edit.',
+            'requestMethod' => 'get',
+            'path' => 'admin/user/edit/{id:digit}',
+            'callable' => ['userController', 'adminUpdate']
+        ],
+        [
+            'info' => 'Admin user profile edit handler.',
+            'requestMethod' => 'post',
+            'path' => 'admin/user/edit/{id:digit}',
+            'callable' => ['userController', 'handleAdminUpdate']
         ]
     ]
 ];

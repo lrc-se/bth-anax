@@ -114,7 +114,7 @@ class UserService extends \LRC\Common\BaseService
         }
         
         if ($form->isValid()) {
-            if (!$isAdmin || $user->id != $oldUser->id) {
+            if (!$isAdmin) {
                 $user->admin = $oldUser->admin;
             }
             $this->di->users->save($user);

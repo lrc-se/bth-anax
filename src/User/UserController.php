@@ -168,6 +168,65 @@ class UserController extends \LRC\Common\BaseController
     
     
     /**
+     * Admin user list.
+     */
+    public function users()
+    {
+        $admin = $this->di->common->verifyAdmin();
+        $users = $this->di->repository->users->findAll();
+        $this->renderPage('user/list', ['users' => $users], 'Administrera användare');
+    }
+    
+    
+    /**
+     * Admin edit profile page.
+     */
+    public function adminUpdate($id)
+    {
+        $admin = $this->di->common->verifyAdmin();
+        $user = $this->di->user->getById($id);
+        if (!$user) {
+            $this->di->session->set('err', "Kunde inte hitta användaren med ID $id.");
+            $this->di->common->redirect('user/admin/user');
+        }
+        
+        $this->renderPage('user/form', [
+            'user' => $user,
+            'admin' => $admin,
+            'update' => true,
+            'form' => new Form('user-form', $user)
+        ], 'Redigera användare');
+    }
+    
+    
+    /**
+     * Admin edit profile handler.
+     */
+    public function handleAdminUpdate($id)
+    {
+        $admin = $this->di->common->verifyAdmin();
+        $oldUser = $this->di->user->getById($id);
+        if (!$oldUser) {
+            $this->di->session->set('err', "Kunde inte hitta användaren med ID $id.");
+            $this->di->common->redirect('user/admin/user');
+        }
+        
+        $form = new Form('user-form', User::class);
+        if ($this->di->user->updateFromForm($form, $oldUser, true)) {
+            $this->di->session->set('msg', "Användaren '" . htmlspecialchars($form->getModel()->username) . "' har uppdaterats.");
+            $this->di->common->redirect('user/admin/user');
+        }
+        
+        $this->renderPage('user/form', [
+            'user' => $form->getModel(),
+            'admin' => $admin,
+            'update' => true,
+            'form' => $form
+        ], 'Redigera användare');
+    }
+    
+    
+    /**
      * Convenience method to render page.
      */
     private function renderPage($view, $data, $title)
