@@ -64,7 +64,8 @@ class UserService extends \LRC\Common\BaseService
     /**
      * Add an anonymous user.
      *
-     * @param array $user   The user.
+     * @param string $name  User name.
+     * @param string $email User e-mail.
      *
      * @return User         The new user inserted.
      */
