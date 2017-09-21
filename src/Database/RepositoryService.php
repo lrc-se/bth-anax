@@ -27,7 +27,7 @@ class RepositoryService extends \LRC\Common\BaseService implements \Anax\Common\
     {
         $this->loadConfig($file);
         foreach ($this->config['repositories'] as $name => $values) {
-            $this->add($name, $values['table'], $values['model']);
+            $this->add($name, $values['table'], $values['model'], (isset($values['deleted']) ? $values['deleted'] : 'deleted'));
         }
         return $this;
     }
@@ -39,10 +39,11 @@ class RepositoryService extends \LRC\Common\BaseService implements \Anax\Common\
      * @param string $name          Repository name to expose as property.
      * @param string $table         Database table name.
      * @param string $modelClass    Model class name.
+     * @param string $deleted       Soft deletion attribute.
      */
-    public function add($name, $table, $modelClass)
+    public function add($name, $table, $modelClass, $deleted = 'deleted')
     {
-        $this->repositories[$name] = new Repository($this->di->db, $table, $modelClass);
+        $this->repositories[$name] = new Repository($this->di->db, $table, $modelClass, $deleted);
     }
     
     

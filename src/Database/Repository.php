@@ -22,6 +22,11 @@ class Repository
      */
     protected $modelClass;
     
+    /**
+     * @var string  Soft deletion attribute.
+     */
+    protected $deleted;
+    
     
     /**
      * Constructor.
@@ -29,12 +34,14 @@ class Repository
      * @param \Anax\Database\DatabaseQueryBuilder   $db         Database service.
      * @param string                                $table      Database table name.
      * @param string                                $modelClass Model class name.
+     * @param string                                $deleted    Soft deletion attribute.
      */
-    public function __construct($db, $table, $modelClass)
+    public function __construct($db, $table, $modelClass, $deleted)
     {
         $this->db = $db;
         $this->table = $table;
         $this->modelClass = $modelClass;
+        $this->deleted = $deleted;
     }
     
     
@@ -165,9 +172,9 @@ class Repository
     public function delete($model)
     {
         $this->db->connect()
-                 ->deleteFrom($this->table)
-                 ->where('id = ?')
-                 ->execute([$model->id]);
+            ->deleteFrom($this->table)
+            ->where('id = ?')
+            ->execute([$model->id]);
         $model->id = null;
     }
     
@@ -180,9 +187,9 @@ class Repository
     public function deleteSoft($model)
     {
         $this->db->connect()
-                 ->update($this->table, ['deleted'])
-                 ->where('id = ?')
-                 ->execute([date('Y-m-d H:i:s'), $model->id]);
+            ->update($this->table, [$this->deleted])
+            ->where('id = ?')
+            ->execute([date('Y-m-d H:i:s'), $model->id]);
     }
     
     
@@ -194,8 +201,8 @@ class Repository
     public function restoreSoft($model)
     {
         $this->db->connect()
-                 ->update($this->table, ['deleted'])
-                 ->where('id = ?')
-                 ->execute([null, $model->id]);
+            ->update($this->table, [$this->deleted])
+            ->where('id = ?')
+            ->execute([null, $model->id]);
     }
 }
