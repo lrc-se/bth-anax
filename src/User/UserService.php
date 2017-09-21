@@ -87,6 +87,35 @@ class UserService extends \LRC\Common\BaseService
     
     
     /**
+     * Create user from model-bound form.
+     *
+     * @param \LRC\Form\ModelForm   $form       Model-bound form.
+     * @param bool                  $isAdmin    Whether the insert is performed from the admin panel.
+     *
+     * @return bool                             True if the insert was performed, false is validation failed.
+     */
+    public function createFromForm($form, $isAdmin = false)
+    {
+        $user = $form->populateModel();
+        $form->validate();
+        if ($user->password !== $form->getExtra('password2')) {
+            $form->addError('password', 'Lösenorden stämmer inte överens.');
+            $form->addError('password2', 'Lösenorden stämmer inte överens.');
+        }
+        
+        if ($form->isValid()) {
+            if (!$isAdmin) {
+                $user->admin = 0;
+            }
+            $user->hashPassword();
+            $this->di->users->save($user);
+            return true;
+        }
+        return false;
+    }
+    
+    
+    /**
      * Update user from model-bound form.
      *
      * @param \LRC\Form\ModelForm   $form       Model-bound form.

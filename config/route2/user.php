@@ -66,6 +66,18 @@ return [
             'callable' => ['userController', 'users']
         ],
         [
+            'info' => 'Admin user create.',
+            'requestMethod' => 'get',
+            'path' => 'admin/user/create',
+            'callable' => ['userController', 'adminCreate']
+        ],
+        [
+            'info' => 'Admin user create handler.',
+            'requestMethod' => 'post',
+            'path' => 'admin/user/create',
+            'callable' => ['userController', 'handleAdminCreate']
+        ],
+        [
             'info' => 'Admin user profile edit.',
             'requestMethod' => 'get',
             'path' => 'admin/user/edit/{id:digit}',

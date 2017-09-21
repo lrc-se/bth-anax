@@ -57,7 +57,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('admin', 'Administratör:') ?></div>
         <div class="form-input">
-<?php   if ($user->id != $admin->id) : ?>
+<?php   if (!$admin || !$user || $user->id != $admin->id) : ?>
             <?= $form->checkbox('admin', 1) ?>
 <?php   else : ?>
             <input type="hidden" name="admin" value="1">

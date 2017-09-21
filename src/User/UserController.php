@@ -45,16 +45,7 @@ class UserController extends \LRC\Common\BaseController
     public function handleCreate()
     {
         $form = new Form('user-form', User::class);
-        $user = $form->populateModel([$this->di->request, 'getPost']);
-        $form->validate();
-        if ($user->password !== $this->di->request->getPost('password2')) {
-            $form->addError('password', 'Lösenorden stämmer inte överens.');
-            $form->addError('password2', 'Lösenorden stämmer inte överens.');
-        }
-        if ($form->isValid()) {
-            $user->admin = 0;
-            $user->hashPassword();
-            $this->di->repository->users->save($user);
+        if ($this->di->user->createFromForm($form)) {
             $this->di->session->set('userId', $user->id);
             $this->di->session->set('msg', 'Ditt användarkonto har skapats.');
             $this->di->common->redirect('user/profile');
@@ -223,6 +214,42 @@ class UserController extends \LRC\Common\BaseController
             'update' => true,
             'form' => $form
         ], 'Redigera användare');
+    }
+    
+    
+    /**
+     * Admin create user page.
+     */
+    public function adminCreate()
+    {
+        $admin = $this->di->common->verifyAdmin();
+        $this->renderPage('user/form', [
+            'user' => null,
+            'admin' => $admin,
+            'update' => false,
+            'form' => new Form('user-form', User::class)
+        ], 'Skapa användare');
+    }
+    
+    
+    /**
+     * Admin create user handler.
+     */
+    public function handleAdminCreate()
+    {
+        $admin = $this->di->common->verifyAdmin();
+        $form = new Form('user-form', User::class);
+        if ($this->di->user->createFromForm($form, true)) {
+            $this->di->session->set('msg', "Användaren '" . htmlspecialchars($form->getModel()->username) . "' har skapats.");
+            $this->di->common->redirect('user/admin/user');
+        }
+        
+        $this->renderPage('user/form', [
+            'user' => $form->getModel(),
+            'admin' => $admin,
+            'update' => false,
+            'form' => $form
+        ], 'Skapa användare');
     }
     
     
