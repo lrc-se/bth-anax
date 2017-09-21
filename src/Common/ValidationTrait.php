@@ -57,7 +57,11 @@ trait ValidationTrait
                 $passed = (mb_strlen($this->$attr) <= $rule['value']);
                 break;
             case 'email':
-                $passed = (preg_match('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}/', $this->$attr) == 1);
+                if (isset($this->$attr) && $this->$attr !== '') {
+                    $passed = (preg_match('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}/', $this->$attr) == 1);
+                } else {
+                    $passed = true;
+                }
                 break;
             case 'custom':
                 if (isset($rule['value'])) {
