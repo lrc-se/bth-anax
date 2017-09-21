@@ -164,7 +164,7 @@ class UserController extends \LRC\Common\BaseController
     public function users()
     {
         $admin = $this->di->common->verifyAdmin();
-        $users = $this->di->repository->users->findAll();
+        $users = $this->di->repository->users->getAll();
         $this->renderPage('user/list', ['users' => $users, 'admin' => $admin], 'Administrera användare');
     }
     

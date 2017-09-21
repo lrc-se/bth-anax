@@ -37,7 +37,7 @@ class CommentService extends \LRC\Common\BaseService implements ConfigureInterfa
      */
     public function getComments($contentId)
     {
-        $comments = $this->di->comments->findAll('contentId = ?', [$contentId]);
+        $comments = $this->di->comments->getAll('contentId = ?', [$contentId]);
         if (!empty($comments)) {
             // sort comments by post date (descending)
             usort($comments, function ($item1, $item2) {

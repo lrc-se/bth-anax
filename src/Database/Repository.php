@@ -55,7 +55,7 @@ class Repository
      */
     public function find($column, $value)
     {
-        return $this->findFirst("$column = ?", [$value]);
+        return $this->getFirst("$column = ?", [$value]);
     }
     
     
@@ -69,19 +69,19 @@ class Repository
      */
     public function findSoft($column, $value)
     {
-        return $this->findFirstSoft("$column = ?", [$value]);
+        return $this->getFirstSoft("$column = ?", [$value]);
     }
     
         
     /**
-     * Find and return first entry, optionally filtered by search criteria.
+     * Retrieve first entry, optionally filtered by search criteria.
      * 
      * @param string $conditions    Where conditions.
      * @param array  $values        Array of condition values to bind.
      * 
      * @return mixed                Model instance.
      */
-    public function findFirst($conditions = null, $values = [])
+    public function getFirst($conditions = null, $values = [])
     {
         return $this->executeQuery($conditions, $values)
             ->fetchClass($this->modelClass);
@@ -89,14 +89,14 @@ class Repository
     
     
     /**
-     * Find and return first entry ignoring soft-deleted ones, optionally filtered by search criteria.
+     * Retrieve first entry ignoring soft-deleted ones, optionally filtered by search criteria.
      * 
      * @param string $conditions    Where conditions.
      * @param array  $values        Array of condition values to bind.
      * 
      * @return mixed                Model instance.
      */
-    public function findFirstSoft($conditions = null, $values = [])
+    public function getFirstSoft($conditions = null, $values = [])
     {
         return $this->executeQuery($conditions, $values, true)
             ->fetchClass($this->modelClass);
@@ -104,14 +104,14 @@ class Repository
     
     
     /**
-     * Find and return all entries, optionally filtered by search criteria.
+     * Retrieve all entries, optionally filtered by search criteria.
      * 
      * @param string $conditions    Where conditions.
      * @param array  $values        Array of condition values to bind.
      * 
      * @return array                Array of all matching entries.
      */
-    public function findAll($conditions = null, $values = [])
+    public function getAll($conditions = null, $values = [])
     {
         return $this->executeQuery($conditions, $values)
             ->fetchAllClass($this->modelClass);
@@ -119,14 +119,14 @@ class Repository
     
     
     /**
-     * Find and return all entries ignoring soft-deleted ones, optionally filtered by search criteria.
+     * Retrieve all entries ignoring soft-deleted ones, optionally filtered by search criteria.
      * 
      * @param string $conditions    Where conditions.
      * @param array  $values        Array of condition values to bind.
      * 
      * @return array                Array of all matching entries.
      */
-    public function findAllSoft($conditions = null, $values = [])
+    public function getAllSoft($conditions = null, $values = [])
     {
         return $this->executeQuery($conditions, $values, true)
             ->fetchAllClass($this->modelClass);

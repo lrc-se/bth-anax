@@ -49,7 +49,7 @@ class UserService extends \LRC\Common\BaseService
      */
     public function getAnonymous($name, $email)
     {
-        return ($this->di->users->findFirst('username IS NULL AND name = ? AND email = ?', [$name, $email]) ?: null);
+        return ($this->di->users->getFirst('username IS NULL AND name = ? AND email = ?', [$name, $email]) ?: null);
     }
     
     

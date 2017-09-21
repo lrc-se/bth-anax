@@ -30,7 +30,7 @@ class BookController extends \LRC\Common\BaseController
      */
     public function index()
     {
-        $this->di->view->add('book/index', ['books' => $this->books->findAll()]);
+        $this->di->view->add('book/index', ['books' => $this->books->getAll()]);
         $this->di->common->renderPage('Böcker');
     }
     
