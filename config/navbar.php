@@ -48,11 +48,17 @@ if ($user) {
         [
             'title' => 'Profil',
             'route' => 'user/profile'
-        ],
-        [
-            'title' => 'Logga ut',
-            'route' => 'user/logout'
         ]
+    ];
+    if ($user->admin) {
+        $navbar['items']['user']['items'][] = [
+            'title' => 'Administration',
+            'route' => 'user/admin'
+        ];
+    }
+    $navbar['items']['user']['items'][] = [
+        'title' => 'Logga ut',
+        'route' => 'user/logout'
     ];
 } else {
     $navbar['items']['user']['items'] = [

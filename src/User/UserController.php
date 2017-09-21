@@ -142,12 +142,13 @@ class UserController extends \LRC\Common\BaseController
      */
     public function login()
     {
+        $returnUrl = $this->di->session->getOnce('returnUrl');
         $user = $this->di->user->getCurrent();
         if ($user) {
             $this->di->common->redirect('user/profile');
         }
         
-        $this->di->view->add('user/login', ['returnUrl' => $this->di->session->getOnce('returnUrl')], 'main');
+        $this->di->view->add('user/login', ['returnUrl' => $returnUrl], 'main');
         $this->di->common->renderPage('Logga in', null, ['flash' => $this->flash]);
     }
     
@@ -176,5 +177,16 @@ class UserController extends \LRC\Common\BaseController
             $this->di->session->set('msg', 'Du har loggats ut.');
         }
         $this->di->common->redirect('user/login');
+    }
+    
+    
+    /**
+     * Admin page.
+     */
+    public function admin()
+    {
+        $admin = $this->di->common->verifyAdmin();
+        $this->di->view->add('user/admin', [], 'main');
+        $this->di->common->renderPage('Administration', null, ['flash' => $this->flash]);
     }
 }

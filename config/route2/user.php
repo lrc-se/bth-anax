@@ -52,6 +52,12 @@ return [
             'requestMethod' => 'get',
             'path' => 'logout',
             'callable' => ['userController', 'handleLogout']
+        ],
+        [
+            'info' => 'Admin page.',
+            'requestMethod' => 'get',
+            'path' => 'admin',
+            'callable' => ['userController', 'admin']
         ]
     ]
 ];
