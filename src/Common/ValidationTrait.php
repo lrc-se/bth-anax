@@ -36,19 +36,25 @@ trait ValidationTrait
         $this->validationErrors = [];
         foreach ($this->validationRules as $attr => $rules) {
             foreach ($rules as $rule) {
-                $this->validateRule($rule, $attr);
+                $passed = true;
+                if ($rule['rule'] == 'required') {
+                    $passed = $this->hasValue($attr);
+                } elseif ($this->hasValue($attr)) {
+                    $passed = $this->validateRule($rule, $attr);
+                }
+                if (!$passed) {
+                    $this->validationErrors[$attr] = $rule['message'];
+                }
             }
         }
     }
     
+    
     private function validateRule($rule, $attr)
     {
         switch ($rule['rule']) {
-            case 'required':
-                $passed = (isset($this->$attr) && $this->$attr !== '');
-                break;
             case 'number':
-                $passed = (empty($this->$attr) || is_numeric($this->$attr));
+                $passed = is_numeric($this->$attr);
                 break;
             case 'minlength':
                 $passed = (mb_strlen($this->$attr) >= $rule['value']);
@@ -57,24 +63,20 @@ trait ValidationTrait
                 $passed = (mb_strlen($this->$attr) <= $rule['value']);
                 break;
             case 'email':
-                if (isset($this->$attr) && $this->$attr !== '') {
-                    $passed = (preg_match('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}/', $this->$attr) == 1);
-                } else {
-                    $passed = true;
-                }
+                $passed = (preg_match('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}/', $this->$attr) == 1);
                 break;
             case 'custom':
-                if (isset($rule['value'])) {
-                    $passed = $rule['value']($attr, $this->$attr, $rule['value']);
-                } else {
-                    $passed = $rule['value']($attr, $this->$attr);
-                }
+                $passed = $rule['value']($attr, $this->$attr);
                 break;
             default:
                 $passed = false;
         }
-        if (!$passed) {
-            $this->validationErrors[$attr] = $rule['message'];
-        }
+        return $passed;
+    }
+    
+    
+    private function hasValue($attr)
+    {
+        return (isset($this->$attr) && $this->$attr !== '');
     }
 }
