@@ -7,16 +7,33 @@ namespace LRC\Common;
  */
 trait ValidationTrait
 {
+    /**
+     * @var array   Validation rules that apply to the model.
+     */
     private $validationRules;
+    
+    /**
+     * @var array   Array of errors resulting from validation.
+     */
     private $validationErrors;
     
     
+    /**
+     * Set validation rules for model.
+     *
+     * @param array $rules  Array of rules.
+     */
     public function setValidation($rules)
     {
         $this->validationRules = $rules;
     }
     
     
+    /**
+     * Check whether the model state is valid according to its registered rules.
+     *
+     * @return bool     True if the model state is valid, false otherwise.
+     */
     public function isValid()
     {
         $this->validate();
@@ -24,6 +41,11 @@ trait ValidationTrait
     }
     
     
+    /**
+     * Validate model and return validation errors.
+     *
+     * @return array    Array of validation errors (attribute => error).
+     */
     public function getValidationErrors()
     {
         $this->validate();
@@ -31,6 +53,9 @@ trait ValidationTrait
     }
     
     
+    /**
+     * Validate model according to its registered rules.
+     */
     private function validate()
     {
         $this->validationErrors = [];
@@ -50,6 +75,14 @@ trait ValidationTrait
     }
     
     
+    /**
+     * Validate model attribute against a specific rule.
+     *
+     * @param array     $rule   Validation rule.
+     * @param string    $attr   Model attribute to validate.
+     *
+     * @return bool             True if the attribute validates, false otherwise.
+     */
     private function validateRule($rule, $attr)
     {
         switch ($rule['rule']) {
@@ -75,6 +108,13 @@ trait ValidationTrait
     }
     
     
+    /**
+     * Check whether the specified attribute is set in the model.
+     *
+     * @param string $attr  Model attribute.
+     *
+     * @return bool         True if the attribute has a non-empty value, false otherwise.
+     */
     private function hasValue($attr)
     {
         return (isset($this->$attr) && $this->$attr !== '');
