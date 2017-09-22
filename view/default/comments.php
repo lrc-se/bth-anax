@@ -8,7 +8,7 @@
 <?php       $editor = $comment->getReference('editorId', $di->repository->users); ?>
         <li id="comment-<?= $comment->id ?>" class="comment">
             <div class="comment-header">
-                <img src="https://www.gravatar.com/avatar/<?= md5(strtolower(trim($creator->email))) ?>?s=50&amp;d=retro">
+                <img src="<?= $creator->getGravatar(50) ?>">
                 <div class="comment-author">
 <?php       if (!empty($creator->email)) : ?>
                     <a href="mailto:<?= $di->common->esc($creator->email) ?>"><?= $di->common->esc($creator->name) ?></a>

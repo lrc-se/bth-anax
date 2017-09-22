@@ -1,5 +1,5 @@
 <?php $this->renderView('default/msgs'); ?>
-<p><img src="https://www.gravatar.com/avatar/<?= md5(strtolower(trim($user->email))) ?>?s=128&amp;d=retro"></p>
+<p><img src="<?= $user->getGravatar(128) ?>"></p>
 <p>
     Du är inloggad som <strong><?= $di->common->esc($user->name) ?></strong>.
 <?php if ($user->admin) : ?>

@@ -72,6 +72,20 @@ class User extends \LRC\Common\BaseModel
     
     
     /**
+     * Get Gravatar for user.
+     *
+     * @param int       $size       Gravatar size.
+     * @param string    $default    Default image type.
+     *
+     * @return string               URL to gravatar image.
+     */
+    public function getGravatar($size = 50, $default = 'retro')
+    {
+        return 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->email))) . "?s=$size&amp;d=$default";
+    }
+    
+    
+    /**
      * Hash the password (call this before saving to database).
      */
     public function hashPassword()
