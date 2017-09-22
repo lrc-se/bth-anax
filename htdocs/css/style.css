@@ -204,7 +204,7 @@ article > *:last-child {
 }
 
 footer {
-    padding: 1.05em 3em;
+    padding: 1.05em 2em;
     background-color: #2a2838;
     text-align: center;
 }
@@ -269,32 +269,28 @@ ol > li:last-child {
 
 dl {
     margin: 0 0 1.4em;
-    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 dt {
-    float: left;
-    clear: left;
-    width: 150px;
     margin: 0;
     font-weight: 700;
     text-align: right;
-    display: block;
+    flex: 0 0 150px;
 }
 
 dl.dl-small dt {
-    width: 100px;
+    flex-basis: 120px;
 }
 
 dd {
-    min-height: 1.4em;
-    margin: 0 0 0 150px;
-    padding-left: 1em;
-    display: block;
+    margin: 0 0 0 1em;
+    flex: 0 0 calc(100% - 150px - 1em);
 }
 
 dl.dl-small dd {
-    margin-left: 100px;
+    flex-basis: calc(100% - 120px - 1em);
 }
 
 blockquote {
@@ -409,7 +405,7 @@ input[type=reset],
 button,
 a.btn {
     margin-right: .5em;
-    margin-bottom: .35em;
+    margin-bottom: .7em;
     padding: .35em .7em;
     color: #fff;
     background-color: #3c384f;
@@ -1019,13 +1015,14 @@ article > .columns:last-child {
     }
     
     dl:not(.dl-small) dt {
-        float: none;
-        width: auto;
         text-align: left;
+        flex-basis: 100%;
     }
     
     dl:not(.dl-small) dd {
-        margin: 0 0 .7em;
+        min-height: 1.4em;
+        margin-bottom: .7em;
+        flex-basis: 100%;
     }
     
     .anchor::before {
@@ -1101,13 +1098,14 @@ article > .columns:last-child {
     }
     
     dl.dl-small dt {
-        float: none;
-        width: auto;
         text-align: left;
+        flex-basis: 100%;
     }
     
     dl.dl-small dd {
-        margin: 0 0 .7em;
+        min-height: 1.4em;
+        margin-bottom: .7em;
+        flex-basis: 100%;
     }
     
     .columns > * {
