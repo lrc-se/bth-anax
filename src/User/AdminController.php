@@ -26,7 +26,7 @@ class AdminController extends UserController
     {
         $admin = $this->di->common->verifyAdmin();
         $users = $this->di->repository->users->getAll();
-        $this->renderPage('admin/list', ['users' => $users, 'admin' => $admin], 'Administrera användare');
+        $this->renderPage('admin/user-list', ['users' => $users, 'admin' => $admin], 'Administrera användare');
     }
     
     
@@ -129,7 +129,7 @@ class AdminController extends UserController
             $this->di->common->redirect('admin/user');
         }
         
-        $this->renderPage('user/delete', ['user' => $user], 'Ta bort användare');
+        $this->renderPage('admin/user-delete', ['user' => $user], 'Ta bort användare');
     }
     
     
@@ -186,7 +186,7 @@ class AdminController extends UserController
             $this->di->common->redirect('admin/user');
         }
         
-        $this->renderPage('user/register', [
+        $this->renderPage('admin/user-register', [
             'user' => $user,
             'form' => new Form('user-form', $user)
         ], 'Registrera användare');
@@ -211,7 +211,7 @@ class AdminController extends UserController
             $this->di->common->redirect('admin/user');
         }
         
-        $this->renderPage('user/register', [
+        $this->renderPage('admin/user-register', [
             'user' => $form->getModel(),
             'form' => $form
         ], 'Registrera användare');
@@ -225,6 +225,6 @@ class AdminController extends UserController
     {
         $admin = $this->di->common->verifyAdmin();
         $comments = $this->di->repository->comments->getAll();
-        $this->renderPage('comment/list', ['comments' => $comments], 'Administrera kommentarer');
+        $this->renderPage('admin/comment-list', ['comments' => $comments], 'Administrera kommentarer');
     }
 }
