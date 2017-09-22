@@ -4,8 +4,8 @@
     <ol class="comment-list">
 <?php if (!empty($comments)) : ?>
 <?php   foreach ($comments as $comment) : ?>
-<?php       $creator = $comment->getReference('userId', $di->repository->users); ?>
-<?php       $editor = $comment->getReference('editorId', $di->repository->users); ?>
+<?php       $creator = ($comment->getReference('userId', $di->repository->users) ?: new \LRC\User\User); ?>
+<?php       $editor = ($comment->getReference('editorId', $di->repository->users) ?: new \LRC\User\User); ?>
         <li id="comment-<?= $comment->id ?>" class="comment">
             <div class="comment-header">
                 <img src="<?= $creator->getGravatar(50) ?>">
@@ -13,14 +13,16 @@
 <?php       if (!empty($creator->email)) : ?>
                     <a href="mailto:<?= $di->common->esc($creator->email) ?>"><?= $di->common->esc($creator->name) ?></a>
 <?php       else : ?>
-                    <?= $di->common->esc($creator->name) ?>
+                    <?= ($creator->username ? $di->common->esc($creator->name) : '(Borttagen användare)') ?>
 <?php       endif; ?>
                 </div>
                 <div class="comment-time"><?= $comment->created ?></div>
             </div>
             <div class="comment-text"><?= $di->textfilter->markdown($di->common->esc($comment->text)) ?></div>
 <?php       if (isset($comment->updated)) : ?>
-            <div class="comment-edited">Redigerad <?= $comment->updated ?> av <?= $di->common->esc($editor->name) ?></div>
+            <div class="comment-edited">
+                Redigerad <?= $comment->updated ?> av <?= ($editor->username ? $di->common->esc($editor->name) : '(Borttagen användare)') ?>
+            </div>
 <?php       endif; ?>
 <?php       if ($user && ($user->admin || $comment->userId === $user->id)) : ?>
             <div class="comment-actions">
