@@ -4,16 +4,16 @@
     <ol class="comment-list">
 <?php if (!empty($comments)) : ?>
 <?php   foreach ($comments as $comment) : ?>
-<?php       $creator = ($comment->getReference('userId', $di->repository->users) ?: new \LRC\User\User); ?>
-<?php       $editor = ($comment->getReference('editorId', $di->repository->users) ?: new \LRC\User\User); ?>
+<?php       $creator = $comment->getReference('userId', $di->repository->users); ?>
+<?php       $editor = $comment->getReference('editorId', $di->repository->users); ?>
         <li id="comment-<?= $comment->id ?>" class="comment">
             <div class="comment-header">
-                <img src="<?= $creator->getGravatar(50) ?>">
+                <img src="<?= ($creator ? $creator->getGravatar(50) : (new \LRC\User\User())->getGravatar(50)) ?>">
                 <div class="comment-author">
-<?php       if (!empty($creator->email)) : ?>
+<?php       if ($creator && !empty($creator->email)) : ?>
                     <a href="mailto:<?= $di->common->esc($creator->email) ?>"><?= $di->common->esc($creator->name) ?></a>
 <?php       else : ?>
-                    <?= ($creator->username ? $di->common->esc($creator->name) : '(Borttagen användare)') ?>
+                    <?= ($creator ? $di->common->esc($creator->name) : '(Borttagen användare)') ?>
 <?php       endif; ?>
                 </div>
                 <div class="comment-time"><?= $comment->created ?></div>
@@ -21,7 +21,7 @@
             <div class="comment-text"><?= $di->textfilter->markdown($di->common->esc($comment->text)) ?></div>
 <?php       if (isset($comment->updated)) : ?>
             <div class="comment-edited">
-                Redigerad <?= $comment->updated ?> av <?= ($editor->username ? $di->common->esc($editor->name) : '(Borttagen användare)') ?>
+                Redigerad <?= $comment->updated ?> av <?= ($editor ? $di->common->esc($editor->name) : '(Borttagen användare)') ?>
             </div>
 <?php       endif; ?>
 <?php       if ($user && ($user->admin || $comment->userId === $user->id)) : ?>
