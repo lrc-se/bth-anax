@@ -212,6 +212,25 @@ class AdminController extends UserController
     
     
     /**
+     * Admin view comment page.
+     */
+    public function viewComment($id)
+    {
+        $admin = $this->di->common->verifyAdmin();
+        $comment = $this->di->comments->getById($id);
+        if (!$comment) {
+            $this->di->session->set('err', "Kunde inte hitta kommentaren med ID $id.");
+            $this->di->common->redirect('admin/comment');
+        }
+        
+        $this->renderPage('admin/comment-view', [
+            'comment' => $comment,
+            'author' => $comment->getReference('userId', $this->di->repository->users, false)
+        ], 'Visa kommentar');
+    }
+    
+    
+    /**
      * Admin edit comment page.
      */
     public function updateComment($id)
@@ -228,7 +247,7 @@ class AdminController extends UserController
             'comment' => $comment,
             'author' => $comment->getReference('userId', $this->di->repository->users, false),
             'form' => $form
-        ],'Redigera kommentar');
+        ], 'Redigera kommentar');
     }
     
     
@@ -256,7 +275,7 @@ class AdminController extends UserController
             'comment' => $comment,
             'author' => $comment->getReference('userId', $this->di->repository->users, false),
             'form' => $form
-        ],'Redigera kommentar');
+        ], 'Redigera kommentar');
     }
     
     

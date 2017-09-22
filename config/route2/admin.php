@@ -78,6 +78,12 @@ return [
             'callable' => ['adminController', 'comments']
         ],
         [
+            'info' => 'Admin comment view.',
+            'requestMethod' => 'get',
+            'path' => 'comment/{id:digit}',
+            'callable' => ['adminController', 'viewComment']
+        ],
+        [
             'info' => 'Admin comment edit.',
             'requestMethod' => 'get',
             'path' => 'comment/edit/{id:digit}',
