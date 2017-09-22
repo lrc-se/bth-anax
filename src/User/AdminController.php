@@ -6,6 +6,8 @@ use \LRC\Form\ModelForm as Form;
 
 /**
  * Controller for admin.
+ *
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class AdminController extends UserController
 {
@@ -14,7 +16,7 @@ class AdminController extends UserController
      */
     public function index()
     {
-        $admin = $this->di->common->verifyAdmin();
+        $this->di->common->verifyAdmin();
         $this->renderPage('admin/index', [], 'Administration');
     }
     
@@ -151,7 +153,7 @@ class AdminController extends UserController
      */
     public function handleRestoreUser($id)
     {
-        $admin = $this->di->common->verifyAdmin();
+        $this->di->common->verifyAdmin();
         $user = $this->getUser($id, false, null);
         
         $this->di->user->restore($user);
@@ -169,7 +171,7 @@ class AdminController extends UserController
      */
     public function registerUser($id)
     {
-        $admin = $this->di->common->verifyAdmin();
+        $this->di->common->verifyAdmin();
         $user = $this->getUser($id, true, true);
         
         $this->renderPage('admin/user-register', [
@@ -184,7 +186,7 @@ class AdminController extends UserController
      */
     public function handleRegisterUser($id)
     {
-        $admin = $this->di->common->verifyAdmin();
+        $this->di->common->verifyAdmin();
         $oldUser = $this->getUser($id, true, true);
         
         $form = new Form('user-form', User::class);
@@ -205,7 +207,7 @@ class AdminController extends UserController
      */
     public function comments()
     {
-        $admin = $this->di->common->verifyAdmin();
+        $this->di->common->verifyAdmin();
         $comments = $this->di->repository->comments->getAll();
         $this->renderPage('admin/comment-list', ['comments' => $comments], 'Administrera kommentarer');
     }
@@ -216,7 +218,7 @@ class AdminController extends UserController
      */
     public function viewComment($id)
     {
-        $admin = $this->di->common->verifyAdmin();
+        $this->di->common->verifyAdmin();
         $comment = $this->di->comments->getById($id);
         if (!$comment) {
             $this->di->session->set('err', "Kunde inte hitta kommentaren med ID $id.");
@@ -235,7 +237,7 @@ class AdminController extends UserController
      */
     public function updateComment($id)
     {
-        $admin = $this->di->common->verifyAdmin();
+        $this->di->common->verifyAdmin();
         $comment = $this->di->comments->getById($id);
         if (!$comment) {
             $this->di->session->set('err', "Kunde inte hitta kommentaren med ID $id.");
@@ -284,7 +286,7 @@ class AdminController extends UserController
      */
     public function deleteComment($id)
     {
-        $admin = $this->di->common->verifyAdmin();
+        $this->di->common->verifyAdmin();
         $comment = $this->di->comments->getById($id);
         if (!$comment) {
             $this->di->session->set('err', "Kunde inte hitta kommentaren med ID $id.");
@@ -303,7 +305,7 @@ class AdminController extends UserController
      */
     public function handleDeleteComment($id)
     {
-        $admin = $this->di->common->verifyAdmin();
+        $this->di->common->verifyAdmin();
         $comment = $this->di->comments->getById($id);
         if (!$comment) {
             $this->di->session->set('err', "Kunde inte hitta kommentaren med ID $id.");
