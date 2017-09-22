@@ -94,6 +94,18 @@ return [
             'requestMethod' => 'post',
             'path' => 'comment/edit/{id:digit}',
             'callable' => ['adminController', 'handleUpdateComment']
+        ],
+        [
+            'info' => 'Admin comment delete.',
+            'requestMethod' => 'get',
+            'path' => 'comment/delete/{id:digit}',
+            'callable' => ['adminController', 'deleteComment']
+        ],
+        [
+            'info' => 'Admin comment delete handler.',
+            'requestMethod' => 'post',
+            'path' => 'comment/delete/{id:digit}',
+            'callable' => ['adminController', 'handleDeleteComment']
         ]
     ]
 ];

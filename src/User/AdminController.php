@@ -280,6 +280,45 @@ class AdminController extends UserController
     
     
     /**
+     * Admin delete comment page.
+     */
+    public function deleteComment($id)
+    {
+        $admin = $this->di->common->verifyAdmin();
+        $comment = $this->di->comments->getById($id);
+        if (!$comment) {
+            $this->di->session->set('err', "Kunde inte hitta kommentaren med ID $id.");
+            $this->di->common->redirect('admin/comment');
+        }
+        
+        $this->renderPage('admin/comment-delete', [
+            'comment' => $comment,
+            'author' => $comment->getReference('userId', $this->di->repository->users, false)
+        ], 'Ta bort kommentar');
+    }
+    
+    
+    /**
+     * Admin delete comment handler.
+     */
+    public function handleDeleteComment($id)
+    {
+        $admin = $this->di->common->verifyAdmin();
+        $comment = $this->di->comments->getById($id);
+        if (!$comment) {
+            $this->di->session->set('err', "Kunde inte hitta kommentaren med ID $id.");
+            $this->di->common->redirect('admin/comment');
+        }
+        
+        if ($this->di->request->getPost('action') == 'delete') {
+            $this->di->comments->deleteComment($comment);
+            $this->di->session->set('msg', 'Kommentaren har tagits bort.');
+        }
+        $this->di->common->redirect('admin/comment');
+    }
+    
+    
+    /**
      * Retrieve requested user and check that it has the desired state, redirecting to index if not (or if no user found).
      *
      * @param int  $id          User ID.
