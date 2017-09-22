@@ -90,19 +90,6 @@ class CommonService extends BaseService
     
     
     /**
-     * Escape output.
-     *
-     * @param string $text  Text to escape.
-     *
-     * @return string       Escaped text.
-     */
-    public function esc($text)
-    {
-        return htmlspecialchars($text);
-    }
-
-
-    /**
      * Render a standard web page using a specific layout.
      *
      * @param string    $title      Page title.

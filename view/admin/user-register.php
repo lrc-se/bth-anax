@@ -37,13 +37,13 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('name', 'Namn:') ?></div>
         <div class="form-input">
-            <div class="form-static"><?= $di->common->esc($user->name) ?></div>
+            <div class="form-static"><?= esc($user->name) ?></div>
         </div>
     </div>
     <div class="form-control">
         <div class="form-label"><?= $form->label('email', 'E-postadress:') ?></div>
         <div class="form-input">
-            <div class="form-static"><a href="mailto:<?= $di->common->esc($user->email) ?>"><?= $di->common->esc($user->email) ?></a></div>
+            <div class="form-static"><a href="mailto:<?= esc($user->email) ?>"><?= esc($user->email) ?></a></div>
         </div>
     </div>
     <div class="form-control">

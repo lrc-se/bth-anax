@@ -1,7 +1,7 @@
 <?php $this->renderView('default/msgs'); ?>
 <p><img src="<?= $user->getGravatar(128) ?>"></p>
 <p>
-    Du är inloggad som <strong><?= $di->common->esc($user->name) ?></strong>.
+    Du är inloggad som <strong><?= esc($user->name) ?></strong>.
 <?php if ($user->admin) : ?>
     Ditt konto har administratörs&shy;rättigheter.
 <?php endif; ?>

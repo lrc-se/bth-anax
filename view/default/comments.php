@@ -11,17 +11,17 @@
                 <img src="<?= ($creator ? $creator->getGravatar(50) : (new \LRC\User\User())->getGravatar(50)) ?>">
                 <div class="comment-author">
 <?php       if ($creator && !empty($creator->email)) : ?>
-                    <a href="mailto:<?= $di->common->esc($creator->email) ?>"><?= $di->common->esc($creator->name) ?></a>
+                    <a href="mailto:<?= esc($creator->email) ?>"><?= esc($creator->name) ?></a>
 <?php       else : ?>
-                    <?= ($creator ? $di->common->esc($creator->name) : '(Borttagen användare)') ?>
+                    <?= ($creator ? esc($creator->name) : '(Borttagen användare)') ?>
 <?php       endif; ?>
                 </div>
                 <div class="comment-time"><?= $comment->created ?></div>
             </div>
-            <div class="comment-text"><?= $di->textfilter->markdown($di->common->esc($comment->text)) ?></div>
+            <div class="comment-text"><?= $di->textfilter->markdown(esc($comment->text)) ?></div>
 <?php       if (isset($comment->updated)) : ?>
             <div class="comment-edited">
-                Redigerad <?= $comment->updated ?> av <?= ($editor ? $di->common->esc($editor->name) : '(Borttagen användare)') ?>
+                Redigerad <?= $comment->updated ?> av <?= ($editor ? esc($editor->name) : '(Borttagen användare)') ?>
             </div>
 <?php       endif; ?>
 <?php       if ($user && ($user->admin || $comment->userId === $user->id)) : ?>

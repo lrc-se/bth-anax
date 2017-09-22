@@ -26,8 +26,8 @@ $num = count($comments);
 <?php       $author = $comment->getReference('userId', $di->repository->users); ?>
             <tr<?= (is_null($author->username) ? ' class="anonymous"' : '') ?>>
                 <td><?= $comment->id ?></td>
-                <td><?= $di->common->esc($comment->contentId) ?></a></td>
-                <td><?= $di->common->esc($author->name) ?><br><?= (is_null($author->username) ? '<em>(Anonym)</em>' : '<strong>(' . $di->common->esc($author->username) . ')</strong>') ?></td>
+                <td><?= esc($comment->contentId) ?></a></td>
+                <td><?= esc($author->name) ?><br><?= (is_null($author->username) ? '<em>(Anonym)</em>' : '<strong>(' . esc($author->username) . ')</strong>') ?></td>
                 <td><?= $comment->created ?></td>
                 <td><?= $comment->updated ?></td>
                 <td>

@@ -9,15 +9,15 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('contentId', 'Innehålls-ID:') ?></div>
         <div class="form-input">
-            <div class="form-static"><?= $di->common->esc($comment->contentId) ?></div>
+            <div class="form-static"><?= esc($comment->contentId) ?></div>
         </div>
     </div>
     <div class="form-control">
         <div class="form-label"><label>Skriven av:</label></div>
         <div class="form-input">
             <div class="form-static">
-                <?= $di->common->esc($author->name) ?>
-                <?= (is_null($author->username) ? '<em>(Anonym)</em>' : '<strong>(' . $di->common->esc($author->username) . ')</strong>') ?>
+                <?= esc($author->name) ?>
+                <?= (is_null($author->username) ? '<em>(Anonym)</em>' : '<strong>(' . esc($author->username) . ')</strong>') ?>
             </div>
         </div>
     </div>

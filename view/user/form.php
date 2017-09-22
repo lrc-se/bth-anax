@@ -13,7 +13,7 @@
             <div class="form-error"><?= $form->getError('username') ?></div>
 <?php   endif; ?>
 <?php else : ?>
-            <div class="form-static"><?= $di->common->esc($user->username) ?></div>
+            <div class="form-static"><?= esc($user->username) ?></div>
 <?php endif; ?>
         </div>
     </div>

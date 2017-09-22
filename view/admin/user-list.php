@@ -21,9 +21,9 @@
 <?php   foreach ($users as $user) : ?>
             <tr<?= ($user->deleted ? ' class="deleted"' : (is_null($user->username) ? ' class="anonymous"' : '')) ?>>
                 <td><?= $user->id ?></td>
-                <td><?= (!is_null($user->username) ? $di->common->esc($user->username) : '<em>(Anonym)</em>') ?></a></td>
-                <td><?= $di->common->esc($user->name) ?></td>
-                <td><a href="mailto:<?= $di->common->esc($user->email) ?>"><?= $di->common->esc($user->email) ?></a></td>
+                <td><?= (!is_null($user->username) ? esc($user->username) : '<em>(Anonym)</em>') ?></a></td>
+                <td><?= esc($user->name) ?></td>
+                <td><a href="mailto:<?= esc($user->email) ?>"><?= esc($user->email) ?></a></td>
                 <td><?= ($user->admin ? 'Ja' : 'Nej') ?></td>
                 <td><?= $user->deleted ?></td>
                 <td>

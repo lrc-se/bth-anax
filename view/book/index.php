@@ -24,11 +24,11 @@ $num = count($books);
 <?php   foreach ($books as $book) : ?>
             <tr>
                 <td><?= $book->id ?></td>
-                <td><a href="<?= $this->url('book/' . $book->id) ?>"><?= $di->common->esc($book->title) ?></a></td>
-                <td><?= $di->common->esc($book->author) ?></td>
-                <td><?= $di->common->esc($book->published) ?></td>
-                <td><?= $di->common->esc($book->isbn) ?></td>
-                <td><?= $di->common->esc($book->language) ?></td>
+                <td><a href="<?= $this->url('book/' . $book->id) ?>"><?= esc($book->title) ?></a></td>
+                <td><?= esc($book->author) ?></td>
+                <td><?= $book->published ?></td>
+                <td><?= esc($book->isbn) ?></td>
+                <td><?= esc($book->language) ?></td>
                 <td>
                     <a href="<?= $this->url('book/edit/' . $book->id) ?>">Redigera</a><br>
                     <a href="<?= $this->url('book/delete/' . $book->id) ?>">Ta bort</a>

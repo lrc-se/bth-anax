@@ -2,13 +2,13 @@
     <dt>ID:</dt>
     <dd><?= $book->id ?></dd>
     <dt>Titel:</dt>
-    <dd><?= $di->common->esc($book->title) ?></dd>
+    <dd><?= esc($book->title) ?></dd>
     <dt>Författare:</dt>
-    <dd><?= $di->common->esc($book->author) ?></dd>
+    <dd><?= esc($book->author) ?></dd>
     <dt>Publiceringsår:</dt>
-    <dd><?= $di->common->esc($book->published) ?></dd>
+    <dd><?= $book->published ?></dd>
     <dt>ISBN:</dt>
-    <dd><?= $di->common->esc($book->isbn) ?></dd>
+    <dd><?= esc($book->isbn) ?></dd>
     <dt>Språk:</dt>
-    <dd><?= $di->common->esc($book->language) ?></dd>
+    <dd><?= esc($book->language) ?></dd>
 </dl>

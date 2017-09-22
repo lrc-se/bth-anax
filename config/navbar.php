@@ -43,7 +43,7 @@ $navbar = [
 // handle logged-in user, if any
 $user = $this->di->user->getCurrent();
 if ($user) {
-    $navbar['items']['user']['title'] .= ' <span class="navbar-user">(<span>' . $this->di->common->esc($user->username) . '</span>)</span>';
+    $navbar['items']['user']['title'] .= ' <span class="navbar-user">(<span>' . htmlspecialchars($user->username) . '</span>)</span>';
     $navbar['items']['user']['items'] = [
         [
             'title' => 'Profil',
