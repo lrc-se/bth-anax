@@ -40,7 +40,7 @@ class UserController extends \LRC\Common\BaseController
     {
         $form = new Form('user-form', User::class);
         if ($this->di->user->createFromForm($form)) {
-            $this->di->session->set('userId', $user->id);
+            $this->di->session->set('userId', $form->getModel()->id);
             $this->di->session->set('msg', 'Ditt användarkonto har skapats.');
             $this->di->common->redirect('user/profile');
         }
