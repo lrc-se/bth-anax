@@ -98,7 +98,7 @@ class Repository
      */
     public function getFirstSoft($conditions = null, $values = [])
     {
-        return $this->executeQuery($conditions, $values, true)
+        return $this->executeQuery($conditions, $values, null, true)
             ->fetchClass($this->modelClass);
     }
     
@@ -128,7 +128,7 @@ class Repository
      */
     public function getAllSoft($conditions = null, $values = [])
     {
-        return $this->executeQuery($conditions, $values, true)
+        return $this->executeQuery($conditions, $values, null, true)
             ->fetchAllClass($this->modelClass);
     }
     
@@ -197,12 +197,13 @@ class Repository
      * Execute query for selection methods.
      * 
      * @param string $conditions                    Where conditions.
-     * @param array  $values                        Array of condition values to bind.
+     * @param array  $values                        Array of where condition values to bind.
+     * @param string $order                         Order by conditions.
      * @param bool   $soft                          Whether to take soft deletion into account.
      * 
      * @return \Anax\Database\DatabaseQueryBuilder  Database service instance with executed internal query.
      */
-    private function executeQuery($conditions = null, $values = [], $soft = false)
+    private function executeQuery($conditions = null, $values = [], $order = null, $soft = false)
     {
         $query = $this->db
             ->connect()
@@ -214,6 +215,9 @@ class Repository
         if ($soft) {
             $softCond = $this->deleted . ' IS NULL';
             $query = (!is_null($conditions) ? $query->andWhere($softCond) : $query->where($softCond));
+        }
+        if (!is_null($order)) {
+            $query = $query->orderby($order);
         }
         return $query->execute($values);
     }
