@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="<?= $this->asset($stylesheet) ?>">
 <?php endforeach; ?>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i%7CPlayfair+Display:700,900">
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="<?= $this->asset('favicon.ico') ?>">
     <script>
         var RV1 = {
             basePath: "<?= $this->url('') ?>/"
