@@ -106,6 +106,12 @@ return [
             'requestMethod' => 'get',
             'path' => 'admin/user/restore/{id:digit}',
             'callable' => ['userController', 'handleAdminRestore']
+        ],
+        [
+            'info' => 'Admin comment list.',
+            'requestMethod' => 'get',
+            'path' => 'admin/comment',
+            'callable' => ['userController', 'comments']
         ]
     ]
 ];

@@ -321,4 +321,15 @@ class UserController extends \LRC\Common\BaseController
         $this->di->view->add($view, $data, 'main');
         $this->di->common->renderPage($title, null, ['flash' => $this->flash]);
     }
+    
+    
+    /**
+     * Admin comment list.
+     */
+    public function comments()
+    {
+        $admin = $this->di->common->verifyAdmin();
+        $comments = $this->di->repository->comments->getAll();
+        $this->renderPage('comment/list', ['comments' => $comments], 'Administrera kommentarer');
+    }
 }
