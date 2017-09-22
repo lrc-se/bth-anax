@@ -14,6 +14,11 @@ class BookController extends \LRC\Common\BaseController
      */
     private $books;
     
+    /**
+     * @var string  Flash image.
+     */
+    private $flash = 'img/bg5.jpg';
+    
     
     /**
      * Constructor (see base class).
@@ -31,7 +36,7 @@ class BookController extends \LRC\Common\BaseController
     public function index()
     {
         $this->di->view->add('book/index', ['books' => $this->books->getAll()]);
-        $this->di->common->renderPage('Böcker');
+        $this->di->common->renderPage('Böcker', null, ['flash' => $this->flash]);
     }
     
     
@@ -49,7 +54,10 @@ class BookController extends \LRC\Common\BaseController
         }
         
         $this->di->view->add('book/view', ['book' => $book]);
-        $this->di->common->renderPage('Visa bok', null, ['title' => 'Visa bok: ' . htmlspecialchars($book->title)]);
+        $this->di->common->renderPage('Visa bok', null, [
+            'title' => 'Visa bok: ' . htmlspecialchars($book->title),
+            'flash' => $this->flash
+        ]);
     }
     
     
@@ -77,7 +85,7 @@ class BookController extends \LRC\Common\BaseController
             'book' => $form->getModel(),
             'submit' => 'Lägg till'
         ]);
-        $this->di->common->renderPage('Lägg till bok');
+        $this->di->common->renderPage('Lägg till bok', null, ['flash' => $this->flash]);
     }
     
     
@@ -115,7 +123,10 @@ class BookController extends \LRC\Common\BaseController
             'book' => $book,
             'submit' => 'Spara'
         ]);
-        $this->di->common->renderPage('Redigera bok', null, ['title' => 'Redigera bok: ' . htmlspecialchars($book->title)]);
+        $this->di->common->renderPage('Redigera bok', null, [
+            'title' => 'Redigera bok: ' . htmlspecialchars($book->title),
+            'flash' => $this->flash
+        ]);
     }
     
     
@@ -142,6 +153,9 @@ class BookController extends \LRC\Common\BaseController
         }
         
         $this->di->view->add('book/delete', ['book' => $book]);
-        $this->di->common->renderPage('Ta bort bok', null, ['title' => 'Ta bort bok: ' . htmlspecialchars($book->title)]);
+        $this->di->common->renderPage('Ta bort bok', null, [
+            'title' => 'Ta bort bok: ' . htmlspecialchars($book->title),
+            'flash' => $this->flash
+        ]);
     }
 }
