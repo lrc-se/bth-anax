@@ -85,6 +85,7 @@ class CommentService extends \LRC\Common\BaseService implements ConfigureInterfa
         $oldComment = $this->di->comments->find('id', $comment->id);
         if ($oldComment) {
             $comment->userId = $oldComment->userId;
+            $comment->contentId = $oldComment->contentId;
             $comment->created = $oldComment->created;
             $comment->updated = date('Y-m-d H:i:s');
             $this->di->comments->save($comment);

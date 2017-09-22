@@ -212,6 +212,55 @@ class AdminController extends UserController
     
     
     /**
+     * Admin edit comment page.
+     */
+    public function updateComment($id)
+    {
+        $admin = $this->di->common->verifyAdmin();
+        $comment = $this->di->comments->getById($id);
+        if (!$comment) {
+            $this->di->session->set('err', "Kunde inte hitta kommentaren med ID $id.");
+            $this->di->common->redirect('admin/comment');
+        }
+        
+        $form = new Form('comment-form', $comment);
+        $this->renderPage('admin/comment-form', [
+            'comment' => $comment,
+            'author' => $comment->getReference('userId', $this->di->repository->users, false),
+            'form' => $form
+        ],'Redigera kommentar');
+    }
+    
+    
+    /**
+     * Admin edit comment handler.
+     */
+    public function handleUpdateComment($id)
+    {
+        $admin = $this->di->common->verifyAdmin();
+        $form = new Form('comment-form', '\\LRC\\Comment\\Comment');
+        $comment = $form->populateModel();
+        $form->validate();
+        if ($form->isValid()) {
+            $comment->id = $id;
+            $comment->editorId = $admin->id;
+            if ($this->di->comments->updateComment($comment)) {
+                $this->di->session->set('msg', 'Kommentaren har uppdaterats.');
+            } else {
+                $this->di->session->set('err', "Kunde inte hitta kommentaren med ID $id.");
+            }            
+            $this->di->common->redirect('admin/comment');
+        }
+        
+        $this->renderPage('admin/comment-form', [
+            'comment' => $comment,
+            'author' => $comment->getReference('userId', $this->di->repository->users, false),
+            'form' => $form
+        ],'Redigera kommentar');
+    }
+    
+    
+    /**
      * Retrieve requested user and check that it has the desired state, redirecting to index if not (or if no user found).
      *
      * @param int  $id          User ID.

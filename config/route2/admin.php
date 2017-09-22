@@ -76,6 +76,18 @@ return [
             'requestMethod' => 'get',
             'path' => 'comment',
             'callable' => ['adminController', 'comments']
+        ],
+        [
+            'info' => 'Admin comment edit.',
+            'requestMethod' => 'get',
+            'path' => 'comment/edit/{id:digit}',
+            'callable' => ['adminController', 'updateComment']
+        ],
+        [
+            'info' => 'Admin comment edit handler.',
+            'requestMethod' => 'post',
+            'path' => 'comment/edit/{id:digit}',
+            'callable' => ['adminController', 'handleUpdateComment']
         ]
     ]
 ];
