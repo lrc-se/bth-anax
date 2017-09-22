@@ -6,7 +6,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('title', 'Titel:') ?></label></div>
         <div class="form-input">
-            <?= $form->textfield('title', ['maxlength' => 200, 'required' => false, 'autofocus' => true]) ?>
+            <?= $form->text('title', ['maxlength' => 200, 'required' => false, 'autofocus' => true]) ?>
 <?php if ($form->hasError('title')) : ?>
             <div class="form-error"><?= $form->getError('title') ?></div>
 <?php endif; ?>
@@ -15,7 +15,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('author', 'Författare:') ?></div>
         <div class="form-input">
-            <?= $form->textfield('author', ['maxlength' => 200, 'required' => false]) ?>
+            <?= $form->text('author', ['maxlength' => 200, 'required' => false]) ?>
 <?php if ($form->hasError('author')) : ?>
             <div class="form-error"><?= $form->getError('author') ?></div>
 <?php endif; ?>
@@ -33,7 +33,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('isbn', 'ISBN:') ?></div>
         <div class="form-input">
-            <?= $form->textfield('isbn', ['maxlength' => 15]) ?>
+            <?= $form->text('isbn', ['maxlength' => 15]) ?>
 <?php if ($form->hasError('isbn')) : ?>
             <div class="form-error"><?= $form->getError('isbn') ?></div>
 <?php endif; ?>
@@ -42,7 +42,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('language', 'Språk:') ?></div>
         <div class="form-input">
-            <?= $form->textfield('language', ['maxlength' => 50]) ?>
+            <?= $form->text('language', ['maxlength' => 50]) ?>
 <?php if ($form->hasError('language')) : ?>
             <div class="form-error"><?= $form->getError('language') ?></div>
 <?php endif; ?>

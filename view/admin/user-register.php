@@ -10,7 +10,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('username', 'Användarnamn:') ?></label></div>
         <div class="form-input">
-            <?= $form->textfield('username', ['required' => true, 'maxlength' => 25, 'autofocus' => true]) ?>
+            <?= $form->text('username', ['required' => true, 'maxlength' => 25, 'autofocus' => true]) ?>
 <?php if ($form->hasError('username')) : ?>
             <div class="form-error"><?= $form->getError('username') ?></div>
 <?php endif; ?>
@@ -19,7 +19,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('password', 'Lösenord:') ?></div>
         <div class="form-input">
-            <?= $form->textfield('password', ['minlength' => 8, 'required' => true], 'password') ?>
+            <?= $form->input('password', 'password', ['minlength' => 8, 'required' => true]) ?>
 <?php if ($form->hasError('password')) : ?>
             <div class="form-error"><?= $form->getError('password') ?></div>
 <?php endif; ?>
@@ -28,7 +28,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('password2', 'Upprepa lösenord:') ?></div>
         <div class="form-input">
-            <?= $form->textfield('password2', ['minlength' => 8, 'required' => true], 'password') ?>
+            <?= $form->input('password2', 'password', ['minlength' => 8, 'required' => true]) ?>
 <?php if ($form->hasError('password2')) : ?>
             <div class="form-error"><?= $form->getError('password2') ?></div>
 <?php endif; ?>

@@ -8,7 +8,7 @@
         <div class="form-label"><?= $form->label('username', 'Användarnamn:') ?></label></div>
         <div class="form-input">
 <?php if (!$update) : ?>
-            <?= $form->textfield('username', ['required' => true, 'maxlength' => 25, 'autofocus' => true]) ?>
+            <?= $form->text('username', ['required' => true, 'maxlength' => 25, 'autofocus' => true]) ?>
 <?php   if ($form->hasError('username')) : ?>
             <div class="form-error"><?= $form->getError('username') ?></div>
 <?php   endif; ?>
@@ -20,7 +20,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('name', 'Namn:') ?></div>
         <div class="form-input">
-            <?= $form->textfield('name', ['required' => true, 'maxlength' => 100]) ?>
+            <?= $form->text('name', ['required' => true, 'maxlength' => 100]) ?>
 <?php if ($form->hasError('name')) : ?>
             <div class="form-error"><?= $form->getError('name') ?></div>
 <?php endif; ?>
@@ -29,7 +29,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('password', 'Lösenord:') ?></div>
         <div class="form-input">
-            <?= $form->textfield('password', ['minlength' => 8, 'required' => !$update, 'placeholder' => ($update ? 'Lämna blankt för att behålla nuvarande' : '')], 'password') ?>
+            <?= $form->input('password', 'password', ['minlength' => 8, 'required' => !$update, 'placeholder' => ($update ? 'Lämna blankt för att behålla nuvarande' : '')]) ?>
 <?php if ($form->hasError('password')) : ?>
             <div class="form-error"><?= $form->getError('password') ?></div>
 <?php endif; ?>
@@ -38,7 +38,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('password2', 'Upprepa lösenord:') ?></div>
         <div class="form-input">
-            <?= $form->textfield('password2', ['minlength' => 8, 'required' => !$update], 'password') ?>
+            <?= $form->input('password2', 'password', ['minlength' => 8, 'required' => !$update]) ?>
 <?php if ($form->hasError('password2')) : ?>
             <div class="form-error"><?= $form->getError('password2') ?></div>
 <?php endif; ?>
@@ -47,7 +47,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('email', 'E-postadress:') ?></div>
         <div class="form-input">
-            <?= $form->textfield('email', ['maxlength' => 200], 'email') ?>
+            <?= $form->input('email', 'email', ['maxlength' => 200]) ?>
 <?php if ($form->hasError('email')) : ?>
             <div class="form-error"><?= $form->getError('email') ?></div>
 <?php endif; ?>
