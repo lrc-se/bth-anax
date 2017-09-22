@@ -19,9 +19,9 @@
         </thead>
         <tbody>
 <?php   foreach ($users as $user) : ?>
-            <tr<?= ($user->deleted ? ' class="deleted"' : '') ?>>
+            <tr<?= ($user->deleted ? ' class="deleted"' : (is_null($user->username) ? ' class="anonymous"' : '')) ?>>
                 <td><?= $user->id ?></td>
-                <td><?= $di->common->esc($user->username) ?></a></td>
+                <td><?= (!is_null($user->username) ? $di->common->esc($user->username) : '<em>(Anonym)</em>') ?></a></td>
                 <td><?= $di->common->esc($user->name) ?></td>
                 <td><a href="mailto:<?= $di->common->esc($user->email) ?>"><?= $di->common->esc($user->email) ?></a></td>
                 <td><?= ($user->admin ? 'Ja' : 'Nej') ?></td>
@@ -30,7 +30,11 @@
 <?php       if ($user->deleted) : ?>
                     <a href="<?= $this->url('user/admin/user/restore/' . $user->id) ?>">Återställ</a>
 <?php       else : ?>
+<?php           if ($user->username) : ?>
                     <a href="<?= $this->url('user/admin/user/edit/' . $user->id) ?>">Redigera</a><br>
+<?php           else : ?>
+                    <a href="<?= $this->url('user/admin/user/register/' . $user->id) ?>">Registrera</a><br>
+<?php           endif; ?>
 <?php           if ($user->id != $admin->id) : ?>
                     <a href="<?= $this->url('user/admin/user/delete/' . $user->id) ?>">Ta bort</a>
 <?php           endif; ?>
