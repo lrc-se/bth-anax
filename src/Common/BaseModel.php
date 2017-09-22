@@ -42,11 +42,16 @@ class BaseModel
      *
      * @param string                    $attr       Name of foreign key attribute.
      * @param \LRC\Database\Repository  $repository Repository to query.
+     * @param bool                      $soft       Whether to take soft-deletion into account.
      *
      * @return mixed                                Model instance if found, null otherwise.
      */
-    public function getReference($attr, $repository)
+    public function getReference($attr, $repository, $soft = true)
     {
-        return (isset($this->$attr) ? $repository->find('id', $this->$attr) : null);
+        if (isset($this->$attr)) {
+            $method = ($soft ? 'findSoft' : 'find');
+            return ($repository->$method('id', $this->$attr) ?: null);
+        }
+        return null;
     }
 }
