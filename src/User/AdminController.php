@@ -36,7 +36,7 @@ class AdminController extends UserController
     public function updateUser($id)
     {
         $admin = $this->di->common->verifyAdmin();
-        $user = $this->checkUser($id);
+        $user = $this->getUser($id);
         
         $this->renderPage('user/form', [
             'user' => $user,
@@ -53,7 +53,7 @@ class AdminController extends UserController
     public function handleUpdateUser($id)
     {
         $admin = $this->di->common->verifyAdmin();
-        $oldUser = $this->checkUser($id);
+        $oldUser = $this->getUser($id);
         
         $form = new Form('user-form', User::class);
         if ($this->di->user->updateFromForm($form, $oldUser, true)) {
@@ -112,7 +112,7 @@ class AdminController extends UserController
     public function deleteUser($id)
     {
         $admin = $this->di->common->verifyAdmin();
-        $user = $this->checkUser($id);
+        $user = $this->getUser($id, true, null);
         if ($user->id == $admin->id) {
             $this->di->session->set('err', "Du kan inte ta bort din egen användare.");
             $this->di->common->redirect('admin/user');
@@ -128,7 +128,7 @@ class AdminController extends UserController
     public function handleDeleteUser($id)
     {
         $admin = $this->di->common->verifyAdmin();
-        $user = $this->checkUser($id);
+        $user = $this->getUser($id, true, null);
         if ($user->id == $admin->id) {
             $this->di->session->set('err', "Du kan inte ta bort din egen användare.");
             $this->di->common->redirect('admin/user');
@@ -152,7 +152,7 @@ class AdminController extends UserController
     public function handleRestoreUser($id)
     {
         $admin = $this->di->common->verifyAdmin();
-        $user = $this->checkUser($id, false);
+        $user = $this->getUser($id, false, null);
         
         $this->di->user->restore($user);
         if (!is_null($user->username)) {
@@ -170,7 +170,7 @@ class AdminController extends UserController
     public function registerUser($id)
     {
         $admin = $this->di->common->verifyAdmin();
-        $user = $this->checkUser($id, true, true);
+        $user = $this->getUser($id, true, true);
         
         $this->renderPage('admin/user-register', [
             'user' => $user,
@@ -185,7 +185,7 @@ class AdminController extends UserController
     public function handleRegisterUser($id)
     {
         $admin = $this->di->common->verifyAdmin();
-        $oldUser = $this->checkUser($id, true, true);
+        $oldUser = $this->getUser($id, true, true);
         
         $form = new Form('user-form', User::class);
         if ($this->di->user->registerAnonymousFromForm($form, $oldUser, true)) {
@@ -216,28 +216,31 @@ class AdminController extends UserController
      *
      * @param int  $id          User ID.
      * @param bool $active      Whether the user should be active.
-     * @param bool $anonymous   Whether the user should be anonymous.
+     * @param bool $anonymous   Whether the user should be anonymous (pass null to skip check).
      *
      * @return User             User model instance.
      */
-    private function checkUser($id, $active = true, $anonymous = false)
+    private function getUser($id, $active = true, $anonymous = false)
     {
         $user = $this->di->user->getById($id);
         $fail = false;
+        $activeStr = ($active ? 'aktiv' : 'inaktiv');
+        $anonStr = ($anonymous === true ? ' anonym' : '');
         if (!$user) {
             $fail = true;
-        } elseif (!is_null($user->deleted)) {
-            $fail = $active;
-        } elseif (!is_null($user->username)) {
-            $fail = $anonymous;
+        } else {
+            if (!is_null($anonymous)) {
+                $anonCond = !($anonymous xor !is_null($user->username));
+            } else {
+                $anonCond = false;
+            }
+            $fail = (!($active xor !is_null($user->deleted)) || $anonCond);
         }
+        
         if ($fail) {
-            $activeStr = ($active ? 'aktiv' : 'inaktiv');
-            $anonStr = ($anonymous ? ' anonym' : '');
             $this->di->session->set('err', "Kunde inte hitta en {$activeStr}{$anonStr} användare med ID $id.");
             $this->di->common->redirect('admin/user');
         }
-        
         return $user;
     }
 }
