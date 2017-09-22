@@ -108,6 +108,18 @@ return [
             'callable' => ['userController', 'handleAdminRestore']
         ],
         [
+            'info' => 'Admin user de-anonymization.',
+            'requestMethod' => 'get',
+            'path' => 'admin/user/register/{id:digit}',
+            'callable' => ['userController', 'adminRegister']
+        ],
+        [
+            'info' => 'Admin user de-anonymization handler.',
+            'requestMethod' => 'post',
+            'path' => 'admin/user/register/{id:digit}',
+            'callable' => ['userController', 'handleAdminRegister']
+        ],
+        [
             'info' => 'Admin comment list.',
             'requestMethod' => 'get',
             'path' => 'admin/comment',

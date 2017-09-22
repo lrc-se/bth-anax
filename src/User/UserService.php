@@ -154,6 +154,36 @@ class UserService extends \LRC\Common\BaseService
     
     
     /**
+     * Register anonymous user from model-bound form.
+     *
+     * @param \LRC\Form\ModelForm   $form       Model-bound form.
+     * @param User                  $oldUser    Model instance of existing user.
+     *
+     * @return bool                             True if the update was performed, false if validation failed.
+     */
+    public function registerAnonymousFromForm($form, $oldUser)
+    {
+        $user = $form->populateModel();
+        $user->id = $oldUser->id;
+        $user->name = $oldUser->name;
+        $user->email = $oldUser->email;
+        $form->validate();
+        if ($user->password !== $form->getExtra('password2')) {
+            $form->addError('password', 'Lösenorden stämmer inte överens.');
+            $form->addError('password2', 'Lösenorden stämmer inte överens.');
+        }
+        
+        if ($form->isValid()) {
+            $user->admin = 0;
+            $user->hashPassword();
+            $this->di->users->save($user);
+            return true;
+        }
+        return false;
+    }
+    
+    
+    /**
      * Delete a user.
      *
      * @param User $user    User model instance.

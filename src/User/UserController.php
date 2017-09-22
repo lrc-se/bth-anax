@@ -314,6 +314,50 @@ class UserController extends \LRC\Common\BaseController
     
     
     /**
+     * Admin register anonymous user page.
+     */
+    public function adminRegister($id)
+    {
+        $admin = $this->di->common->verifyAdmin();
+        $user = $this->di->user->getById($id);
+        if (!$user || !is_null($user->username)) {
+            $this->di->session->set('err', "Kunde inte hitta en anonym användare med ID $id.");
+            $this->di->common->redirect('user/admin/user');
+        }
+        
+        $this->renderPage('user/register', [
+            'user' => $user,
+            'form' => new Form('user-form', $user)
+        ], 'Registrera användare');
+    }
+    
+    
+    /**
+     * Admin register anonymous user handler.
+     */
+    public function handleAdminRegister($id)
+    {
+        $admin = $this->di->common->verifyAdmin();
+        $oldUser = $this->di->user->getById($id);
+        if (!$oldUser || !is_null($oldUser->username)) {
+            $this->di->session->set('err', "Kunde inte hitta en anonym användare med ID $id.");
+            $this->di->common->redirect('user/admin/user');
+        }
+        
+        $form = new Form('user-form', User::class);
+        if ($this->di->user->registerAnonymousFromForm($form, $oldUser, true)) {
+            $this->di->session->set('msg', "Användaren '" . htmlspecialchars($form->getModel()->username) . "' har registrerats.");
+            $this->di->common->redirect('user/admin/user');
+        }
+        
+        $this->renderPage('user/register', [
+            'user' => $form->getModel(),
+            'form' => $form
+        ], 'Registrera användare');
+    }
+    
+    
+    /**
      * Convenience method to render page.
      */
     private function renderPage($view, $data, $title)
