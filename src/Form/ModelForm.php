@@ -153,7 +153,7 @@ class ModelForm
     
     public function textarea($prop, $attrs = [])
     {
-        return '<textarea ' . $this->getAttributeString($prop, $attrs) . '></textarea>';
+        return '<textarea ' . $this->getAttributeString($prop, $attrs) . '>' . htmlspecialchars($this->getModelValue($prop)) . '</textarea>';
     }
     
     
