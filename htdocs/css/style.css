@@ -685,6 +685,16 @@ article > .columns:last-child {
     text-align: left;
 }
 
+.deleted {
+    background-color: #f6ecec;
+    background-color: rgba(156, 44, 48, .09);
+}
+
+.anonymous {
+    background-color: #fffeeb;
+    background-color: rgba(250, 236, 37, .09);
+}
+
 .comments {
     margin-top: 2.8em;
     padding: 1.05em 1.5em 1.4em;
