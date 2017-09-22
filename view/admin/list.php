@@ -1,8 +1,8 @@
 <?php $this->renderView('default/msgs', $data); ?>
 <h3>Webbplatsen har <?= count($users) ?> användare</h3>
 <p>
-    <a class="btn" href="<?= $this->url('user/admin/user/create') ?>">Lägg till användare</a>
-    <a class="btn btn-2" href="<?= $this->url('user/admin') ?>">Tillbaka till administration</a>
+    <a class="btn" href="<?= $this->url('admin/user/create') ?>">Lägg till användare</a>
+    <a class="btn btn-2" href="<?= $this->url('admin') ?>">Tillbaka till administration</a>
 </p>
 <div class="xscroll">
     <table class="table">
@@ -28,15 +28,15 @@
                 <td><?= $user->deleted ?></td>
                 <td>
 <?php       if ($user->deleted) : ?>
-                    <a href="<?= $this->url('user/admin/user/restore/' . $user->id) ?>">Återställ</a>
+                    <a href="<?= $this->url('admin/user/restore/' . $user->id) ?>">Återställ</a>
 <?php       else : ?>
 <?php           if ($user->username) : ?>
-                    <a href="<?= $this->url('user/admin/user/edit/' . $user->id) ?>">Redigera</a><br>
+                    <a href="<?= $this->url('admin/user/edit/' . $user->id) ?>">Redigera</a><br>
 <?php           else : ?>
-                    <a href="<?= $this->url('user/admin/user/register/' . $user->id) ?>">Registrera</a><br>
+                    <a href="<?= $this->url('admin/user/register/' . $user->id) ?>">Registrera</a><br>
 <?php           endif; ?>
 <?php           if ($user->id != $admin->id) : ?>
-                    <a href="<?= $this->url('user/admin/user/delete/' . $user->id) ?>">Ta bort</a>
+                    <a href="<?= $this->url('admin/user/delete/' . $user->id) ?>">Ta bort</a>
 <?php           endif; ?>
 <?php       endif; ?>
                 </td>

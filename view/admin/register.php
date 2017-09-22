@@ -50,7 +50,7 @@
         <div class="form-label"></div>
         <div class="form-input">
             <input type="submit" value="Registrera">
-            <a class="btn btn-2" href="<?= $this->url('user/admin/user') ?>">Avbryt</a> 
+            <a class="btn btn-2" href="<?= $this->url('admin/user') ?>">Avbryt</a> 
         </div>
     </div>
 </form>

@@ -53,7 +53,7 @@ if ($user) {
     if ($user->admin) {
         $navbar['items']['user']['items'][] = [
             'title' => 'Administration',
-            'route' => 'user/admin'
+            'route' => 'admin'
         ];
     }
     $navbar['items']['user']['items'][] = [

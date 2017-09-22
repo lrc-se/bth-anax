@@ -9,7 +9,7 @@
 <p>
     <a class="btn" href="<?= $this->url('user/profile/edit/' . $user->id) ?>">Redigera profil</a>
 <?php if ($user->admin) : ?>
-    <a class="btn" href="<?= $this->url('user/admin') ?>">Administration</a>
+    <a class="btn" href="<?= $this->url('admin') ?>">Administration</a>
 <?php endif; ?>
     <a class="btn btn-2" href="<?= $this->url('user/logout') ?>">Logga ut</a>
 </p>

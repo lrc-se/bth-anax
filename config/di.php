@@ -134,12 +134,13 @@ $config = [
 
 // register controllers
 $controllers = [
-    'content' => 'Content\Content',
-    'error' => 'Content\Error',
-    'rem' => 'Rem\Rem',
-    'comment' => 'Comment\Comment',
-    'user' => 'User\User',
-    'book' => 'Book\Book'
+    'content' => 'Content\\Content',
+    'error' => 'Content\\Error',
+    'rem' => 'Rem\\Rem',
+    'comment' => 'Comment\\Comment',
+    'user' => 'User\\User',
+    'admin' => 'User\\Admin',
+    'book' => 'Book\\Book'
 ];
 
 foreach ($controllers as $key => $controller) {

@@ -7,7 +7,7 @@ $num = count($comments);
 <?php if ($num) : ?>
 <h3>Webbplatsen har <?= ($num == 1 ? '1 kommentar' : $num . ' kommentarer') ?></h3>
 <p>
-    <a class="btn btn-2" href="<?= $this->url('user/admin') ?>">Tillbaka till administration</a>
+    <a class="btn btn-2" href="<?= $this->url('admin') ?>">Tillbaka till administration</a>
 </p>
 <div class="xscroll">
     <table class="table">
@@ -31,9 +31,9 @@ $num = count($comments);
                 <td><?= $comment->created ?></td>
                 <td><?= $comment->updated ?></td>
                 <td>
-                    <a href="<?= $this->url('user/admin/comment/' . $comment->id) ?>">Visa</a><br>
-                    <a href="<?= $this->url('user/admin/comment/edit/' . $comment->id) ?>">Redigera</a><br>
-                    <a href="<?= $this->url('user/admin/comment/delete/' . $comment->id) ?>">Ta bort</a>
+                    <a href="<?= $this->url('admin/comment/' . $comment->id) ?>">Visa</a><br>
+                    <a href="<?= $this->url('admin/comment/edit/' . $comment->id) ?>">Redigera</a><br>
+                    <a href="<?= $this->url('admin/comment/delete/' . $comment->id) ?>">Ta bort</a>
                 </td>
             </tr>
 <?php   endforeach; ?>
@@ -43,6 +43,6 @@ $num = count($comments);
 <?php else : ?>
 <h3>Inga kommentarer att visa</h3>
 <p>
-    <a class="btn btn-2" href="<?= $this->url('user/admin') ?>">Tillbaka till administration</a>
+    <a class="btn btn-2" href="<?= $this->url('admin') ?>">Tillbaka till administration</a>
 </p>
 <?php endif; ?>
