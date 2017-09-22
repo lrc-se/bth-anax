@@ -2,12 +2,16 @@
 
 namespace LRC\User;
 
+use \LRC\Common\BaseModel;
+use \LRC\Common\ValidationTrait;
+use \LRC\Common\ValidationInterface;
+
 /**
  * User model class.
  */
-class User extends \LRC\Common\BaseModel
+class User extends BaseModel implements ValidationInterface
 {
-    use \LRC\Common\ValidationTrait;
+    use ValidationTrait;
     
     
     public $id;

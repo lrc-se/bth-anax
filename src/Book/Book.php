@@ -2,12 +2,16 @@
 
 namespace LRC\Book;
 
+use \LRC\Common\BaseModel;
+use \LRC\Common\ValidationTrait;
+use \LRC\Common\ValidationInterface;
+
 /**
  * Book model class.
  */
-class Book extends \LRC\Common\BaseModel
+class Book extends BaseModel implements ValidationInterface
 {
-    use \LRC\Common\ValidationTrait;
+    use ValidationTrait;
     
     
     public $id;

@@ -2,12 +2,16 @@
 
 namespace LRC\Comment;
 
+use \LRC\Common\BaseModel;
+use \LRC\Common\ValidationTrait;
+use \LRC\Common\ValidationInterface;
+
 /**
  * Comment model class.
  */
-class Comment extends \LRC\Common\BaseModel
+class Comment extends BaseModel implements ValidationInterface
 {
-    use \LRC\Common\ValidationTrait;
+    use ValidationTrait;
     
     
     public $id;

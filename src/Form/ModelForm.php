@@ -15,7 +15,7 @@ class ModelForm
     public $id;
     
     /**
-     * @var mixed   Model instance to bind to.
+     * @var \LRC\Common\ValidationInterface     Model instance to bind to.
      */
     private $model;
     
