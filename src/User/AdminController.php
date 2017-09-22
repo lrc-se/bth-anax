@@ -219,12 +219,7 @@ class AdminController extends UserController
     public function viewComment($id)
     {
         $this->di->common->verifyAdmin();
-        $comment = $this->di->comments->getById($id);
-        if (!$comment) {
-            $this->di->session->set('err', "Kunde inte hitta kommentaren med ID $id.");
-            $this->di->common->redirect('admin/comment');
-        }
-        
+        $comment = $this->getComment($id);
         $this->renderPage('admin/comment-view', [
             'comment' => $comment,
             'author' => $comment->getReference('userId', $this->di->repository->users, false)
@@ -238,12 +233,7 @@ class AdminController extends UserController
     public function updateComment($id)
     {
         $this->di->common->verifyAdmin();
-        $comment = $this->di->comments->getById($id);
-        if (!$comment) {
-            $this->di->session->set('err', "Kunde inte hitta kommentaren med ID $id.");
-            $this->di->common->redirect('admin/comment');
-        }
-        
+        $comment = $this->getComment($id);
         $form = new Form('comment-form', $comment);
         $this->renderPage('admin/comment-form', [
             'comment' => $comment,
@@ -287,12 +277,7 @@ class AdminController extends UserController
     public function deleteComment($id)
     {
         $this->di->common->verifyAdmin();
-        $comment = $this->di->comments->getById($id);
-        if (!$comment) {
-            $this->di->session->set('err', "Kunde inte hitta kommentaren med ID $id.");
-            $this->di->common->redirect('admin/comment');
-        }
-        
+        $comment = $this->getComment($id);
         $this->renderPage('admin/comment-delete', [
             'comment' => $comment,
             'author' => $comment->getReference('userId', $this->di->repository->users, false)
@@ -306,12 +291,7 @@ class AdminController extends UserController
     public function handleDeleteComment($id)
     {
         $this->di->common->verifyAdmin();
-        $comment = $this->di->comments->getById($id);
-        if (!$comment) {
-            $this->di->session->set('err', "Kunde inte hitta kommentaren med ID $id.");
-            $this->di->common->redirect('admin/comment');
-        }
-        
+        $comment = $this->getComment($id);
         if ($this->di->request->getPost('action') == 'delete') {
             $this->di->comments->deleteComment($comment);
             $this->di->session->set('msg', 'Kommentaren har tagits bort.');
@@ -351,5 +331,23 @@ class AdminController extends UserController
             $this->di->common->redirect('admin/user');
         }
         return $user;
+    }
+    
+    
+    /**
+     * Retrieve requested comment, redirecting to index if not found.
+     *
+     * @param int                   $id     Comment ID.
+     *
+     * @return \LRC\Comment\Comment         Comment model instance.
+     */
+    private function getComment($id)
+    {
+        $comment = $this->di->comments->getById($id);
+        if (!$comment) {
+            $this->di->session->set('err', "Kunde inte hitta kommentaren med ID $id.");
+            $this->di->common->redirect('admin/comment');
+        }
+        return $comment;
     }
 }
