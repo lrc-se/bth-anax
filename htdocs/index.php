@@ -19,5 +19,8 @@ $di = new \Anax\DI\DIFactoryConfigMagic('di.php');
 // Start session
 $di->session->start();
 
+// Retrieve flash messages, if any
+$di->common->retrieveMessages();
+
 // Leave to router to match incoming request to routes
 $di->router->handle($di->request->getRoute(), $di->request->getMethod());

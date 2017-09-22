@@ -1,7 +1,7 @@
 <?php
 
-$err = $di->session->getOnce('err');
-$msg = $di->session->getOnce('msg');
+$err = $di->common->getMessage('err');
+$msg = $di->common->getMessage('msg');
 
 ?>
 <?php if (!empty($err)) : ?>

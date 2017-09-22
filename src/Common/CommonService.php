@@ -10,6 +10,12 @@ namespace LRC\Common;
 class CommonService extends BaseService
 {
     /**
+     * @var array   Flash messages.
+     */
+    private $messages;
+    
+    
+    /**
      * Redirect to URL.
      *
      * @param string $url   URL to redirect to.
@@ -18,6 +24,29 @@ class CommonService extends BaseService
     {
         $this->di->response->redirect($this->di->url->create($url));
         exit;
+    }
+    
+    
+    /**
+     * Retrieve flash messages from session.
+     */
+    public function retrieveMessages()
+    {
+        $this->messages['msg'] = $this->di->session->getOnce('msg');
+        $this->messages['err'] = $this->di->session->getOnce('err');
+    }
+    
+    
+    /**
+     * Return flash message.
+     *
+     * @param string $label     Message label.
+     *
+     * @return string|null      The requested message, or null if no message found.
+     */
+    public function getMessage($label = 'msg')
+    {
+        return (array_key_exists($label, $this->messages) ? $this->messages[$label] : null);
     }
     
     
