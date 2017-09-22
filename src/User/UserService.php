@@ -102,6 +102,9 @@ class UserService extends \LRC\Common\BaseService
             $form->addError('password', 'Lösenorden stämmer inte överens.');
             $form->addError('password2', 'Lösenorden stämmer inte överens.');
         }
+        if ($this->getByUsername($user->username)) {
+            $form->addError('username', 'Användarnamnet är upptaget.');
+        }
         
         if ($form->isValid()) {
             if (!$isAdmin) {
@@ -171,6 +174,9 @@ class UserService extends \LRC\Common\BaseService
         if ($user->password !== $form->getExtra('password2')) {
             $form->addError('password', 'Lösenorden stämmer inte överens.');
             $form->addError('password2', 'Lösenorden stämmer inte överens.');
+        }
+        if ($this->getByUsername($user->username)) {
+            $form->addError('username', 'Användarnamnet är upptaget.');
         }
         
         if ($form->isValid()) {
