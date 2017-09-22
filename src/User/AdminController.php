@@ -36,11 +36,7 @@ class AdminController extends UserController
     public function updateUser($id)
     {
         $admin = $this->di->common->verifyAdmin();
-        $user = $this->di->user->getById($id);
-        if (!$user) {
-            $this->di->session->set('err', "Kunde inte hitta användaren med ID $id.");
-            $this->di->common->redirect('admin/user');
-        }
+        $user = $this->checkUser($id);
         
         $this->renderPage('user/form', [
             'user' => $user,
@@ -57,11 +53,7 @@ class AdminController extends UserController
     public function handleUpdateUser($id)
     {
         $admin = $this->di->common->verifyAdmin();
-        $oldUser = $this->di->user->getById($id);
-        if (!$oldUser) {
-            $this->di->session->set('err', "Kunde inte hitta användaren med ID $id.");
-            $this->di->common->redirect('admin/user');
-        }
+        $oldUser = $this->checkUser($id);
         
         $form = new Form('user-form', User::class);
         if ($this->di->user->updateFromForm($form, $oldUser, true)) {
@@ -120,11 +112,8 @@ class AdminController extends UserController
     public function deleteUser($id)
     {
         $admin = $this->di->common->verifyAdmin();
-        $user = $this->di->user->getById($id);
-        if (!$user) {
-            $this->di->session->set('err', "Kunde inte hitta användaren med ID $id.");
-            $this->di->common->redirect('admin/user');
-        } elseif ($user->id == $admin->id) {
+        $user = $this->checkUser($id);
+        if ($user->id == $admin->id) {
             $this->di->session->set('err', "Du kan inte ta bort din egen användare.");
             $this->di->common->redirect('admin/user');
         }
@@ -139,11 +128,8 @@ class AdminController extends UserController
     public function handleDeleteUser($id)
     {
         $admin = $this->di->common->verifyAdmin();
-        $user = $this->di->user->getById($id);
-        if (!$user) {
-            $this->di->session->set('err', "Kunde inte hitta användaren med ID $id.");
-            $this->di->common->redirect('admin/user');
-        } elseif ($user->id == $admin->id) {
+        $user = $this->checkUser($id);
+        if ($user->id == $admin->id) {
             $this->di->session->set('err', "Du kan inte ta bort din egen användare.");
             $this->di->common->redirect('admin/user');
         }
@@ -162,11 +148,7 @@ class AdminController extends UserController
     public function handleRestoreUser($id)
     {
         $admin = $this->di->common->verifyAdmin();
-        $user = $this->di->user->getById($id);
-        if (!$user) {
-            $this->di->session->set('err', "Kunde inte hitta användaren med ID $id.");
-            $this->di->common->redirect('admin/user');
-        }
+        $user = $this->checkUser($id, false);
         
         $this->di->user->restore($user);
         $this->di->session->set('msg', "Användaren '" . htmlspecialchars($user->username) . "' har återställts.");
@@ -180,11 +162,7 @@ class AdminController extends UserController
     public function registerUser($id)
     {
         $admin = $this->di->common->verifyAdmin();
-        $user = $this->di->user->getById($id);
-        if (!$user || !is_null($user->username)) {
-            $this->di->session->set('err', "Kunde inte hitta en anonym användare med ID $id.");
-            $this->di->common->redirect('admin/user');
-        }
+        $user = $this->checkUser($id, true, true);
         
         $this->renderPage('admin/user-register', [
             'user' => $user,
@@ -199,11 +177,7 @@ class AdminController extends UserController
     public function handleRegisterUser($id)
     {
         $admin = $this->di->common->verifyAdmin();
-        $oldUser = $this->di->user->getById($id);
-        if (!$oldUser || !is_null($oldUser->username)) {
-            $this->di->session->set('err', "Kunde inte hitta en anonym användare med ID $id.");
-            $this->di->common->redirect('admin/user');
-        }
+        $oldUser = $this->checkUser($id, true, true);
         
         $form = new Form('user-form', User::class);
         if ($this->di->user->registerAnonymousFromForm($form, $oldUser, true)) {
@@ -226,5 +200,35 @@ class AdminController extends UserController
         $admin = $this->di->common->verifyAdmin();
         $comments = $this->di->repository->comments->getAll();
         $this->renderPage('admin/comment-list', ['comments' => $comments], 'Administrera kommentarer');
+    }
+    
+    
+    /**
+     * Retrieve requested user and check that it has the desired state, redirecting to index if not (or if no user found).
+     *
+     * @param int  $id          User ID.
+     * @param bool $active      Whether the user should be active.
+     * @param bool $anonymous   Whether the user should be anonymous.
+     *
+     * @return User             User model instance.
+     */
+    private function checkUser($id, $active = true, $anonymous = false)
+    {
+        $user = $this->di->user->getById($id);
+        if (!$user) {
+            $fail = true;
+        } elseif (!is_null($user->deleted)) {
+            $fail = $active;
+        } elseif (!is_null($user->username)) {
+            $fail = $anonymous;
+        }
+        if ($fail) {
+            $activeStr = ($active ? 'aktiv' : 'inaktiv');
+            $anonStr = ($anonymous ? ' anonym' : '');
+            $this->di->session->set('err', "Kunde inte hitta en {$activeStr}{$anonStr} användare med ID $id.");
+            $this->di->common->redirect('admin/user');
+        }
+        
+        return $user;
     }
 }
