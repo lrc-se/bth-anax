@@ -41,7 +41,11 @@ $navbar = [
 ];
 
 // handle logged-in user, if any
-$user = $this->di->user->getCurrent();
+try {
+    $user = $this->di->user->getCurrent();
+} catch (Exception $ex) {
+    $user = null;
+}
 if ($user) {
     $navbar['items']['user']['title'] .= ' <span class="navbar-user">(<span>' . htmlspecialchars($user->username) . '</span>)</span>';
     $navbar['items']['user']['items'] = [
