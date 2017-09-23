@@ -23,11 +23,17 @@ $num = count($comments);
         </thead>
         <tbody>
 <?php   foreach ($comments as $comment) : ?>
-<?php       $author = $comment->getReference('userId', $di->repository->users); ?>
+<?php       $author = $comment->getReference('userId', $di->repository->users, false); ?>
             <tr<?= (is_null($author->username) ? ' class="anonymous"' : '') ?>>
                 <td><?= $comment->id ?></td>
                 <td><?= esc($comment->contentId) ?></a></td>
-                <td><?= esc($author->name) ?><br><?= (is_null($author->username) ? '<em>(Anonym)</em>' : '<strong>(' . esc($author->username) . ')</strong>') ?></td>
+                <td>
+<?php       if (is_null($author->deleted)) : ?>
+                    <?= esc($author->name) ?><br><?= (is_null($author->username) ? '<em>(Anonym)</em>' : '<strong>(' . esc($author->username) . ')</strong>') ?>
+<?php       else : ?>
+                    <em>(Borttagen användare)</em>
+<?php       endif; ?>
+                </td>
                 <td><?= $comment->created ?></td>
                 <td><?= $comment->updated ?></td>
                 <td>

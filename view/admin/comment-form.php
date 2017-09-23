@@ -16,8 +16,11 @@
         <div class="form-label"><label>Skriven av:</label></div>
         <div class="form-input">
             <div class="form-static">
-                <?= esc($author->name) ?>
-                <?= (is_null($author->username) ? '<em>(Anonym)</em>' : '<strong>(' . esc($author->username) . ')</strong>') ?>
+<?php if (is_null($author->deleted)) : ?>
+                <?= esc($author->name) . (is_null($author->username) ? ' <em>(Anonym)</em>' : ' <strong>(' . esc($author->username) . ')</strong>') ?>
+<?php else : ?>
+                <em>(Borttagen användare)</em>
+<?php endif; ?>
             </div>
         </div>
     </div>
