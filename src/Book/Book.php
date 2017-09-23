@@ -57,7 +57,7 @@ class Book extends BaseModel implements ValidationInterface
             'isbn' => [
                 [
                     'rule' => 'maxlength',
-                    'value' => 9,
+                    'value' => 13,
                     'message' => 'ISBN-koden får vara maximalt 13 tecken lång.'
                 ]
             ],
