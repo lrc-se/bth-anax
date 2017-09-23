@@ -642,6 +642,7 @@ article > .columns:last-child {
 
 .form-input .has-error,
 .form-input .has-error:focus {
+    color: #733;
     background-color: #f6ecec;
     background-color: rgba(156, 44, 48, .09);
     border-color: #9c2c30;
@@ -868,8 +869,7 @@ article > .columns:last-child {
     
     .navbar > button {
         height: 3em;
-        margin-left: auto;
-        margin-right: 0;
+        margin: 0 0 0 auto;
         padding: 0 1em;
         color: #fff;
         background-color: transparent;
