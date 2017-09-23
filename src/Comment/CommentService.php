@@ -122,4 +122,26 @@ class CommentService extends \LRC\Common\BaseService implements ConfigureInterfa
         
         return false;
     }
+
+    
+    /**
+     * Include comments section in page render.
+     *
+     * @param string            $contentId  Content ID.
+     * @param \LRC\User\User    $user       Current user.
+     */
+    public function includeComments($contentId, $user = null)
+    {
+        $form = $this->di->session->getOnce('commentForm');
+        if (!$form) {
+            $form = new \LRC\Form\ModelForm('comment-form', Comment::class);
+        }
+        $this->di->view->add('comment/comments', [
+            'contentId' => $contentId,
+            'comments' => $this->getComments($contentId),
+            'user' => $user,
+            'form' => $form,
+            'comment' => $form->getModel()
+        ], 'main');
+    }
 }

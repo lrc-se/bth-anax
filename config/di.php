@@ -125,7 +125,11 @@ $config = [
             'callback' => function () {
                 return (new \LRC\Comment\CommentService())
                     ->configure('comments.php')
-                    ->inject(['comments' => $this->repository->comments]);
+                    ->inject([
+                        'session' => $this->session,
+                        'view' => $this->view,
+                        'comments' => $this->repository->comments
+                    ]);
             }
         ]
     ]
