@@ -59,7 +59,7 @@ class AdminController extends UserController
         
         $form = new Form('user-form', User::class);
         if ($this->di->user->updateFromForm($form, $oldUser, true)) {
-            $this->di->session->set('msg', "Användaren '" . htmlspecialchars($form->getModel()->username) . "' har uppdaterats.");
+            $this->di->session->set('msg', 'Användaren "' . htmlspecialchars($form->getModel()->username) . '" har uppdaterats.');
             $this->di->common->redirect('admin/user');
         }
         
@@ -95,7 +95,7 @@ class AdminController extends UserController
         $admin = $this->di->common->verifyAdmin();
         $form = new Form('user-form', User::class);
         if ($this->di->user->createFromForm($form, true)) {
-            $this->di->session->set('msg', "Användaren '" . htmlspecialchars($form->getModel()->username) . "' har skapats.");
+            $this->di->session->set('msg', 'Användaren "' . htmlspecialchars($form->getModel()->username) . '" har skapats.');
             $this->di->common->redirect('admin/user');
         }
         
@@ -139,7 +139,7 @@ class AdminController extends UserController
         if ($this->di->request->getPost('action') == 'delete') {
             $this->di->user->delete($user);
             if (!is_null($user->username)) {
-                $this->di->session->set('msg', "Användaren '" . htmlspecialchars($user->username) . "' har tagits bort.");
+                $this->di->session->set('msg', 'Användaren "' . htmlspecialchars($user->username) . '" har tagits bort.');
             } else {
                 $this->di->session->set('msg', 'Den anonyma användaren med ID ' . $user->id . ' har tagits bort.');
             }
@@ -158,7 +158,7 @@ class AdminController extends UserController
         
         $this->di->user->restore($user);
         if (!is_null($user->username)) {
-            $this->di->session->set('msg', "Användaren '" . htmlspecialchars($user->username) . "' har återställts.");
+            $this->di->session->set('msg', 'Användaren "' . htmlspecialchars($user->username) . '" har återställts.');
         } else {
             $this->di->session->set('msg', 'Den anonyma användaren med ID ' . $user->id . ' har återställts.');
         }
@@ -191,7 +191,7 @@ class AdminController extends UserController
         
         $form = new Form('user-form', User::class);
         if ($this->di->user->registerAnonymousFromForm($form, $oldUser, true)) {
-            $this->di->session->set('msg', "Användaren '" . htmlspecialchars($form->getModel()->username) . "' har registrerats.");
+            $this->di->session->set('msg', 'Användaren "' . htmlspecialchars($form->getModel()->username) . '" har registrerats.');
             $this->di->common->redirect('admin/user');
         }
         
