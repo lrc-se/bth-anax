@@ -47,10 +47,7 @@ class CommentController extends \LRC\Common\BaseController
         $form->validate();
         if ($form->isValid()) {
             if (!$user) {
-                $user = $this->di->user->getAnonymous($commentVM->name, $commentVM->email);
-                if (!$user) {
-                    $user = $this->di->user->addAnonymous($commentVM->name, $commentVM->email);
-                }
+                $user = $this->di->user->getAnonymous($commentVM->name, $commentVM->email, true);
             }
             $comment = new Comment();
             $comment->contentId = $commentVM->contentId;

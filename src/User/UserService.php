@@ -42,14 +42,16 @@ class UserService extends \LRC\Common\BaseService
     /**
      * Get an anonymous user by name and e-mail address.
      *
-     * @param string $name      User name.
-     * @param string $email     User e-mail.
+     * @param string    $name   User name.
+     * @param string    $email  User e-mail.
+     * @param bool      $create Whether to create the user if it does not already exist.
      *
      * @return User|null        User model instance if found, null otherwise.
      */
-    public function getAnonymous($name, $email)
+    public function getAnonymous($name, $email, $create = false)
     {
-        return ($this->di->users->getFirst('username IS NULL AND name = ? AND email = ?', [$name, $email]) ?: null);
+        $user = ($this->di->users->getFirst('username IS NULL AND name = ? AND email = ?', [$name, $email]) ?: null);
+        return ($create && !$user ? $this->addAnonymous($name, $email) : $user);
     }
     
     
