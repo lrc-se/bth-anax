@@ -1,9 +1,18 @@
 <?php $this->renderView('default/msgs', $data); ?>
-<h3>Webbplatsen har <?= count($users) ?> användare</h3>
+<h3>Visar <?= count($users) ?> av <?= $total ?> användare</h3>
 <p>
     <a class="btn" href="<?= $this->url('admin/user/create') ?>">Lägg till användare</a>
     <a class="btn btn-2" href="<?= $this->url('admin') ?>">Tillbaka till administration</a>
 </p>
+<form action="<?= $this->currentUrl() ?>">
+    <p>
+        <select name="filter" onchange="this.form.submit()">
+            <option value="">Visa alla</option>
+            <option value="registered"<?= ($filter == 'registered' ? ' selected' : '') ?>>Endast registrerade</option>
+            <option value="anonymous"<?= ($filter == 'anonymous' ? ' selected' : '') ?>>Endast anonyma</option>
+        </select>
+    </p>
+</form>
 <div class="xscroll">
     <table class="table">
         <thead>
