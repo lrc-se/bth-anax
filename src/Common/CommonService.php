@@ -30,10 +30,11 @@ class CommonService extends BaseService
     /**
      * Retrieve flash messages from session.
      */
-    public function retrieveMessages()
+    public function retrieveMessages($labels = ['msg', 'err'])
     {
-        $this->messages['msg'] = $this->di->session->getOnce('msg');
-        $this->messages['err'] = $this->di->session->getOnce('err');
+        foreach ($labels as $label) {
+            $this->messages[$label] = $this->di->session->getOnce($label);
+        }
     }
     
     
@@ -100,6 +101,9 @@ class CommonService extends BaseService
     public function renderPage($title, $content = '', $data = [], $status = 200)
     {
         $data['stylesheets'] = ['css/style.css'];
+        
+        // retrieve flash messages, if any
+        $this->retrieveMessages();
 
         // common navbar and footer
         $this->di->view->add('default/navbar', [], 'navbar');
