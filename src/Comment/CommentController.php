@@ -2,14 +2,13 @@
 
 namespace LRC\Comment;
 
+use \LRC\Common\BaseController;
 use \LRC\Form\ModelForm as Form;
 
 /**
  * Controller for the comment system.
- *
- * @SuppressWarnings(PHPMD.ExitExpression)
  */
-class CommentController extends \LRC\Common\BaseController
+class CommentController extends BaseController
 {
     /**
      * Retrieve a comment.
@@ -17,6 +16,8 @@ class CommentController extends \LRC\Common\BaseController
      * @param int $id   Comment ID.
      *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     public function get($id)
     {
@@ -127,20 +128,6 @@ class CommentController extends \LRC\Common\BaseController
     }
 
 
-    /**
-     * Populate comment from request form data.
-     *
-     * @return Comment
-     */
-    /*private function populateComment()
-    {
-        $comment = new Comment();
-        $comment->contentId = $this->di->request->getPost('contentId');
-        $comment->text = $this->di->request->getPost('text');
-        return $comment;
-    }*/
-    
-    
     /**
      * Return to calling page.
      *

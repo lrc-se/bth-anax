@@ -2,10 +2,12 @@
 
 namespace LRC\Content;
 
+use \LRC\Common\BaseService;
+
 /**
  * Service for file-based content.
  */
-class ContentService extends \LRC\Common\BaseService
+class ContentService extends BaseService
 {
     /**
      * Get file-based content by path.

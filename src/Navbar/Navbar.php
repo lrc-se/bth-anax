@@ -2,12 +2,16 @@
 
 namespace LRC\Navbar;
 
+use \Anax\Configure\ConfigureInterface;
+use \Anax\Configure\ConfigureTrait;
+use \LRC\Common\BaseService;
+
 /**
  * Navbar class.
  */
-class Navbar extends \LRC\Common\BaseService implements \Anax\Common\ConfigureInterface
+class Navbar extends BaseService implements ConfigureInterface
 {
-    use \Anax\Common\ConfigureTrait;
+    use ConfigureTrait;
     
     
     /**

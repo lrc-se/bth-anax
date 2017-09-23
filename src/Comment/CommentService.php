@@ -4,11 +4,13 @@ namespace LRC\Comment;
 
 use \Anax\Configure\ConfigureInterface;
 use \Anax\Configure\ConfigureTrait;
+use \LRC\Common\BaseService;
+use \LRC\Form\ModelForm as Form;
 
 /**
  * Comment system.
  */
-class CommentService extends \LRC\Common\BaseService implements ConfigureInterface
+class CommentService extends BaseService implements ConfigureInterface
 {
     use ConfigureTrait;
     
@@ -134,7 +136,7 @@ class CommentService extends \LRC\Common\BaseService implements ConfigureInterfa
     {
         $form = $this->di->session->getOnce('commentForm');
         if (!$form) {
-            $form = new \LRC\Form\ModelForm('comment-form', Comment::class);
+            $form = new Form('comment-form', Comment::class);
         }
         $this->di->view->add('comment/comments', [
             'contentId' => $contentId,

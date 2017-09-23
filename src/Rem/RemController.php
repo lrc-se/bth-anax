@@ -2,12 +2,14 @@
 
 namespace LRC\Rem;
 
+use \LRC\Common\BaseController;
+
 /**
  * A controller for the REM Server.
  *
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
-class RemController extends \LRC\Common\BaseController
+class RemController extends BaseController
 {
     /**
      * Start the session and initiate the REM Server.

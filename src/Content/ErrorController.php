@@ -2,12 +2,14 @@
 
 namespace LRC\Content;
 
+use \LRC\Common\BaseController;
+
 /**
  * Error controller.
  *
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
-class ErrorController extends \LRC\Common\BaseController
+class ErrorController extends BaseController
 {
     /**
      * @var array   Default error definitions.

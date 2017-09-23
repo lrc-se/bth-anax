@@ -2,12 +2,13 @@
 
 namespace LRC\User;
 
+use \LRC\Common\BaseController;
 use \LRC\Form\ModelForm as Form;
 
 /**
  * Controller for users.
  */
-class UserController extends \LRC\Common\BaseController
+class UserController extends BaseController
 {
     /**
      * Profile page.

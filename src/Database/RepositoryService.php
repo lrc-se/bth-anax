@@ -2,12 +2,16 @@
 
 namespace LRC\Database;
 
+use \Anax\Configure\ConfigureInterface;
+use \Anax\Configure\ConfigureTrait;
+use \LRC\Common\BaseService;
+
 /**
  * Application-wide database repository service.
  */
-class RepositoryService extends \LRC\Common\BaseService implements \Anax\Common\ConfigureInterface
+class RepositoryService extends BaseService implements ConfigureInterface
 {
-    use \Anax\Common\ConfigureTrait {
+    use ConfigureTrait {
         configure as loadConfig;
     }
     

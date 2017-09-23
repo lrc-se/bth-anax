@@ -2,12 +2,14 @@
 
 namespace LRC\Content;
 
+use \LRC\Common\BaseController;
+
 /**
  * Default controller for file-based content.
  *
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
-class ContentController extends \LRC\Common\BaseController
+class ContentController extends BaseController
 {
     /**
      * Render default view.

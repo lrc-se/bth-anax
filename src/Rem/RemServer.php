@@ -4,11 +4,12 @@ namespace LRC\Rem;
 
 use \Anax\Configure\ConfigureInterface;
 use \Anax\Configure\ConfigureTrait;
+use \LRC\Common\BaseService;
 
 /**
  * REM Server.
  */
-class RemServer extends \LRC\Common\BaseService implements ConfigureInterface
+class RemServer extends BaseService implements ConfigureInterface
 {
     use ConfigureTrait;
 

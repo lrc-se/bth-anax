@@ -2,10 +2,12 @@
 
 namespace LRC\User;
 
+use \LRC\Common\BaseService;
+
 /**
  * User service.
  */
-class UserService extends \LRC\Common\BaseService
+class UserService extends BaseService
 {
     /**
      * @var User    Current logged-in user.

@@ -2,12 +2,13 @@
 
 namespace LRC\Book;
 
+use \LRC\Common\BaseController;
 use \LRC\Form\ModelForm as Form;
 
 /**
  * Controller for books.
  */
-class BookController extends \LRC\Common\BaseController
+class BookController extends BaseController
 {
     /**
      * @var \LRC\Database\DbRepository  Book repository.
