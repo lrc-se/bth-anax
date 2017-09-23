@@ -67,7 +67,7 @@ if ($user) {
 } else {
     $navbar['items']['user']['items'] = [
         [
-            'title' => 'Skapa ny',
+            'title' => 'Registrera ny',
             'route' => 'user/profile/create'
         ],
         [

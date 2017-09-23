@@ -32,7 +32,7 @@
     </div>
     <div class="form-control">
         <div class="form-label"><?= $form->label('text', 'Kommentar:') ?></div>
-        <div class="form-input"><?= $form->textarea('text', ['rows' => 7,  'required' => true]) ?></div>
+        <div class="form-input"><?= $form->textarea('text', ['rows' => 7,  'required' => true, 'autofocus' => true]) ?></div>
     </div>
     <div class="form-control">
         <div class="form-label"></div>

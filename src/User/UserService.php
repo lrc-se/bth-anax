@@ -92,7 +92,7 @@ class UserService extends \LRC\Common\BaseService
      * @param \LRC\Form\ModelForm   $form       Model-bound form.
      * @param bool                  $isAdmin    Whether the insert is performed from the admin panel.
      *
-     * @return bool                             True if the insert was performed, false is validation failed.
+     * @return bool                             True if the insert was performed, false if validation failed.
      */
     public function createFromForm($form, $isAdmin = false)
     {
@@ -125,7 +125,7 @@ class UserService extends \LRC\Common\BaseService
      * @param User                  $oldUser    Model instance of existing user.
      * @param bool                  $isAdmin    Whether the update is performed from the admin panel.
      *
-     * @return bool                             True if the update was performed, false is validation failed.
+     * @return bool                             True if the update was performed, false if validation failed.
      */
     public function updateFromForm($form, $oldUser, $isAdmin = false)
     {

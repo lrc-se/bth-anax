@@ -1,5 +1,4 @@
 <?php $this->renderView('default/msgs'); ?>
-<!--<form id="<?= $form->id ?>" class="form" action="<?= $di->request->getCurrentUrl() ?>" method="post">-->
 <?= $form->form($di->request->getCurrentUrl(), 'post', ['class' => 'form']) ?>
 <?php if ($update) : ?>
     <?= $form->input('id', 'hidden') ?>
@@ -20,7 +19,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('name', 'Namn:') ?></div>
         <div class="form-input">
-            <?= $form->text('name', ['required' => true, 'maxlength' => 100]) ?>
+            <?= $form->text('name', ['required' => true, 'maxlength' => 100, 'autofocus' => $update]) ?>
 <?php if ($form->hasError('name')) : ?>
             <div class="form-error"><?= $form->getError('name') ?></div>
 <?php endif; ?>
@@ -69,8 +68,8 @@
     <div class="form-control">
         <div class="form-label"></div>
         <div class="form-input">
-            <input type="submit" value="<?= ($update ? 'Spara' : 'Registrera') ?>">
-<?php if ($update) : ?>
+            <input type="submit" value="<?= ($update ? 'Spara' : ($admin ? 'Skapa' : 'Registrera')) ?>">
+<?php if ($update || $admin) : ?>
             <a class="btn btn-2" href="<?= $this->url(($admin ? 'admin/user' : 'user/profile')) ?>">Avbryt</a> 
 <?php endif; ?>
         </div>
