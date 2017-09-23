@@ -14,15 +14,24 @@ class CommentService extends \LRC\Common\BaseService implements ConfigureInterfa
     
     
     /**
+     * @var array   Comment cache.
+     */
+    private $cache = [];
+    
+    
+    /**
      * Get a comment by ID.
      *
-     * @param int $id   Comment ID.
+     * @param int           $id     Comment ID.
      *
-     * @return Comment|null Comment model instance if found, null otherwise.
+     * @return Comment|null         Comment model instance if found, null otherwise.
      */
     public function getById($id)
     {
-        return ($this->di->comments->find('id', $id) ?: null);
+        if (!isset($this->cache[$id])) {
+            $this->cache[$id] = ($this->di->comments->find('id', $id) ?: null);
+        }
+        return $this->cache[$id];
     }
     
     
@@ -82,7 +91,7 @@ class CommentService extends \LRC\Common\BaseService implements ConfigureInterfa
      */
     public function updateComment($comment)
     {
-        $oldComment = $this->di->comments->find('id', $comment->id);
+        $oldComment = $this->getById($comment->id);
         if ($oldComment) {
             $comment->userId = $oldComment->userId;
             $comment->contentId = $oldComment->contentId;
@@ -99,13 +108,13 @@ class CommentService extends \LRC\Common\BaseService implements ConfigureInterfa
     /**
      * Delete a comment.
      *
-     * @param Comment   $comment    Comment to delete.
+     * @param int   $id     Comment ID.
      *
-     * @return bool     True if comment found, false otherwise.
+     * @return bool         True if comment found, false otherwise.
      */
-    public function deleteComment($comment)
+    public function deleteComment($id)
     {
-        $comment = $this->di->comments->find('id', $comment->id);
+        $comment = $this->getById($id);
         if ($comment) {
             $this->di->comments->delete($comment);
             return true;

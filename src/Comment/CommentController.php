@@ -2,6 +2,8 @@
 
 namespace LRC\Comment;
 
+use \LRC\Form\ModelForm as Form;
+
 /**
  * Controller for the comment system.
  *
@@ -35,32 +37,31 @@ class CommentController extends \LRC\Common\BaseController
      */
     public function create()
     {
-        $comment = $this->populateComment();
+        $form = new Form('comment-form', CommentVM::class);
+        $commentVM = $form->populateModel();
         $user = $this->di->user->getCurrent();
-        if (!$user) {
-            $name = $this->di->request->getPost('name');
-            $email = $this->di->request->getPost('email');
-            if ($name !== '') {
-                $user = $this->di->user->getAnonymous($name, $email);
+        if ($user) {
+            $commentVM->name = $user->name;
+            $commentVM->email = $user->email;
+        }
+        $form->validate();
+        if ($form->isValid()) {
+            if (!$user) {
+                $user = $this->di->user->getAnonymous($commentVM->name, $commentVM->email);
                 if (!$user) {
-                    $user = $this->di->user->addAnonymous($name, $email);
+                    $user = $this->di->user->addAnonymous($commentVM->name, $commentVM->email);
                 }
-            } else {
-                $this->di->session->set('err', 'Namn måste anges.');
-                $this->back();
             }
-        }
-        if ($comment->isValid()) {
+            $comment = new Comment();
+            $comment->contentId = $commentVM->contentId;
             $comment->userId = $user->id;
+            $comment->text = $commentVM->text;
             $this->di->comments->addComment($comment);
-        } else {
-            $errors = '';
-            foreach ($comment->getValidationErrors() as $error) {
-                $errors .= "<li>$error</li>";
-            }
-            $this->di->session->set('err', "<p>Följande fel uppstod:</p><ul>$errors</ul>");
+            $this->back();
         }
-        $this->back();
+        
+        $this->di->session->set('commentForm', $form);
+        $this->back(true);
     }
 
 
@@ -73,37 +74,32 @@ class CommentController extends \LRC\Common\BaseController
      */
     public function update($id)
     {
-        $user = $this->di->user->getCurrent();
-        if (!$user) {
-            $this->di->session->set('err', 'Du har inte behörighet att redigera denna kommentar.');
-            $this->back();
-        }
-        
         $oldComment = $this->di->comments->getById($id);
         if (!$oldComment) {
             $this->di->session->set('err', 'Kunde inte hitta kommentaren.');
             $this->back();
         }
         
-        if ($user->admin || $oldComment->userId === $user->id) {
-            $comment = $this->populateComment();
-            if ($comment->isValid()) {
-                $comment->id = $id;
-                $comment->editorId = $user->id;
-                if (!$this->di->comments->updateComment($comment)) {
-                    $this->di->session->set('err', 'Kunde inte hitta kommentaren.');
-                }
-            } else {
-                $errors = '';
-                foreach ($comment->getValidationErrors() as $error) {
-                    $errors .= "<li>$error</li>";
-                }
-                $this->di->session->set('err', "<p>Följande fel uppstod:</p><ul>$errors</ul>");
-            }
-        } else {
+        $user = $this->di->user->getCurrent();
+        if (!$user || (!$user->admin && $oldComment->userId !== $user->id)) {
             $this->di->session->set('err', 'Du har inte behörighet att redigera denna kommentar.');
+            $this->back();
         }
-        
+                
+        $comment = new Comment();
+        $comment->contentId = $this->di->request->getPost('contentId');
+        $comment->text = $this->di->request->getPost('text');
+        if ($comment->isValid()) {
+            $comment->id = $id;
+            $comment->editorId = $user->id;
+            $this->di->comments->updateComment($comment);
+        } else {
+            $errors = '';
+            foreach ($comment->getValidationErrors() as $error) {
+                $errors .= "<li>$error</li>";
+            }
+            $this->di->session->set('err', "<p>Följande fel uppstod:</p><ul>$errors</ul>");
+        }
         $this->back();
     }
 
@@ -117,23 +113,19 @@ class CommentController extends \LRC\Common\BaseController
      */
     public function delete($id)
     {
-        $user = $this->di->user->getCurrent();
-        if ($user) {
-            $oldComment = $this->di->comments->getById($id);
-            if ($oldComment) {
-                if ($user->admin || $oldComment->userId === $user->id) {
-                    if (!$this->di->comments->deleteComment($oldComment)) {
-                        $this->di->session->set('err', 'Kunde inte hitta kommentaren.');
-                    }
-                } else {
-                    $this->di->session->set('err', 'Du har inte behörighet att ta bort denna kommentar.');
-                }
-            } else {
-                $this->di->session->set('err', 'Kunde inte hitta kommentaren.');
-            }
-        } else {
-            $this->di->session->set('err', 'Du har inte behörighet att ta bort denna kommentar.');
+        $oldComment = $this->di->comments->getById($id);
+        if (!$oldComment) {
+            $this->di->session->set('err', 'Kunde inte hitta kommentaren.');
+            $this->back();
         }
+        
+        $user = $this->di->user->getCurrent();
+        if (!$user || (!$user->admin && $oldComment->userId !== $user->id)) {
+            $this->di->session->set('err', 'Du har inte behörighet att ta bort denna kommentar.');
+            $this->back();
+        }
+        
+        $this->di->comments->deleteComment($id);
         $this->back();
     }
 
@@ -143,20 +135,22 @@ class CommentController extends \LRC\Common\BaseController
      *
      * @return Comment
      */
-    private function populateComment()
+    /*private function populateComment()
     {
         $comment = new Comment();
         $comment->contentId = $this->di->request->getPost('contentId');
         $comment->text = $this->di->request->getPost('text');
         return $comment;
-    }
+    }*/
     
     
     /**
      * Return to calling page.
+     *
+     * @param bool $toForm  Whether to scroll to form or not.
      */
-    private function back()
+    private function back($toForm = false)
     {
-        $this->di->common->redirect($this->di->request->getPost('url', $this->di->request->getServer('HTTP_REFERER')) . '#comments');
+        $this->di->common->redirect($this->di->request->getPost('url', $this->di->request->getServer('HTTP_REFERER')) . ($toForm ? '#comment-add' : '#comments'));
     }
 }

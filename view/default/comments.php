@@ -10,29 +10,47 @@
         <li class="comment"><em>Inga kommentarer ännu.</em></li>
 <?php endif; ?>
     </ol>
-    <div class="comment-add">
+    <div id="comment-add" class="comment-add anchor">
         <h5>Skriv kommentar</h5>
-        <form class="form form-small comment-form" action="<?= $this->url('comment/create')?>" method="post">
+        <?= $form->form($this->url('comment/create'), 'post', ['class' => 'form form-small comment-form']) ?>
             <input type="hidden" name="url" value="<?= $this->currentUrl() ?>">
             <input type="hidden" name="contentId" value="<?= $contentId ?>">
 <?php if ($user) : ?>
             <div class="form-control">
                 <div class="form-input">
-                    <textarea id="comment-text" name="text" rows="7" required></textarea>
+                    <?= $form->textarea('text', ['required' => true, 'rows' => 7]) ?>
+<?php   if ($form->hasError('text')) : ?>
+                    <div class="form-error"><?= $form->getError('text') ?></div>
+<?php   endif; ?>
                 </div>
             </div>
 <?php else : ?>
             <div class="form-control">
-                <div class="form-label"><label for="comment-name">Namn:</label></div>
-                <div class="form-input"><input id="comment-name" type="text" name="name" maxlength="100" required></div>
+                <div class="form-label"><?= $form->label('name', 'Namn:') ?></div>
+                <div class="form-input">
+                    <?= $form->text('name', ['required' => false, 'maxlength' => 100]) ?>
+<?php   if ($form->hasError('name')) : ?>
+                    <div class="form-error"><?= $form->getError('name') ?></div>
+<?php   endif; ?>
+                </div>
             </div>
             <div class="form-control">
-                <div class="form-label"><label for="comment-email">E-post:</label></div>
-                <div class="form-input"><input id="comment-email" type="email" name="email" maxlength="200"></div>
+                <div class="form-label"><?= $form->label('email', 'E-post:') ?></div>
+                <div class="form-input">
+                    <?= $form->input('email', 'email', ['maxlength' => 200]) ?>
+<?php   if ($form->hasError('email')) : ?>
+                    <div class="form-error"><?= $form->getError('email') ?></div>
+<?php   endif; ?>
+                </div>
             </div>
             <div class="form-control">
-                <div class="form-label"><label for="comment-text">Kommentar:</label></div>
-                <div class="form-input"><textarea id="comment-text" name="text" rows="7" required></textarea></div>
+                <div class="form-label"><?= $form->label('text', 'Kommentar:') ?></div>
+                <div class="form-input">
+                    <?= $form->textarea('text', ['required' => false, 'rows' => 7]) ?>
+<?php   if ($form->hasError('text')) : ?>
+                    <div class="form-error"><?= $form->getError('text') ?></div>
+<?php   endif; ?>
+                </div>
             </div>
 <?php endif; ?>
             <div class="form-control">

@@ -124,10 +124,16 @@ class CommonService extends BaseService
         
         // comments
         if (!empty($data['comments']) && !empty($data['id'])) {
+            $form = $this->di->session->getOnce('commentForm');
+            if (!$form) {
+                $form = new \LRC\Form\ModelForm('comment-form', '\\LRC\\Comment\\Comment');
+            }
             $this->di->view->add('default/comments', [
                 'contentId' => $data['id'],
                 'comments' => $this->di->comments->getComments($data['id']),
-                'user' => $this->di->user->getCurrent()
+                'user' => $this->di->user->getCurrent(),
+                'form' => $form,
+                'comment' => $form->getModel()
             ], 'main');
         }
 
