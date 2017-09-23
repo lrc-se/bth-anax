@@ -148,7 +148,7 @@ class AdminController extends UserController
     public function deleteUser($id)
     {
         $admin = $this->di->common->verifyAdmin();
-        $user = $this->getUser($id, true, null);
+        $user = $this->getUser($id, true);
         if ($user->id == $admin->id) {
             $this->di->session->set('err', "Du kan inte ta bort din egen användare.");
             $this->di->common->redirect('admin/user');
@@ -164,7 +164,7 @@ class AdminController extends UserController
     public function handleDeleteUser($id)
     {
         $admin = $this->di->common->verifyAdmin();
-        $user = $this->getUser($id, true, null);
+        $user = $this->getUser($id, true);
         if ($user->id == $admin->id) {
             $this->di->session->set('err', "Du kan inte ta bort din egen användare.");
             $this->di->common->redirect('admin/user');
@@ -172,11 +172,7 @@ class AdminController extends UserController
         
         if ($this->di->request->getPost('action') == 'delete') {
             $this->di->user->delete($user);
-            if (!is_null($user->username)) {
-                $this->di->session->set('msg', 'Användaren "' . htmlspecialchars($user->username) . '" har tagits bort.');
-            } else {
-                $this->di->session->set('msg', 'Den anonyma användaren med ID ' . $user->id . ' har tagits bort.');
-            }
+            $this->di->session->set('msg', 'Användaren "' . htmlspecialchars($user->username) . '" har tagits bort.');
         }
         $this->di->common->redirect('admin/user');
     }
@@ -188,14 +184,10 @@ class AdminController extends UserController
     public function handleRestoreUser($id)
     {
         $this->di->common->verifyAdmin();
-        $user = $this->getUser($id, false, null);
+        $user = $this->getUser($id, false);
         
         $this->di->user->restore($user);
-        if (!is_null($user->username)) {
-            $this->di->session->set('msg', 'Användaren "' . htmlspecialchars($user->username) . '" har återställts.');
-        } else {
-            $this->di->session->set('msg', 'Den anonyma användaren med ID ' . $user->id . ' har återställts.');
-        }
+        $this->di->session->set('msg', 'Användaren "' . htmlspecialchars($user->username) . '" har återställts.');
         $this->di->common->redirect('admin/user');
     }
     
@@ -348,7 +340,7 @@ class AdminController extends UserController
         $user = $this->di->user->getById($id);
         $fail = false;
         $activeStr = ($active ? 'aktiv' : 'inaktiv');
-        $anonStr = ($anonymous === true ? ' anonym' : '');
+        $anonStr = (is_null($anonymous) ? '' : ($anonymous === true ? ' anonym' : ' registrerad'));
         if (!$user) {
             $fail = true;
         } else {

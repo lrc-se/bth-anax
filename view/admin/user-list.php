@@ -57,11 +57,11 @@ $num = count($users);
 <?php       else : ?>
 <?php           if ($user->username) : ?>
                     <a href="<?= $this->url('admin/user/edit/' . $user->id) ?>">Redigera</a><br>
+<?php               if ($user->id != $admin->id) : ?>
+                    <a href="<?= $this->url('admin/user/delete/' . $user->id) ?>">Ta bort</a>
+<?php               endif; ?>
 <?php           else : ?>
                     <a href="<?= $this->url('admin/user/register/' . $user->id) ?>">Registrera</a><br>
-<?php           endif; ?>
-<?php           if ($user->id != $admin->id) : ?>
-                    <a href="<?= $this->url('admin/user/delete/' . $user->id) ?>">Ta bort</a>
 <?php           endif; ?>
 <?php       endif; ?>
                 </td>
