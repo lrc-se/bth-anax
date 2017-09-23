@@ -230,7 +230,7 @@ a {
 }
 
 a:visited {
-    color: #7f78aa;
+    color: #786fa8;
 }
 
 a:hover {
@@ -417,7 +417,7 @@ a.btn {
 }
 
 .btn.btn-2 {
-    color: #2a2838;
+    color: #222;
     background-color: #b8b7bc;
 }
 
@@ -591,6 +591,15 @@ article > .columns:last-child {
     border-color: #9c2c30;
 }
 
+.msg ul,
+.msg ol {
+    margin-bottom: .7em;
+}
+
+.msg li {
+    color: inherit;
+}
+
 .form-control {
     margin-bottom: 1.05em;
     display: flex;
@@ -659,6 +668,8 @@ article > .columns:last-child {
 }
 
 .table {
+    width: 100%;
+    max-width: 1024px;
     margin-bottom: 1.4em;
     border-spacing: 0;
     border-collapse: collapse;
@@ -689,8 +700,8 @@ article > .columns:last-child {
 }
 
 .anonymous {
-    background-color: #fffeeb;
-    background-color: rgba(250, 236, 37, .09);
+    background-color: #fefce8;
+    background-color: rgba(244, 220, 4, .09);
 }
 
 .comments {
