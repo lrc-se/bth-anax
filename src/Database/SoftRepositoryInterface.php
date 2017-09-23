@@ -54,4 +54,15 @@ interface SoftRepositoryInterface extends RepositoryInterface
      * @param mixed $model  Model instance.
      */
     public function restoreSoft($model);
+
+
+    /**
+     * Count entries ignoring soft-deleted ones, optionally filtered by search criteria.
+     *
+     * @param string $conditions    Where conditions.
+     * @param array  $values        Array of condition values to bind.
+     * 
+     * @return int                  Number of entries.
+     */
+    public function countSoft($conditions = null, $values = []);
 }

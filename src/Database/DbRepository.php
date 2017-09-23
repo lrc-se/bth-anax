@@ -83,7 +83,7 @@ class DbRepository implements SoftRepositoryInterface
      */
     public function getFirst($conditions = null, $values = [])
     {
-        return $this->executeQuery($conditions, $values)
+        return $this->executeQuery(null, $conditions, $values)
             ->fetchClass($this->modelClass);
     }
     
@@ -98,7 +98,7 @@ class DbRepository implements SoftRepositoryInterface
      */
     public function getFirstSoft($conditions = null, $values = [])
     {
-        return $this->executeQuery($conditions, $values, null, true)
+        return $this->executeQuery(null, $conditions, $values, null, true)
             ->fetchClass($this->modelClass);
     }
     
@@ -113,7 +113,7 @@ class DbRepository implements SoftRepositoryInterface
      */
     public function getAll($conditions = null, $values = [])
     {
-        return $this->executeQuery($conditions, $values)
+        return $this->executeQuery(null, $conditions, $values)
             ->fetchAllClass($this->modelClass);
     }
     
@@ -128,7 +128,7 @@ class DbRepository implements SoftRepositoryInterface
      */
     public function getAllSoft($conditions = null, $values = [])
     {
-        return $this->executeQuery($conditions, $values, null, true)
+        return $this->executeQuery(null, $conditions, $values, null, true)
             ->fetchAllClass($this->modelClass);
     }
     
@@ -194,6 +194,38 @@ class DbRepository implements SoftRepositoryInterface
 
 
     /**
+     * Count entries, optionally filtered by search criteria.
+     *
+     * @param string $conditions    Where conditions.
+     * @param array  $values        Array of condition values to bind.
+     * 
+     * @return int                  Number of entries.
+     */
+    public function count($conditions = null, $values = [])
+    {
+        $res = $this->executeQuery('COUNT(id) AS num', $conditions, $values)
+            ->fetch();
+        return (isset($res->num) ? (int)$res->num : 0);
+    }
+    
+    
+    /**
+     * Count entries ignoring soft-deleted ones, optionally filtered by search criteria.
+     *
+     * @param string $conditions    Where conditions.
+     * @param array  $values        Array of condition values to bind.
+     * 
+     * @return int                  Number of entries.
+     */
+    public function countSoft($conditions = null, $values = [])
+    {
+        $res = $this->executeQuery('COUNT(id) AS num', $conditions, $values, null, true)
+            ->fetch();
+        return (isset($res->num) ? (int)$res->num : 0);
+    }
+    
+    
+    /**
      * Execute query for selection methods.
      * 
      * @param string $conditions                    Where conditions.
@@ -203,12 +235,11 @@ class DbRepository implements SoftRepositoryInterface
      * 
      * @return \Anax\Database\DatabaseQueryBuilder  Database service instance with executed internal query.
      */
-    private function executeQuery($conditions = null, $values = [], $order = null, $soft = false)
+    private function executeQuery($select = null, $conditions = null, $values = [], $order = null, $soft = false)
     {
-        $query = $this->db
-            ->connect()
-            ->select()
-            ->from($this->table);
+        $query = $this->db->connect();
+        $query = (!is_null($select) ? $query->select($select) : $query->select());
+        $query = $query->from($this->table);
         if (!is_null($conditions)) {
             $query = $query->where($conditions);
         }

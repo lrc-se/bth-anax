@@ -56,4 +56,15 @@ interface RepositoryInterface
      * @param mixed $model  Model instance.
      */
     public function delete($model);
+    
+    
+    /**
+     * Count entries, optionally filtered by search criteria.
+     *
+     * @param string $conditions    Where conditions.
+     * @param array  $values        Array of condition values to bind.
+     * 
+     * @return int  Number of entries.
+     */
+    public function count($conditions = null, $values = []);
 }
