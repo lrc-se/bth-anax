@@ -1,5 +1,5 @@
 <?php $this->renderView('default/msgs'); ?>
-<form id="<?= $form->id ?>" class="form" action="<?= $di->request->getCurrentUrl() ?>" method="post">
+<form id="<?= $form->id ?>" class="form" action="<?= $this->currentUrl() ?>" method="post">
 <?php if ($book && $book->id) : ?>
     <?= $form->input('id', 'hidden') ?>
 <?php endif; ?>

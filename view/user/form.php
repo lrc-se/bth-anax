@@ -1,5 +1,5 @@
 <?php $this->renderView('default/msgs'); ?>
-<?= $form->form($di->request->getCurrentUrl(), 'post', ['class' => 'form']) ?>
+<?= $form->form($this->currentUrl(), 'post', ['class' => 'form']) ?>
 <?php if ($update) : ?>
     <?= $form->input('id', 'hidden') ?>
 <?php endif; ?>

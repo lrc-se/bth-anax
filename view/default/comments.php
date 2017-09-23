@@ -39,7 +39,7 @@
     <div class="comment-add">
         <h5>Skriv kommentar</h5>
         <form class="form form-small comment-form" action="<?= $this->url('comment/create')?>" method="post">
-            <input type="hidden" name="url" value="<?= $di->request->getCurrentUrl() ?>">
+            <input type="hidden" name="url" value="<?= $this->currentUrl() ?>">
             <input type="hidden" name="contentId" value="<?= $contentId ?>">
 <?php if ($user) : ?>
             <div class="form-control">
@@ -71,7 +71,7 @@
     </div>
 <?php if ($user) : ?>
     <form id="comment-edit-form" class="form form-small comment-form" action="" method="post" style="display: none">
-        <input type="hidden" name="url" value="<?= $di->request->getCurrentUrl() ?>">
+        <input type="hidden" name="url" value="<?= $this->currentUrl() ?>">
         <input type="hidden" name="contentId" value="<?= $contentId ?>">
         <div class="form-control">
             <div class="form-input"><textarea name="text" rows="5" required></textarea></div>

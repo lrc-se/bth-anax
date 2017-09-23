@@ -1,5 +1,5 @@
 <?php $this->renderView('default/msgs'); ?>
-<?= $form->form($di->request->getCurrentUrl(), 'post', ['class' => 'form']) ?>
+<?= $form->form($this->currentUrl(), 'post', ['class' => 'form']) ?>
     <div class="form-control">
         <div class="form-label"><?= $form->label('id', 'ID:') ?></div>
         <div class="form-input">
