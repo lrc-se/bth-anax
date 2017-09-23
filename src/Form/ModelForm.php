@@ -81,6 +81,11 @@ class ModelForm
      */
     public function populateModel($include = null, $exclude = null, $source = null)
     {
+        // null check
+        if (is_null($this->model)) {
+            return null;
+        }
+        
         // determine which properties to bind
         $props = (is_array($include) ? $include : array_keys(get_object_vars($this->model)));
         if (is_array($exclude)) {
@@ -113,7 +118,7 @@ class ModelForm
      */
     public function validate()
     {
-        if ($this->model->isValid()) {
+        if (is_null($this->model) || $this->model->isValid()) {
             $this->errors = [];
         } else {
             $this->errors = array_merge($this->errors, $this->model->getValidationErrors());
@@ -312,17 +317,22 @@ class ModelForm
      * @param   array   $attrs      Array of HTML attributes and their values.
      * @param   bool    $isField    Whether the attributes apply to a form field or not.
      *
-     * @return  string          Generated HTML.
+     * @return  string              Generated HTML attribute string.
      */
     private function getAttributeString($prop, $attrs, $isField = true)
     {
+        // attributes for form fields
         if ($isField) {
             $attrs['id'] = $this->id . '-' . $prop;
             $attrs['name'] = $prop;
         }
+        
+        // error detection
         if (!is_null($prop) && isset($this->errors[$prop])) {
             $attrs['class'] = (empty($attrs['class']) ? 'has-error' : $attrs['class'] . ' has-error');
         }
+        
+        // generate string
         $res = [];
         foreach ($attrs as $attr => $val) {
             if (!is_bool($val)) {
