@@ -1,5 +1,14 @@
+<?php
+
+$num = count($users);
+
+?>
 <?php $this->renderView('default/msgs', $data); ?>
-<h3>Visar <?= count($users) ?> av <?= $total ?> användare</h3>
+<?php if ($num) : ?>
+<h3>Visar <?= $num ?> av <?= $total ?> användare</h3>
+<?php else : ?>
+<h3>Inga användare att visa</h3>
+<?php endif; ?>
 <p>
     <a class="btn" href="<?= $this->url('admin/user/create') ?>">Lägg till användare</a>
     <a class="btn btn-2" href="<?= $this->url('admin') ?>">Tillbaka till administration</a>
@@ -7,12 +16,19 @@
 <form action="<?= $this->currentUrl() ?>">
     <p>
         <select name="filter" onchange="this.form.submit()">
-            <option value="">Visa alla</option>
+            <option value="">Alla typer</option>
             <option value="registered"<?= ($filter == 'registered' ? ' selected' : '') ?>>Endast registrerade</option>
             <option value="anonymous"<?= ($filter == 'anonymous' ? ' selected' : '') ?>>Endast anonyma</option>
         </select>
+        &nbsp;
+        <select name="status" onchange="this.form.submit()">
+            <option value="">Aktiva och inaktiva</option>
+            <option value="active"<?= ($status == 'active' ? ' selected' : '') ?>>Endast aktiva</option>
+            <option value="inactive"<?= ($status == 'inactive' ? ' selected' : '') ?>>Endast inaktiva</option>
+        </select>
     </p>
 </form>
+<?php if ($num) : ?>
 <div class="xscroll">
     <table class="table">
         <thead>
@@ -54,3 +70,4 @@
         </tbody>
     </table>
 </div>
+<?php endif; ?>

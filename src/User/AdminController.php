@@ -27,24 +27,41 @@ class AdminController extends UserController
     public function users()
     {
         $admin = $this->di->common->verifyAdmin();
-        $filter = $this->di->request->getGet('filter'); 
+        
+        // apply filters
+        $filter = $this->di->request->getGet('filter');
+        $status = $this->di->request->getGet('status');
+        $where = [];
         switch ($filter) {
             case 'registered':
-                $where = 'username IS NOT NULL';
+                $where[] = 'username IS NOT NULL';
                 break;
             case 'anonymous':
-                $where = 'username IS NULL';
+                $where[] = 'username IS NULL';
                 break;
-            default:
-                $where = null;
         }
-        $users = $this->di->repository->users->getAll($where);
-        $total = (is_null($where) ? count($users) : $this->di->repository->users->count());
+        switch ($status) {
+            case 'active':
+                $where[] = 'deleted IS NULL';
+                break;
+            case 'inactive':
+                $where[] = 'deleted IS NOT NULL';
+                break;
+        }
+        if (empty($where)) {
+            $users = $this->di->repository->users->getAll();
+            $total = count($users);
+        } else {
+            $users = $this->di->repository->users->getAll(implode(' AND ', $where));
+            $total = $this->di->repository->users->count();
+        }
+        
         $this->renderPage('admin/user-list', [
             'users' => $users,
             'admin' => $admin,
             'total' => $total,
-            'filter' => $filter
+            'filter' => $filter,
+            'status' => $status
         ], 'Administrera användare');
     }
     
