@@ -40,9 +40,9 @@ class BaseModel
     /**
      * Retrieve a reference by foreign key.
      *
-     * @param string                    $attr       Name of foreign key attribute.
-     * @param \LRC\Database\Repository  $repository Repository to query.
-     * @param bool                      $soft       Whether to take soft-deletion into account.
+     * @param string                                $attr       Name of foreign key attribute.
+     * @param \LRC\Database\SoftRepositoryInterface $repository Repository to query.
+     * @param bool                                  $soft       Whether to take soft-deletion into account.
      *
      * @return mixed                                Model instance if found, null otherwise.
      */

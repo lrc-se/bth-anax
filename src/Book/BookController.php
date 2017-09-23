@@ -10,7 +10,7 @@ use \LRC\Form\ModelForm as Form;
 class BookController extends \LRC\Common\BaseController
 {
     /**
-     * @var \LRC\Database\Repository    Book repository.
+     * @var \LRC\Database\DbRepository  Book repository.
      */
     private $books;
     

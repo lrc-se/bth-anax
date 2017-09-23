@@ -3,7 +3,7 @@
 namespace LRC\Database;
 
 /**
- * Application-wide repository service.
+ * Application-wide database repository service.
  */
 class RepositoryService extends \LRC\Common\BaseService implements \Anax\Common\ConfigureInterface
 {
@@ -43,16 +43,16 @@ class RepositoryService extends \LRC\Common\BaseService implements \Anax\Common\
      */
     public function add($name, $table, $modelClass, $deleted = 'deleted')
     {
-        $this->repositories[$name] = new Repository($this->di->db, $table, $modelClass, $deleted);
+        $this->repositories[$name] = new DbRepository($this->di->db, $table, $modelClass, $deleted);
     }
     
     
     /**
      * Accessor method to retrieve repository by name.
      *
-     * @param string $name      Repository name.
+     * @param string $name          Repository name.
      *
-     * @return Repository|null  The loaded repository matching the name, or null if no match.
+     * @return DbRepository|null    The loaded repository matching the name, or null if no match.
      */
     public function __get($name)
     {

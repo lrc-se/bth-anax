@@ -3,9 +3,9 @@
 namespace LRC\Database;
 
 /**
- * Base class for repositories for data access.
+ * Base class for database-backed repositories for data access.
  */
-class Repository
+class DbRepository implements SoftRepositoryInterface
 {
     /**
      * @var \Anax\Database\DatabaseQueryBuilder     Database service.
