@@ -52,6 +52,11 @@ class Book extends BaseModel implements ValidationInterface
                 [
                     'rule' => 'number',
                     'message' => 'Publiceringsåret måste vara numeriskt.'
+                ],
+                [
+                    'rule' => 'maxvalue',
+                    'value' => date('Y'),
+                    'message' => 'Publiceringsåret får inte vara senare än innevarande år.'
                 ]
             ],
             'isbn' => [

@@ -6,7 +6,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('title', 'Titel:') ?></label></div>
         <div class="form-input">
-            <?= $form->text('title', ['maxlength' => 200, 'required' => false, 'autofocus' => true]) ?>
+            <?= $form->text('title', ['maxlength' => 300, 'required' => false, 'autofocus' => true]) ?>
 <?php if ($form->hasError('title')) : ?>
             <div class="form-error"><?= $form->getError('title') ?></div>
 <?php endif; ?>
@@ -15,7 +15,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('author', 'Författare:') ?></div>
         <div class="form-input">
-            <?= $form->text('author', ['maxlength' => 200, 'required' => false]) ?>
+            <?= $form->text('author', ['maxlength' => 300, 'required' => false]) ?>
 <?php if ($form->hasError('author')) : ?>
             <div class="form-error"><?= $form->getError('author') ?></div>
 <?php endif; ?>
@@ -24,7 +24,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('published', 'Publiceringsår:') ?></div>
         <div class="form-input">
-            <?= $form->input('published', 'number', ['max' => date('Y')]) ?>
+            <?= $form->input('published', 'number', ['max' => 2100]) ?>
 <?php if ($form->hasError('published')) : ?>
             <div class="form-error"><?= $form->getError('published') ?></div>
 <?php endif; ?>
@@ -42,7 +42,7 @@
     <div class="form-control">
         <div class="form-label"><?= $form->label('language', 'Språk:') ?></div>
         <div class="form-input">
-            <?= $form->text('language', ['maxlength' => 50]) ?>
+            <?= $form->text('language', ['maxlength' => 60]) ?>
 <?php if ($form->hasError('language')) : ?>
             <div class="form-error"><?= $form->getError('language') ?></div>
 <?php endif; ?>
