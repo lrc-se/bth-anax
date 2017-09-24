@@ -59,14 +59,14 @@ class ModelForm
     /**
      * Return form field value not bound to the model.
      *
-     * @param string $param     Form parameter name.
-     * @param mixed  $default   Default value if the parameter is not found.
+     * @param string $field     Form field name.
+     * @param mixed  $default   Default value if the field is not found.
      *
-     * @return mixed            Parameter value, or the default value if the parameter is not found.
+     * @return mixed            Field value, or the default value if the field is not found.
      */
-    public function getExtra($param, $default = null)
+    public function getExtra($field, $default = null)
     {
-        return (array_key_exists($param, $this->extra) ? $this->extra[$param] : $default);
+        return (array_key_exists($field, $this->extra) ? $this->extra[$field] : $default);
     }
     
     
@@ -222,7 +222,7 @@ class ModelForm
     {
         $attrs['type'] = $type;
         if ($type != 'checkbox' && $type != 'radio') {
-            $attrs['value'] = (strtolower($type) != 'password' ? htmlspecialchars($this->getModelValue($prop)) : '');
+            $attrs['value'] = (strtolower($type) != 'password' ? $this->getFieldValue($prop) : '');
         }
         return '<input ' . $this->getAttributeString($prop, $attrs) . '>';
     }
@@ -255,7 +255,7 @@ class ModelForm
     {
         $attrs['type'] = 'checkbox';
         $attrs['value'] = $value;
-        $attrs['checked'] = (bool)$this->getModelValue($prop);
+        $attrs['checked'] = (bool)$this->getFieldValue($prop);
         return $this->input($prop, 'checkbox', $attrs);
     }
     
@@ -273,7 +273,7 @@ class ModelForm
     {
         $attrs['type'] = 'radio';
         $attrs['value'] = $value;
-        $attrs['checked'] = (bool)$this->getModelValue($prop);
+        $attrs['checked'] = (bool)$this->getFieldValue($prop);
         return $this->input($prop, 'radio', $attrs);
     }
     
@@ -288,7 +288,7 @@ class ModelForm
      */
     public function textarea($prop, $attrs = [])
     {
-        return '<textarea ' . $this->getAttributeString($prop, $attrs) . '>' . htmlspecialchars($this->getModelValue($prop)) . '</textarea>';
+        return '<textarea ' . $this->getAttributeString($prop, $attrs) . '>' . htmlspecialchars($this->getFieldValue($prop)) . '</textarea>';
     }
     
     
@@ -303,7 +303,7 @@ class ModelForm
      */
     public function label($prop, $text, $attrs = [])
     {
-        $attrs['for'] = $this->id . '-' . $prop;
+        $attrs['for'] = $this->id . "-$prop";
         return '<label ' . $this->getAttributeString($prop, $attrs, false) . ">$text</label>";
     }
     
@@ -323,7 +323,7 @@ class ModelForm
     {
         // attributes for form fields
         if ($isField) {
-            $attrs['id'] = $this->id . '-' . $prop;
+            $attrs['id'] = $this->id . "-$prop";
             $attrs['name'] = $prop;
         }
         
@@ -358,5 +358,18 @@ class ModelForm
             return $this->model->$prop;
         }
         return null;
+    }
+    
+    
+    /**
+     * Return value for form field, searching the bound model first and extraneous parameters second.
+     *
+     * @param string    $field  Model property/field name.
+     *
+     * @return mixed            Field value, or null if the field is not found in either the model or the extraneous parameters.
+     */
+    private function getFieldValue($field)
+    {
+        return ($this->getModelValue($field) ?: $this->getExtra($field));
     }
 }
