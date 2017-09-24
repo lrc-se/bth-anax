@@ -188,7 +188,7 @@ header h1 {
 main {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2em;
+    padding: 1.75em 2em 2em;
 }
 
 article {
@@ -714,8 +714,9 @@ article > .columns:last-child {
     border-top-color: rgba(42, 40, 56, .333);
 }
 
-.comments h3,
-.comments h5 {
+.comments > h3,
+.comment-add > h5,
+.comment-add > h6 {
     font-family: inherit;
 }
 
@@ -967,7 +968,7 @@ article > .columns:last-child {
     }
     
     main {
-        padding: 1.5em;
+        padding: 1.25em 1.5em 1.5em;
     }
     
     .anchor::before {
@@ -1022,7 +1023,7 @@ article > .columns:last-child {
     }
     
     main {
-        padding: 1.25em 1em;
+        padding: 1em;
     }
     
     dl:not(.dl-small) dt {
