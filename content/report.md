@@ -240,7 +240,139 @@ men det är en hel del i upplägget och komponenterna som motarbetar denna strä
 Kmom04  {#kmom04.anchor}
 ------
 
-blubb
+Det tog en god stund innan jag kom igång med detta kursmoment, även om jag låg lite före i schemat, helt enkelt därför att jag efter att ha läst igenom artiklarna/<wbr>övningarna 
+och kikat på exempelkoden kände att de nya komponenter som tillhandahölls inte höll måttet. Dessa tankar sammanfattade jag så småningom i ett 
+[längre foruminlägg](https://dbwebb.se/forum/viewtopic.php?f=59&t=6816), men dessförinnan hade jag bestämt mig för att skriva och använda egna komponenter för formulär och databas&shy;åtkomst. 
+Viss inspiration är hämtad från ASP.NET MVC och dess *HTML Helpers* samt Entity Framework, men de ingående koncepten är allmänna och inte knutna till något specifikt ramverk.
+
+Eftersom jag alltså inte tyckte `HTMLForm` passade in i MVC-tänket och hela upplägget i hur komponenten användes kändes bakvänt valde jag ett helt annat tillväga&shy;gångssätt, 
+där data&shy;bindning till modellen var en prioritet att få till för att slippa det manuella steget med att föra över och validera värden. 
+I min tappning är det modell&shy;klassen som står för valideringen och formulär&shy;klassen får en referens till en sådan modell inskickad. 
+Det är sedan formulärets uppgift att binda fältens värden till motsvarande attribut i denna modell, i båda riktningar, men till skillnad från `HTMLForm` 
+spottar min `ModelForm` endast ur sig HTML-kod för *enskilda fält* istället för hela formuläret i ett svep -- och endast på begäran, med specifika metoder 
+(t.ex. `ModelForm::checkbox()`) som även tillåter att man definierar övriga HTML-attribut som inte kontrolleras av data&shy;bindningen.
+
+Bindningen sker också på begäran med `populateModel()` och eventuella fält som inte matchar något attribut i modellen hamnar i en egen samling, 
+som man sedan kan hämta ut värden från. När man anropar `validate()` anropas i sin tur modellens egen validering och man kan sedan hämta ut enskilda felmeddelanden för specifika fält/<wbr>attribut. 
+Bundna fält, vars HTML-kod man hämtar genom ovannämnda metoder, får automatiskt klassen `has-error` om valideringen misslyckades för motsvarande attribut i modellen, 
+vilket tillsammans med `getError()` ger vyn fria händer att fånga upp och presentera vad som gått snett. Man kan även lägga till egna fel för valfria fält programmatiskt, 
+för fall som inte täcks av modellens interna datavalidering (t.ex. att det inte får finnas dubbletter av användarnamn, vilket kräver en databasfråga för att utröna).
+
+Eftersom PHP inte har stark typning och `$_POST` alltid innehåller strängar hade jag först lite problem med att identifiera `NULL`-värden 
+för databasens (och PDO:s) räkning, vilket slutade med att jag införde en förteckning över icke-obligatoriska attribut i modell&shy;basklassen, 
+så att t.ex. ett heltalsvärde som inte fyllts i i formuläret inte införs som `0` i databasen utan verkligen blir `NULL`.
+
+Allt som allt känns min formulär&shy;komponent funktions&shy;mässigt sund, men den gör inte anspråk på att vara en komplett lösning; 
+om inte annat så för att det bara är vissa fälttyper som implementerats hittills. På motsvarande sätt är heller inte modell&shy;valideringen fullständig, 
+utan det är bara vissa typer av validerings&shy;regler som finns med för tillfället. I båda fallen är det behovsstyrt: jag har skrivit det jag har haft användning av, 
+men inte svävat ut så mycket mer.
+
+När det kommer till databasen avskrev jag *Active Record* i ett tidigt skede (se vidare nedan) och bestämde mig istället för att implementera en *Repository*-komponent. 
+Denna instantieras med tabellnamn och modellklass samt en referens till databas&shy;modulen och representerar sedan hela samlingen (tabellen), 
+med ansvar för att söka, räkna, hämta och uppdatera poster (rader) däri, där den inskickade modellklassen används för att representera enskilda poster. 
+API:et är utlyft till ett eget interface som dessutom har utökats med ett till som inför möjlighet att automatiskt ta hänsyn till *soft deletion* (se nedan).
+
+Själva implementationen av min `DbRepository`-klass utgår åtminstone delvis från den tillhanda&shy;hållna `ActiveRecordModel`, 
+men erbjuder större möjligheter att påverka utfallet. Detta görs med hjälp av en privat frågebyggar&shy;metod som delegerar till databas&shy;modulen och minskade mängden kod som behövde skrivas avsevärt. 
+Jag har sedan en `RepositoryService` som genom en konfigfil skapar och sedan exponerar de samlingar som applikationen behöver genom en magisk metod, 
+vilket gör det enkelt att skicka in en referens till en enskild samling där den behövs genom existerande mekanismer.
+
+För att vara en fullfjädrad ORM behövs även ett enkelt sätt att följa främmande nyckel-kopplingar tabellerna emellan och min lösning på detta blev att skapa en allmän metod i min basklass för modellerna, 
+som tar ett nyckelnamn och en *Repository*-instans som parametrar. På det sättet upprätthålls DI-tänket, 
+även om man kanske skulle kunna lösa det på ett mer deklarativt sätt och nyttja magiska metoder även här. En annan möjlighet är att, på begäran, 
+utföra en (1) `JOIN`-operation och sedan dela upp resultatet i separata (men länkade) modellinstanser, men det var inget jag kände att jag ville ge mig på, 
+så nu blir det en (1) operation per post istället. Det här med ORM:ar är rätt invecklat när man börjar komma längre in i dem...
+
+Bokexemplet gjorde jag från grunden, eftersom den automat&shy;genererade koden alltså inte passar in i min nya arkitektur, vilket var tämligen enkelt när jag väl hade verktygen på plats. 
+Här blev det också tydligt hur kraftfull automatiken är när den används rätt och för att demonstrera hur allt samverkar är formuläret (som delas av skapa- och redigera-vyerna) 
+något "saboterat" så att det blir lätt att framkalla fel -- testa exempelvis med tomma fält och att överskrida (interna) maxlängder. 
+Observera även att anropen till bokmodellens *Repository* till skillnad från användarna och kommentarerna (se nedan) här ligger direkt i kontrollen, som dessutom är lite annorlunda utformad, 
+då jag inte såg något särskilt behov av att införa en separat "boktjänst" i och med att all dataåtkomst&shy;kod ändå är allmän och ligger i `DbRepository`. 
+Se det som en illustration av hur samma typ av uppgift kan lösas på olika sätt.
+
+Summa summarum blev det en riktigt mastig vecka, men jag var också fullt beredd på detta när jag tog mig an utmaningen. Det känns som att det gick rätt bra ändå, 
+även om det också är tydligt att det går att utveckla tankarna och implementationerna mycket mer, givet tid. 
+I övrigt har jag infört en variant av under&shy;menyerna i navigations&shy;listen från **oophp** nu när det blivit fler menyval, samt skruvat lite på stil&shy;sättningen här och var.
+
+
+###### Berätta om din syn på Active Record och liknande upplägg. Ser du fördelar och nackdelar?
+
+Den stora fördelen är att det blir enkelt att sköta datalagringen och att man "aldrig" behöver bry sig speciellt mycket om vad som sker under huven -- 
+man bara hämtar en post, ändrar den och ber den uppdatera sig själv. Klart och betalt. 
+Den stora nackdelen är att upplägget uppenbart bryter mot S:et i SOLID och dessutom medför klara semantiska problem, 
+vilka förvärrats ytterligare i Anax&shy;komponentens implementation. Kort sagt, det blir för många genvägar och i längden tappar man både tydlighet och konsekvens. 
+Se [forumet](https://dbwebb.se/forum/viewtopic.php?f=59&t=6821) för mer utvecklade tankar i ämnet.
+
+###### Om du vill, och har kunskap om det, kan du även berätta om din syn på ORM och designmönstret Data Mapper som är närbesläktade med Active Record. Du kanske har erfarenhet av liknande upplägg i andra sammanhang?
+
+Ja, jag har stött på och använt dem alla i olika sammanhang. ORM:ar kan vara riktigt bekväma att använda, särskilt i kombination med frågebyggare -- 
+och jag lyfter gärna återigen fram LINQ som ett bra exempel på hur kraftfullt ett sådant verktyg kan vara. 
+Nackdelen är att man tappar kontroll över kodgenereringen och beroende på hur komplicerade saker man överlåter till verktygen att göra så kan prestandan sjunka drastiskt. 
+Här får man som alltid göra en avvägning kring vad som är viktigast.
+
+Jag föredrar *Data Mapper* eller *Repository* framför *Active Record* av ovannämnda anledningar, så det är väl inte så förvånande att jag valde en sådan implementation för mitt data&shy;åtkomst&shy;lager. 
+Den ger en mycket bättre semantisk överens&shy;stämmelse med de underliggande data&shy;strukturerna och öppnar upp för ett mer åter&shy;användbart API, 
+samt är lättare att testa. What's not to like?
+
+###### Hur gick det att integrera formulär&shy;hantering och databas&shy;hantering i ditt kommentars&shy;system?
+
+Detta gjorde jag i flera steg, där skapandet av databas&shy;tabellerna var först ut. Eftersom jag som nämnts tidigare redan hade en rätt klar bild av hur dessa skulle se ut var det inga problem, 
+så efter att bokexemplet var klart (se ovan) gav jag mig på databas&shy;kopplingen för användar&shy;komponenten. Detta var inte särskilt svårt, utan det handlade mest om att byta ut sessions&shy;koden 
+mot anrop till mitt nya *Repository* för användare istället. Nästa steg blev att integrera formulär&shy;komponenten med registrering och uppdatering av profiler, 
+där styrkan i upplägget blev uppenbart -- efter att vissa buggar benats ut fick jag ett smidigt arbetssätt där jag kunde nyttja automatiken i hög grad, 
+bland annat genom att återanvända en och samma formulärvy i fyra olika sammanhang (registrering och uppdatering för vanliga användare samt registrering och uppdatering från adminpanelen).
+
+Jag hade sedan tidigare erbjudit möjlighet för anonyma besökare att kommentera genom att skapa (och hämta) användar&shy;poster baserat på namn och e-postadress, 
+vilket förutsatte att användar&shy;namns- och lösenords&shy;fälten inte fick vara obligatoriska. 
+Jag bestämde mig för att se om jag kunde behålla detta upplägg även med en databas i botten och efter lite speciallösningar för att få med valideringen på noterna gick det bra. 
+En administratör kan registrera en sådan anonym användare i efterhand genom att ange användar&shy;namn och lösenord och kopplingarna till tidigare skrivna kommentarer behålls därmed. 
+Jag har även infört *soft deletion* för användare, d.v.s. att de inte tas bort på riktigt utan bara markeras som borttagna, vilket `DbRepository` sköter automatiskt 
+(med viss handpåläggning i vyerna).
+
+Jag gjorde sedan på motsvarande sätt i kommentars&shy;komponenten vad gäller data&shy;åtkomsten, men på grund av anonymitets&shy;upplägget ovan kändes inte en rak koppling till kommentars&shy;modellen 
+passande för det publika formuläret. Istället skapade jag en *vymodell* -- så fick vi med det begreppet också -- med egen validering som jag sedan kunde knyta till en `ModelForm`, 
+så jag kunde nyttja automatiken även där. Vymodellen används sedan för att skapa både användare (om nödvändigt) och kommentar, där det återigen är `DbRepository` som tar hand om grovjobbet.
+
+Eftersom man med mitt system kan skriva kommentarer på godtyckliga sidor (där kommentarer är påslagna) fick jag lite bryderier i hur jag skulle hantera anropskedjan. 
+Hittills har jag låtit min `CommentController` ta hand om det inskickade formuläret och sedan skicka användaren tillbaka till föregående sidas kommentars&shy;sektion med hjälp av en ankarlänk, 
+men nu övervägde jag att göra hela flödet AJAX-baserat istället för endast redigeringen av existerande kommentarer. 
+Eftersom formulär&shy;komponenten är helt serverbaserad valde jag dock att behålla det tidigare upplägget och sparar kort och gott `ModelForm`-instansen i sessionen i samband med omdirigeringen. 
+Detta gjorde att jag fortsatt kunde överlåta all validering och meddelande&shy;hantering till mina existerande komponenter, för att slippa åter&shy;implementera 
+stora delar av presentationen i klientsides&shy;skriptet.
+
+Slutligen har jag en administrations&shy;panel som också har mycket gemensamt med den/dem i **oophp**, varifrån en inloggad administratör kan hantera både användare och kommentarer. 
+Just de sistnämnda blir dock något av ett specialfall i och med att det som sagt inte går att vara säker på *var* den sida som kommentaren är knuten till befinner sig, 
+så det är förmodligen enklare att sköta sådant "underhåll" direkt på varje sådan sida. Det var i vart fall inga konstigheter i att få till endera avdelningen, 
+då de påminner mycket om varandra och alltså nyttjar samma (eller liknande) *Repository*-API, så det gick mest av bara farten att ta med bägge.
+
+###### Utveckla din syn på koden du nu har i ramverket och din kommentars- och användarkod. Hur känns det?
+
+Nu börjar det kännas rätt bra, även om det garanterat finns utvecklings&shy;potential. Jag är särskilt nöjd med upplägget med *Repository*, 
+vilket gjorde data&shy;åtkomsten konsekvent och lätt&shy;hanterlig. Å andra (tredje?) sidan blir kodbasen allt mer komplex, med allt fler associationer kors och tvärs, 
+så det är med viss bävan jag emotser uppgiften att *bryta ut* en komponent ur nätet...
+
+Något som dock känns aningen sårbart är hanteringen av anonyma användare, d.v.s. att vem som helst kan skriva kommentarer. 
+Min valda lösning för detta är alltså att skapa och återanvända "inloggnings&shy;lösa användarkonton" för att kunna utnyttja främmande nyckel-kopplingen på ett konsekvent sätt. 
+Den stora nackdelen med detta är, förstås, att det på sikt kan bli många sådana "skuggkonton", särskilt om spamrobotarna hittar formuläret, även om filtreringen i listningsvyn underlättar en del.
+
+Den "mjuka borttagningen" för registrerade användare har tillkommit för att upprätthålla referens&shy;integritet, men med en `ON DELETE CASCADE`-inställning 
+för den främmande nyckeln i kommentars&shy;tabellen skulle man kunna införa möjlighet att ta bort anonyma användarposter permanent. Samtidigt vill man (förmodligen) 
+inte urskillnings&shy;löst rensa ut kommentarer som skrivits i god tro av någon som råkat välja samma namn som en som misskött sig, 
+så en tredje möjlighet skulle vara att lagra namn och e-post direkt i kommentars&shy;tabellen. 
+Detta skulle dock medföra behov av att antingen synka dessa när en registrerad användare uppdaterar sin profil (jobbigt), 
+eller låta både dessa fält och själva nyckeln vara icke-obligatoriska och hämta värdena från användar&shy;tabellen när det finns en främmande nyckel (bättre).
+
+Det finns alltså en del att fundera på här, men tills vidare har jag åtminstone infört möjligheten att slå av och på anonyma kommentarer i kommentars&shy;tjänstens konfigurations&shy;fil.
+
+###### Vad tror du om begreppet "scaffolding"? Kan det vara något att kika mer på?
+
+Inte för att låta som en total MS-apologet, men även detta förekommer i stor utsträckning i .NET-utveckling och sparar mycket tid, särskilt när det kommer till Entity Framework-modeller. 
+Nu är det ju inte alltid som man vill ha allt lull-lull som någon annan tycker borde ingå i en sådan fördefinierad "klump" -- 
+och det finns en hel del krimskrams i .NET:s mallar som man gör gott i att skala bort -- men det är ofta mindre tidskrävande att "backa" 
+från en något överambitiös implementation än att skriva allt från grunden på egen hand.
+
+Detta förutsätter förstås att de mallar som finns att tillgå är något sånär överensstämmande med det man försöker uppnå, 
+vilket som sagt inte gällde för mig i detta kursmoment. Därmed fick jag skriva all kod själv istället, men det var också ett medvetet val i det här fallet.
 
 
 Kmom05  {#kmom05.anchor}
