@@ -150,7 +150,7 @@ class AdminController extends UserController
         $admin = $this->di->common->verifyAdmin();
         $user = $this->getUser($id, true);
         if ($user->id == $admin->id) {
-            $this->di->session->set('err', "Du kan inte ta bort din egen användare.");
+            $this->di->session->set('err', 'Du kan inte ta bort din egen användare.');
             $this->di->common->redirect('admin/user');
         }
         
@@ -166,7 +166,7 @@ class AdminController extends UserController
         $admin = $this->di->common->verifyAdmin();
         $user = $this->getUser($id, true);
         if ($user->id == $admin->id) {
-            $this->di->session->set('err', "Du kan inte ta bort din egen användare.");
+            $this->di->session->set('err', 'Du kan inte ta bort din egen användare.');
             $this->di->common->redirect('admin/user');
         }
         
@@ -186,8 +186,10 @@ class AdminController extends UserController
         $this->di->common->verifyAdmin();
         $user = $this->getUser($id, false);
         
-        $this->di->user->restore($user);
-        $this->di->session->set('msg', 'Användaren "' . htmlspecialchars($user->username) . '" har återställts.');
+        if ($this->di->request->getPost('action') == 'restore') {
+            $this->di->user->restore($user);
+            $this->di->session->set('msg', 'Användaren "' . htmlspecialchars($user->username) . '" har återställts.');
+        }
         $this->di->common->redirect('admin/user');
     }
     
@@ -226,6 +228,7 @@ class AdminController extends UserController
             'form' => $form
         ], 'Registrera användare');
     }
+    
     
     
     /**
@@ -324,6 +327,7 @@ class AdminController extends UserController
         }
         $this->di->common->redirect('admin/comment');
     }
+    
     
     
     /**

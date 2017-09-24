@@ -53,7 +53,7 @@ $num = count($users);
                 <td><?= $user->deleted ?></td>
                 <td>
 <?php       if ($user->deleted) : ?>
-                    <a href="<?= $this->url('admin/user/restore/' . $user->id) ?>">Återställ</a>
+                    <a class="user-restore-link" href="#!" data-id="<?= $user->id ?>">Återställ</a>
 <?php       else : ?>
 <?php           if ($user->username) : ?>
                     <a href="<?= $this->url('admin/user/edit/' . $user->id) ?>">Redigera</a><br>
@@ -70,4 +70,23 @@ $num = count($users);
         </tbody>
     </table>
 </div>
+<form id="user-restore-form" action="" method="post">
+    <input type="hidden" name="action" value="restore">
+</form>
+<script>
+    (function(doc) {
+        "use strict";
+        
+        function restoreUser(e) {
+            e.preventDefault();
+            var form = doc.getElementById("user-restore-form");
+            form.action = RV1.basePath + "admin/user/restore/" + e.target.getAttribute("data-id");
+            form.submit();
+        }
+        
+        Array.prototype.forEach.call(doc.getElementsByClassName("user-restore-link"), function(a) {
+            a.addEventListener("click", restoreUser);
+        });
+    })(document);
+</script>
 <?php endif; ?>

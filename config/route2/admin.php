@@ -5,12 +5,15 @@
 
 return [
     'routes' => [
+        // start
         [
             'info' => 'Admin page.',
             'requestMethod' => 'get',
             'path' => '',
             'callable' => ['adminController', 'index']
         ],
+        
+        // users
         [
             'info' => 'Admin user list.',
             'requestMethod' => 'get',
@@ -55,7 +58,7 @@ return [
         ],
         [
             'info' => 'Admin user restore handler.',
-            'requestMethod' => 'get',
+            'requestMethod' => 'post',
             'path' => 'user/restore/{id:digit}',
             'callable' => ['adminController', 'handleRestoreUser']
         ],
@@ -71,6 +74,8 @@ return [
             'path' => 'user/register/{id:digit}',
             'callable' => ['adminController', 'handleRegisterUser']
         ],
+        
+        // comments
         [
             'info' => 'Admin comment list.',
             'requestMethod' => 'get',
