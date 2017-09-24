@@ -247,19 +247,19 @@ Viss inspiration är hämtad från ASP.NET MVC och dess *HTML Helpers* samt Enti
 
 Eftersom jag alltså inte tyckte `HTMLForm` passade in i MVC-tänket och hela upplägget i hur komponenten användes kändes bakvänt valde jag ett helt annat tillväga&shy;gångssätt, 
 där data&shy;bindning till modellen var en prioritet att få till för att slippa det manuella steget med att föra över och validera värden. 
-I min tappning är det modell&shy;klassen som står för valideringen och formulär&shy;klassen får en referens till en sådan modell inskickad. 
+I min tappning är det modell&shy;klassen som står för valideringen (genom `ValidationTrait` och `ValidationInterface`) och formulär&shy;klassen får en referens till en sådan modell inskickad. 
 Det är sedan formulärets uppgift att binda fältens värden till motsvarande attribut i denna modell, i båda riktningar, men till skillnad från `HTMLForm` 
 spottar min `ModelForm` endast ur sig HTML-kod för *enskilda fält* istället för hela formuläret i ett svep -- och endast på begäran, med specifika metoder 
 (t.ex. `ModelForm::checkbox()`) som även tillåter att man definierar övriga HTML-attribut som inte kontrolleras av data&shy;bindningen.
 
 Bindningen sker också på begäran med `populateModel()` och eventuella fält som inte matchar något attribut i modellen hamnar i en egen samling, 
 som man sedan kan hämta ut värden från. När man anropar `validate()` anropas i sin tur modellens egen validering och man kan sedan hämta ut enskilda felmeddelanden för specifika fält/<wbr>attribut. 
-Bundna fält, vars HTML-kod man hämtar genom ovannämnda metoder, får automatiskt klassen `has-error` om valideringen misslyckades för motsvarande attribut i modellen, 
+Bundna fält, vars HTML-kod man hämtar genom ovannämnda metoder, får automatiskt CSS-klassen `has-error` om valideringen misslyckades för motsvarande attribut i modellen, 
 vilket tillsammans med `getError()` ger vyn fria händer att fånga upp och presentera vad som gått snett. Man kan även lägga till egna fel för valfria fält programmatiskt, 
 för fall som inte täcks av modellens interna datavalidering (t.ex. att det inte får finnas dubbletter av användarnamn, vilket kräver en databasfråga för att utröna).
 
 Eftersom PHP inte har stark typning och `$_POST` alltid innehåller strängar hade jag först lite problem med att identifiera `NULL`-värden 
-för databasens (och PDO:s) räkning, vilket slutade med att jag införde en förteckning över icke-obligatoriska attribut i modell&shy;basklassen, 
+för databasens (och PDO:s) räkning, vilket slutade med att jag införde en skrivbar förteckning över icke-obligatoriska attribut i modell&shy;basklassen, 
 så att t.ex. ett heltalsvärde som inte fyllts i i formuläret inte införs som `0` i databasen utan verkligen blir `NULL`.
 
 Allt som allt känns min formulär&shy;komponent funktions&shy;mässigt sund, men den gör inte anspråk på att vara en komplett lösning; 
@@ -272,12 +272,12 @@ Denna instantieras med tabellnamn och modellklass samt en referens till databas&
 med ansvar för att söka, räkna, hämta och uppdatera poster (rader) däri, där den inskickade modellklassen används för att representera enskilda poster. 
 API:et är utlyft till ett eget interface som dessutom har utökats med ett till som inför möjlighet att automatiskt ta hänsyn till *soft deletion* (se nedan).
 
-Själva implementationen av min `DbRepository`-klass utgår åtminstone delvis från den tillhanda&shy;hållna `ActiveRecordModel`, 
-men erbjuder större möjligheter att påverka utfallet. Detta görs med hjälp av en privat frågebyggar&shy;metod som delegerar till databas&shy;modulen och minskade mängden kod som behövde skrivas avsevärt. 
+Själva implementationen av min `DbRepository`-klass utgår åtminstone delvis från den tillhanda&shy;hållna `ActiveRecordModel`, men erbjuder större möjligheter att påverka utfallet. 
+Detta görs med hjälp av en privat frågebyggar&shy;metod som delegerar till databas&shy;modulen, vilket minskade mängden kod som behövde skrivas avsevärt. 
 Jag har sedan en `RepositoryService` som genom en konfigfil skapar och sedan exponerar de samlingar som applikationen behöver genom en magisk metod, 
 vilket gör det enkelt att skicka in en referens till en enskild samling där den behövs genom existerande mekanismer.
 
-För att vara en fullfjädrad ORM behövs även ett enkelt sätt att följa främmande nyckel-kopplingar tabellerna emellan och min lösning på detta blev att skapa en allmän metod i min basklass för modellerna, 
+För att vara en fullfjädrad ORM behövs även ett enkelt sätt att följa främmande nyckel-kopplingar tabellerna emellan och min lösning på detta blev att skapa en allmän metod i min modell&shy;basklass, 
 som tar ett nyckelnamn och en *Repository*-instans som parametrar. På det sättet upprätthålls DI-tänket, 
 även om man kanske skulle kunna lösa det på ett mer deklarativt sätt och nyttja magiska metoder även här. En annan möjlighet är att, på begäran, 
 utföra en (1) `JOIN`-operation och sedan dela upp resultatet i separata (men länkade) modellinstanser, men det var inget jag kände att jag ville ge mig på, 
@@ -291,7 +291,7 @@ då jag inte såg något särskilt behov av att införa en separat "boktjänst" 
 Se det som en illustration av hur samma typ av uppgift kan lösas på olika sätt.
 
 Summa summarum blev det en riktigt mastig vecka, men jag var också fullt beredd på detta när jag tog mig an utmaningen. Det känns som att det gick rätt bra ändå, 
-även om det också är tydligt att det går att utveckla tankarna och implementationerna mycket mer, givet tid. 
+även om det också är tydligt att det går att utveckla tankarna och implementa&shy;tionerna mycket mer, givet tid. 
 I övrigt har jag infört en variant av under&shy;menyerna i navigations&shy;listen från **oophp** nu när det blivit fler menyval, samt skruvat lite på stil&shy;sättningen här och var.
 
 
@@ -300,13 +300,13 @@ I övrigt har jag infört en variant av under&shy;menyerna i navigations&shy;lis
 Den stora fördelen är att det blir enkelt att sköta datalagringen och att man "aldrig" behöver bry sig speciellt mycket om vad som sker under huven -- 
 man bara hämtar en post, ändrar den och ber den uppdatera sig själv. Klart och betalt. 
 Den stora nackdelen är att upplägget uppenbart bryter mot S:et i SOLID och dessutom medför klara semantiska problem, 
-vilka förvärrats ytterligare i Anax&shy;komponentens implementation. Kort sagt, det blir för många genvägar och i längden tappar man både tydlighet och konsekvens. 
+vilka förvärrats ytterligare i Anax&shy;komponentens implementation. Kort sagt, det blir för många genvägar och i längden tappar man både tydlighet och konsekvens i det här sammanhanget. 
 Se [forumet](https://dbwebb.se/forum/viewtopic.php?f=59&t=6821) för mer utvecklade tankar i ämnet.
 
 ###### Om du vill, och har kunskap om det, kan du även berätta om din syn på ORM och designmönstret Data Mapper som är närbesläktade med Active Record. Du kanske har erfarenhet av liknande upplägg i andra sammanhang?
 
 Ja, jag har stött på och använt dem alla i olika sammanhang. ORM:ar kan vara riktigt bekväma att använda, särskilt i kombination med frågebyggare -- 
-och jag lyfter gärna återigen fram LINQ som ett bra exempel på hur kraftfullt ett sådant verktyg kan vara. 
+och jag lyfter gärna återigen fram LINQ som ett bra exempel på hur kraftfullt ett sådant verktyg kan vara. Stora vinster i form av sparat kodskrivande kan oftast skördas. 
 Nackdelen är att man tappar kontroll över kodgenereringen och beroende på hur komplicerade saker man överlåter till verktygen att göra så kan prestandan sjunka drastiskt. 
 Här får man som alltid göra en avvägning kring vad som är viktigast.
 
@@ -338,12 +338,12 @@ Hittills har jag låtit min `CommentController` ta hand om det inskickade formul
 men nu övervägde jag att göra hela flödet AJAX-baserat istället för endast redigeringen av existerande kommentarer. 
 Eftersom formulär&shy;komponenten är helt serverbaserad valde jag dock att behålla det tidigare upplägget och sparar kort och gott `ModelForm`-instansen i sessionen i samband med omdirigeringen. 
 Detta gjorde att jag fortsatt kunde överlåta all validering och meddelande&shy;hantering till mina existerande komponenter, för att slippa åter&shy;implementera 
-stora delar av presentationen i klientsides&shy;skriptet.
+stora delar av presentationen på klientsidan.
 
-Slutligen har jag en administrations&shy;panel som också har mycket gemensamt med den/dem i **oophp**, varifrån en inloggad administratör kan hantera både användare och kommentarer. 
+Slutligen har jag gjort en administrations&shy;panel som också har mycket gemensamt med den/dem i **oophp**, varifrån en inloggad administratör kan hantera både användare och kommentarer. 
 Just de sistnämnda blir dock något av ett specialfall i och med att det som sagt inte går att vara säker på *var* den sida som kommentaren är knuten till befinner sig, 
 så det är förmodligen enklare att sköta sådant "underhåll" direkt på varje sådan sida. Det var i vart fall inga konstigheter i att få till endera avdelningen, 
-då de påminner mycket om varandra och alltså nyttjar samma (eller liknande) *Repository*-API, så det gick mest av bara farten att ta med bägge.
+då de påminner mycket om varandra och alltså nyttjar samma (eller liknande) *Repository*-, formulär- och validerings-API:er, så det gick mest av bara farten att ta med bägge.
 
 ###### Utveckla din syn på koden du nu har i ramverket och din kommentars- och användarkod. Hur känns det?
 
@@ -353,14 +353,15 @@ så det är med viss bävan jag emotser uppgiften att *bryta ut* en komponent ur
 
 Något som dock känns aningen sårbart är hanteringen av anonyma användare, d.v.s. att vem som helst kan skriva kommentarer. 
 Min valda lösning för detta är alltså att skapa och återanvända "inloggnings&shy;lösa användarkonton" för att kunna utnyttja främmande nyckel-kopplingen på ett konsekvent sätt. 
-Den stora nackdelen med detta är, förstås, att det på sikt kan bli många sådana "skuggkonton", särskilt om spamrobotarna hittar formuläret, även om filtreringen i listningsvyn underlättar en del.
+Den stora nackdelen med detta är, förstås, att det på sikt kan bli många sådana "skuggkonton", särskilt om spamrobotarna hittar formuläret, 
+även om filtreringen i administra&shy;törernas listningsvy underlättar en del.
 
 Den "mjuka borttagningen" för registrerade användare har tillkommit för att upprätthålla referens&shy;integritet, men med en `ON DELETE CASCADE`-inställning 
 för den främmande nyckeln i kommentars&shy;tabellen skulle man kunna införa möjlighet att ta bort anonyma användarposter permanent. Samtidigt vill man (förmodligen) 
 inte urskillnings&shy;löst rensa ut kommentarer som skrivits i god tro av någon som råkat välja samma namn som en som misskött sig, 
-så en tredje möjlighet skulle vara att lagra namn och e-post direkt i kommentars&shy;tabellen. 
+eller dölja namnet hos en anonym skribent vid mjuk borttagning, så en tredje möjlighet skulle vara att lagra namn och e-post direkt i kommentars&shy;tabellen. 
 Detta skulle dock medföra behov av att antingen synka dessa när en registrerad användare uppdaterar sin profil (jobbigt), 
-eller låta både dessa fält och själva nyckeln vara icke-obligatoriska och hämta värdena från användar&shy;tabellen när det finns en främmande nyckel (bättre).
+eller låta både dessa fält och själva nyckeln vara icke-obligatoriska och hämta värdena från användar&shy;tabellen istället när det finns en främmande nyckel (bättre).
 
 Det finns alltså en del att fundera på här, men tills vidare har jag åtminstone infört möjligheten att slå av och på anonyma kommentarer i kommentars&shy;tjänstens konfigurations&shy;fil.
 
