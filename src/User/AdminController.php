@@ -322,7 +322,7 @@ class AdminController extends UserController
         $this->di->common->verifyAdmin();
         $comment = $this->getComment($id);
         if ($this->di->request->getPost('action') == 'delete') {
-            $this->di->comments->deleteComment($comment);
+            $this->di->comments->deleteComment($comment->id);
             $this->di->session->set('msg', 'Kommentaren har tagits bort.');
         }
         $this->di->common->redirect('admin/comment');

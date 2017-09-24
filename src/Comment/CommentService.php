@@ -30,6 +30,7 @@ class CommentService extends BaseService implements ConfigureInterface
      */
     public function getById($id)
     {
+        $id = (int)$id;
         if (!isset($this->cache[$id])) {
             $this->cache[$id] = ($this->di->comments->find('id', $id) ?: null);
         }
