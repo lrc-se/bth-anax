@@ -6,6 +6,7 @@ namespace LRC\Form;
  * Data-bound model form.
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class ModelForm
 {
