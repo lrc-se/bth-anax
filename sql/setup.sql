@@ -34,8 +34,8 @@ CREATE TABLE rv1_comment (
     created DATETIME NOT NULL,
     updated DATETIME NULL,
 
-	FOREIGN KEY (userId) REFERENCES rv1_user(id),
-	FOREIGN KEY (editorId) REFERENCES rv1_user(id)
+	FOREIGN KEY (userId) REFERENCES rv1_user(id) ON DELETE CASCADE,
+	FOREIGN KEY (editorId) REFERENCES rv1_user(id) ON DELETE SET NULL
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
 
 CREATE INDEX idx_created ON rv1_comment(created);
