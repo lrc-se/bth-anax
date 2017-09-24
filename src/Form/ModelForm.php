@@ -293,6 +293,27 @@ class ModelForm
     
     
     /**
+     * Generate data-bound <select> element.
+     *
+     * @param   string  $prop       Bound model property.
+     * @param   array   $options    Array of options and their values.
+     * @param   array   $attrs      Array of HTML attributes and their values.
+     *
+     * @return  string              Generated HTML.
+     */
+    public function select($prop, $options, $attrs = [])
+    {
+        $curVal = $this->getFieldValue($prop);
+        $html = '<select ' . $this->getAttributeString($prop, $attrs) . '>';
+        foreach ($options as $option => $value) {
+            $html .= '<option value="' . htmlspecialchars($value) . ($value == $curVal ? '" selected>' : '">');
+            $html .= htmlspecialchars($option) . '</option>';
+        }
+        return "$html</select>";
+    }
+    
+    
+    /**
      * Generate label for bound form field.
      *
      * @param   string  $prop   Bound model property.
