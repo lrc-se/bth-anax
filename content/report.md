@@ -241,18 +241,19 @@ Kmom04  {#kmom04.anchor}
 ------
 
 Det tog en god stund innan jag kom igång med detta kursmoment, även om jag låg lite före i schemat, helt enkelt därför att jag efter att ha läst igenom artiklarna/<wbr>övningarna 
-och kikat på exempelkoden kände att de nya komponenter som tillhandahölls inte höll måttet. Dessa tankar sammanfattade jag så småningom i ett 
-[längre foruminlägg](https://dbwebb.se/forum/viewtopic.php?f=59&t=6816), men dessförinnan hade jag bestämt mig för att skriva och använda egna komponenter för formulär och databas&shy;åtkomst. 
+och kikat på exempelkoden kände att de nya komponenter som tillhandahölls inte höll måttet och jag lade därför en hel del tid på att fundera ut vad jag skulle vilja ha istället. 
+Dessa tankar sammanfattade jag så småningom i ett [längre foruminlägg](https://dbwebb.se/forum/viewtopic.php?f=59&t=6816), 
+men dessförinnan hade jag redan bestämt mig för att skriva och använda egna komponenter för formulär och databas&shy;åtkomst. 
 Viss inspiration är hämtad från ASP.NET MVC och dess *HTML Helpers* samt Entity Framework, men de ingående koncepten är allmänna och inte knutna till något specifikt ramverk.
 
 Eftersom jag alltså inte tyckte `HTMLForm` passade in i MVC-tänket och hela upplägget i hur komponenten användes kändes bakvänt valde jag ett helt annat tillväga&shy;gångssätt, 
-där data&shy;bindning till modellen var en prioritet att få till för att slippa det manuella steget med att föra över och validera värden. 
-I min tappning är det modell&shy;klassen som står för valideringen (genom `ValidationTrait` och `ValidationInterface`) och formulär&shy;klassen får en referens till en sådan modell inskickad. 
+där data&shy;bindning till modellen var en prioritet att få till för att slippa det manuella steget med att föra över och validera värden. I min tappning (se även [forumet](https://dbwebb.se/f/55531)) 
+är det modell&shy;klassen som står för valideringen (genom `ValidationTrait` och `ValidationInterface`) och formulär&shy;klassen får en referens till en sådan modell inskickad. 
 Det är sedan formulärets uppgift att binda fältens värden till motsvarande attribut i denna modell, i båda riktningar, men till skillnad från `HTMLForm` 
 spottar min `ModelForm` endast ur sig HTML-kod för *enskilda fält* istället för hela formuläret i ett svep -- och endast på begäran, med specifika metoder 
-(t.ex. `ModelForm::checkbox()`) som även tillåter att man definierar övriga HTML-attribut som inte kontrolleras av data&shy;bindningen.
+(t.ex. <code>ModelForm::<wbr>checkbox()</code>) som även tillåter att man definierar övriga HTML-attribut som inte kontrolleras av data&shy;bindningen.
 
-Bindningen sker också på begäran med `populateModel()` och eventuella fält som inte matchar något attribut i modellen hamnar i en egen samling, 
+Bindningen sker på begäran med `populateModel()` och eventuella fält som inte matchar något attribut i modellen hamnar i en egen samling, 
 som man sedan kan hämta ut värden från. När man anropar `validate()` anropas i sin tur modellens egen validering och man kan sedan hämta ut enskilda felmeddelanden för specifika fält/<wbr>attribut. 
 Bundna fält, vars HTML-kod man hämtar genom ovannämnda metoder, får automatiskt CSS-klassen `has-error` om valideringen misslyckades för motsvarande attribut i modellen, 
 vilket tillsammans med `getError()` ger vyn fria händer att fånga upp och presentera vad som gått snett. Man kan även lägga till egna fel för valfria fält programmatiskt, 
@@ -287,7 +288,7 @@ Bokexemplet gjorde jag från grunden, eftersom den automat&shy;genererade koden 
 Här blev det också tydligt hur kraftfull automatiken är när den används rätt och för att demonstrera hur allt samverkar är formuläret (som delas av skapa- och redigera-vyerna) 
 något "saboterat" så att det blir lätt att framkalla fel -- testa exempelvis med tomma fält och att överskrida (interna) maxlängder. 
 Observera även att anropen till bokmodellens *Repository* till skillnad från användarna och kommentarerna (se nedan) här ligger direkt i kontrollen, som dessutom är lite annorlunda utformad, 
-då jag inte såg något särskilt behov av att införa en separat "boktjänst" i och med att all dataåtkomst&shy;kod ändå är allmän och ligger i `DbRepository`. 
+då jag inte såg något särskilt behov av att införa en separat "boktjänst" för basal CRUD-funktionalitet i och med att all dataåtkomst&shy;kod ändå är allmän och ligger i `DbRepository`. 
 Se det som en illustration av hur samma typ av uppgift kan lösas på olika sätt.
 
 Summa summarum blev det en riktigt mastig vecka, men jag var också fullt beredd på detta när jag tog mig an utmaningen. Det känns som att det gick rätt bra ändå, 
@@ -312,7 +313,7 @@ Här får man som alltid göra en avvägning kring vad som är viktigast.
 
 Jag föredrar *Data Mapper* eller *Repository* framför *Active Record* av ovannämnda anledningar, så det är väl inte så förvånande att jag valde en sådan implementation för mitt data&shy;åtkomst&shy;lager. 
 Den ger en mycket bättre semantisk överens&shy;stämmelse med de underliggande data&shy;strukturerna och öppnar upp för ett mer åter&shy;användbart API, 
-samt är lättare att testa. What's not to like?
+samt är lättare att testa och konfigurera (särskilt ur DI-synvinkel). What's not to like?
 
 ###### Hur gick det att integrera formulär&shy;hantering och databas&shy;hantering i ditt kommentars&shy;system?
 
@@ -335,14 +336,14 @@ så jag kunde nyttja automatiken även där. Vymodellen används sedan för att 
 
 Eftersom man med mitt system kan skriva kommentarer på godtyckliga sidor (där kommentarer är påslagna) fick jag lite bryderier i hur jag skulle hantera anropskedjan. 
 Hittills har jag låtit min `CommentController` ta hand om det inskickade formuläret och sedan skicka användaren tillbaka till föregående sidas kommentars&shy;sektion med hjälp av en ankarlänk, 
-men nu övervägde jag att göra hela flödet AJAX-baserat istället för endast redigeringen av existerande kommentarer. 
+men nu övervägde jag att göra hela flödet AJAX-baserat istället för endast *in situ*-redigeringen av existerande kommentarer som det är nu. 
 Eftersom formulär&shy;komponenten är helt serverbaserad valde jag dock att behålla det tidigare upplägget och sparar kort och gott `ModelForm`-instansen i sessionen i samband med omdirigeringen. 
 Detta gjorde att jag fortsatt kunde överlåta all validering och meddelande&shy;hantering till mina existerande komponenter, för att slippa åter&shy;implementera 
 stora delar av presentationen på klientsidan.
 
 Slutligen har jag gjort en administrations&shy;panel som också har mycket gemensamt med den/dem i **oophp**, varifrån en inloggad administratör kan hantera både användare och kommentarer. 
 Just de sistnämnda blir dock något av ett specialfall i och med att det som sagt inte går att vara säker på *var* den sida som kommentaren är knuten till befinner sig, 
-så det är förmodligen enklare att sköta sådant "underhåll" direkt på varje sådan sida. Det var i vart fall inga konstigheter i att få till endera avdelningen, 
+i och med att dessa inte ingår i databasen, så det är förmodligen enklare att sköta sådant "underhåll" direkt på varje sådan sida. Det var i vart fall inga konstigheter i att få till endera avdelningen, 
 då de påminner mycket om varandra och alltså nyttjar samma (eller liknande) *Repository*-, formulär- och validerings-API:er, så det gick mest av bara farten att ta med bägge.
 
 ###### Utveckla din syn på koden du nu har i ramverket och din kommentars- och användarkod. Hur känns det?
@@ -354,7 +355,7 @@ så det är med viss bävan jag emotser uppgiften att *bryta ut* en komponent ur
 Något som dock känns aningen sårbart är hanteringen av anonyma användare, d.v.s. att vem som helst kan skriva kommentarer. 
 Min valda lösning för detta är alltså att skapa och återanvända "inloggnings&shy;lösa användarkonton" för att kunna utnyttja främmande nyckel-kopplingen på ett konsekvent sätt. 
 Den stora nackdelen med detta är, förstås, att det på sikt kan bli många sådana "skuggkonton", särskilt om spamrobotarna hittar formuläret, 
-även om filtreringen i administra&shy;törernas listningsvy underlättar en del.
+även om filtreringen jag lagt till i administra&shy;törernas listningsvy underlättar en del.
 
 Den "mjuka borttagningen" för registrerade användare har tillkommit för att upprätthålla referens&shy;integritet, men med en `ON DELETE CASCADE`-inställning 
 för den främmande nyckeln i kommentars&shy;tabellen skulle man kunna införa möjlighet att ta bort anonyma användarposter permanent. Samtidigt vill man (förmodligen) 
@@ -373,7 +374,7 @@ och det finns en hel del krimskrams i .NET:s mallar som man gör gott i att skal
 från en något överambitiös implementation än att skriva allt från grunden på egen hand.
 
 Detta förutsätter förstås att de mallar som finns att tillgå är något sånär överensstämmande med det man försöker uppnå, 
-vilket som sagt inte gällde för mig i detta kursmoment. Därmed fick jag skriva all kod själv istället, men det var också ett medvetet val i det här fallet.
+vilket som sagt inte gällde för mig i detta kursmoment. Därmed fick jag skriva all (eller nästan all) kod själv istället, men det var också ett medvetet val i det här fallet.
 
 
 Kmom05  {#kmom05.anchor}
