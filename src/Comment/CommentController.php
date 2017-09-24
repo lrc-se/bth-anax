@@ -38,13 +38,19 @@ class CommentController extends BaseController
      */
     public function create()
     {
+        $user = $this->di->user->getCurrent();
+        if (!$user && !$this->di->comments->getConfig('allowAnonymous')) {
+            $this->di->session->set('err', 'Du måste vara inloggad för att skriva en kommentar.');
+            $this->back();
+        }
+        
         $form = new Form('comment-form', CommentVM::class);
         $commentVM = $form->populateModel();
-        $user = $this->di->user->getCurrent();
         if ($user) {
             $commentVM->name = $user->name;
             $commentVM->email = $user->email;
         }
+        
         $form->validate();
         if ($form->isValid()) {
             if (!$user) {

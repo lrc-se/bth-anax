@@ -143,7 +143,8 @@ class CommentService extends BaseService implements ConfigureInterface
             'comments' => $this->getComments($contentId),
             'user' => $user,
             'form' => $form,
-            'comment' => $form->getModel()
+            'comment' => $form->getModel(),
+            'allowAnonymous' => $this->getConfig('allowAnonymous')
         ], 'main');
     }
 }

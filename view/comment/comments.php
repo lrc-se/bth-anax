@@ -11,8 +11,13 @@
 <?php endif; ?>
     </ol>
     <div id="comment-add" class="comment-add anchor">
+<?php if ($user || $allowAnonymous) : ?>
         <h5>Skriv kommentar</h5>
         <?php $this->renderView('comment/form', $data); ?>
+<?php else : ?>
+        <h6>Du måste vara inloggad för att skriva en kommentar.</h6>
+        <a class="btn" href="<?= $this->url('user/login') ?>">Logga in</a>
+<?php endif; ?>
 <?php if ($user) : ?>
     <form id="comment-edit-form" class="form form-small comment-form" action="" method="post" style="display: none">
         <input type="hidden" name="url" value="<?= $this->currentUrl() ?>">

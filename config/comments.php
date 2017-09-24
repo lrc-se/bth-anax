@@ -9,6 +9,9 @@ return [
     'desc' => true,
     
     // age limit in days (0 = show all)
-    'maxAge' => 30
+    'maxAge' => 30,
+    
+    // whether to allow anonymous visitors to post comments
+    'allowAnonymous' => true
 
 ];
