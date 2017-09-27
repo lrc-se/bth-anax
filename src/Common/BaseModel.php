@@ -7,6 +7,9 @@ namespace LRC\Common;
  */
 class BaseModel
 {
+    use \LRC\Database\SoftReferenceResolverTrait;
+    
+    
     /**
      * @var array   Array of nullable attributes.
      */
@@ -34,24 +37,5 @@ class BaseModel
     public function isNullable($attr)
     {
         return in_array($attr, $this->nullables);
-    }
-    
-    
-    /**
-     * Retrieve a reference by foreign key.
-     *
-     * @param string                                $attr       Name of foreign key attribute.
-     * @param \LRC\Database\SoftRepositoryInterface $repository Repository to query.
-     * @param bool                                  $soft       Whether to take soft-deletion into account.
-     *
-     * @return mixed                                            Model instance if found, null otherwise.
-     */
-    public function getReference($attr, $repository, $soft = true)
-    {
-        if (isset($this->$attr)) {
-            $method = ($soft ? 'findSoft' : 'find');
-            return ($repository->$method('id', $this->$attr) ?: null);
-        }
-        return null;
     }
 }
