@@ -16,7 +16,7 @@ class UserController extends BaseController
     public function profile()
     {
         $user = $this->di->common->verifyUser();        
-        $this->renderPage('user/index', ['user' => $user], 'Välkommen, ' . $user->username . '!');
+        $this->renderPage('user/index', ['user' => $user], 'Välkommen, ' . htmlspecialchars($user->username) . '!');
     }
     
     
