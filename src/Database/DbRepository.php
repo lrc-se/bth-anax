@@ -228,6 +228,7 @@ class DbRepository implements SoftRepositoryInterface
     /**
      * Execute query for selection methods.
      * 
+     * @param string $select                        Selection criteria.
      * @param string $conditions                    Where conditions.
      * @param array  $values                        Array of where condition values to bind.
      * @param string $order                         Order by conditions.

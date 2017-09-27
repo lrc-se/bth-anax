@@ -68,6 +68,8 @@ class AdminController extends UserController
     
     /**
      * Admin edit user page.
+     *
+     * @param int $id   User ID.
      */
     public function updateUser($id)
     {
@@ -85,6 +87,8 @@ class AdminController extends UserController
     
     /**
      * Admin edit profile handler.
+     *
+     * @param int $id   User ID.
      */
     public function handleUpdateUser($id)
     {
@@ -144,6 +148,8 @@ class AdminController extends UserController
     
     /**
      * Admin delete user page.
+     *
+     * @param int $id   User ID.
      */
     public function deleteUser($id)
     {
@@ -160,6 +166,8 @@ class AdminController extends UserController
     
     /**
      * Admin delete user handler.
+     *
+     * @param int $id   User ID.
      */
     public function handleDeleteUser($id)
     {
@@ -180,6 +188,8 @@ class AdminController extends UserController
     
     /**
      * Admin restore user handler.
+     *
+     * @param int $id   User ID.
      */
     public function handleRestoreUser($id)
     {
@@ -196,6 +206,8 @@ class AdminController extends UserController
     
     /**
      * Admin register anonymous user page.
+     *
+     * @param int $id   User ID.
      */
     public function registerUser($id)
     {
@@ -211,6 +223,8 @@ class AdminController extends UserController
     
     /**
      * Admin register anonymous user handler.
+     *
+     * @param int $id   User ID.
      */
     public function handleRegisterUser($id)
     {
@@ -244,6 +258,8 @@ class AdminController extends UserController
     
     /**
      * Admin view comment page.
+     *
+     * @param int $id   Comment ID.
      */
     public function viewComment($id)
     {
@@ -258,6 +274,8 @@ class AdminController extends UserController
     
     /**
      * Admin edit comment page.
+     *
+     * @param int $id   Comment ID.
      */
     public function updateComment($id)
     {
@@ -274,6 +292,8 @@ class AdminController extends UserController
     
     /**
      * Admin edit comment handler.
+     *
+     * @param int $id   Comment ID.
      */
     public function handleUpdateComment($id)
     {
@@ -302,6 +322,8 @@ class AdminController extends UserController
     
     /**
      * Admin delete comment page.
+     *
+     * @param int $id   Comment ID.
      */
     public function deleteComment($id)
     {
@@ -316,6 +338,8 @@ class AdminController extends UserController
     
     /**
      * Admin delete comment handler.
+     *
+     * @param int $id   Comment ID.
      */
     public function handleDeleteComment($id)
     {

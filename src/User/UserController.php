@@ -57,6 +57,8 @@ class UserController extends BaseController
     
     /**
      * Edit profile page.
+     *
+     * @param int $id   User ID.
      */
     public function update($id)
     {
@@ -77,6 +79,8 @@ class UserController extends BaseController
     
     /**
      * Edit profile handler.
+     *
+     * @param int $id   User ID.
      */
     public function handleUpdate($id)
     {
@@ -145,6 +149,10 @@ class UserController extends BaseController
     
     /**
      * Convenience method to render page.
+     *
+     * @param string    $view   View template.
+     * @param array     $data   View data.
+     * @param string    $title  View title.
      */
     protected function renderPage($view, $data, $title)
     {

@@ -44,7 +44,7 @@ class BaseModel
      * @param \LRC\Database\SoftRepositoryInterface $repository Repository to query.
      * @param bool                                  $soft       Whether to take soft-deletion into account.
      *
-     * @return mixed                                Model instance if found, null otherwise.
+     * @return mixed                                            Model instance if found, null otherwise.
      */
     public function getReference($attr, $repository, $soft = true)
     {
