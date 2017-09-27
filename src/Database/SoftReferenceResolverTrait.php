@@ -7,20 +7,21 @@ namespace LRC\Database;
  */
 trait SoftReferenceResolverTrait
 {
+    use ReferenceResolverTrait;
+    
+    
     /**
-     * Retrieve a reference by foreign key.
+     * Retrieve a reference by foreign key, ignoring soft-deleted entries.
      *
      * @param string                    $attr       Name of foreign key attribute.
      * @param SoftRepositoryInterface   $repository Repository to query.
-     * @param bool                      $soft       Whether to take soft-deletion into account.
      *
      * @return mixed                                Model instance if found, null otherwise.
      */
-    public function getReference($attr, $repository, $soft = true)
+    public function getReferenceSoft($attr, $repository)
     {
         if (isset($this->$attr)) {
-            $method = ($soft ? 'findSoft' : 'find');
-            return ($repository->$method('id', $this->$attr) ?: null);
+            return ($repository->findSoft('id', $this->$attr) ?: null);
         }
         return null;
     }

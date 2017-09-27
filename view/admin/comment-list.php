@@ -23,7 +23,7 @@ $num = count($comments);
         </thead>
         <tbody>
 <?php   foreach ($comments as $comment) : ?>
-<?php       $author = $comment->getReference('userId', $di->repository->users, false); ?>
+<?php       $author = $comment->getReference('userId', $di->repository->users); ?>
             <tr<?= (is_null($author->username) ? ' class="anonymous"' : '') ?>>
                 <td><?= $comment->id ?></td>
                 <td><?= esc($comment->contentId) ?></a></td>

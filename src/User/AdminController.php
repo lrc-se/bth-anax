@@ -267,7 +267,7 @@ class AdminController extends UserController
         $comment = $this->getComment($id);
         $this->renderPage('admin/comment-view', [
             'comment' => $comment,
-            'author' => $comment->getReference('userId', $this->di->repository->users, false)
+            'author' => $comment->getReference('userId', $this->di->repository->users)
         ], 'Visa kommentar');
     }
     
@@ -284,7 +284,7 @@ class AdminController extends UserController
         $form = new Form('comment-form', $comment);
         $this->renderPage('admin/comment-form', [
             'comment' => $comment,
-            'author' => $comment->getReference('userId', $this->di->repository->users, false),
+            'author' => $comment->getReference('userId', $this->di->repository->users),
             'form' => $form
         ], 'Redigera kommentar');
     }
@@ -314,7 +314,7 @@ class AdminController extends UserController
         
         $this->renderPage('admin/comment-form', [
             'comment' => $comment,
-            'author' => $comment->getReference('userId', $this->di->repository->users, false),
+            'author' => $comment->getReference('userId', $this->di->repository->users),
             'form' => $form
         ], 'Redigera kommentar');
     }
@@ -331,7 +331,7 @@ class AdminController extends UserController
         $comment = $this->getComment($id);
         $this->renderPage('admin/comment-delete', [
             'comment' => $comment,
-            'author' => $comment->getReference('userId', $this->di->repository->users, false)
+            'author' => $comment->getReference('userId', $this->di->repository->users)
         ], 'Ta bort kommentar');
     }
     
