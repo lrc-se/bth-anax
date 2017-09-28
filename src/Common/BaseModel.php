@@ -7,7 +7,7 @@ namespace LRC\Common;
  */
 class BaseModel
 {
-    use \LRC\Database\SoftReferenceResolverTrait;
+    use \LRC\Repository\SoftReferenceResolverTrait;
     
     
     /**

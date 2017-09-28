@@ -1,7 +1,7 @@
 <?php
 
-$creator = $comment->getReferenceSoft('userId', $di->repository->users);
-$editor = $comment->getReferenceSoft('editorId', $di->repository->users);
+$creator = $comment->getReferenceSoft($di->repository->users, 'userId');
+$editor = $comment->getReferenceSoft($di->repository->users, 'editorId');
 
 ?>
         <li id="comment-<?= $comment->id ?>" class="comment">

@@ -14,8 +14,15 @@
         "mos/cimage": "^0.7.19",
         "symfony/yaml": "^3.3",
         "anax/di": "^1.0",
-        "anax/database": "^1.1"
+        "anax/database": "^1.1",
+        "lrc-se/anax-repository": "dev-master"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/lrc-se/bth-anax-repository.git"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "LRC\\": "src/"

@@ -11,7 +11,7 @@ use \LRC\Form\ModelForm as Form;
 class BookController extends BaseController
 {
     /**
-     * @var \LRC\Database\DbRepository  Book repository.
+     * @var \LRC\Repository\DbRepository    Book repository.
      */
     private $books;
     

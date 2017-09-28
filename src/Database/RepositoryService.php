@@ -47,7 +47,7 @@ class RepositoryService extends BaseService implements ConfigureInterface
      */
     public function add($name, $table, $modelClass, $deleted = 'deleted')
     {
-        $this->repositories[$name] = new DbRepository($this->di->db, $table, $modelClass, $deleted);
+        $this->repositories[$name] = new \LRC\Repository\SoftDbRepository($this->di->db, $table, $modelClass, $deleted);
     }
     
     
