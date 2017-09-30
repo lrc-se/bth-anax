@@ -392,6 +392,7 @@ class ModelForm
      */
     private function getFieldValue($field)
     {
-        return ($this->getModelValue($field) ?: $this->getExtra($field));
+        $value = $this->getModelValue($field);
+        return (!is_null($value) ? $value : $this->getExtra($field));
     }
 }
