@@ -30,6 +30,8 @@ Kursen handlar om "kodstrukturer med ramverk, designmönster och återanvändbar
     ##### Källkod
     
     * [Webbplatsen på GitHub](https://github.com/lrc-se/bth-anax)
+    * [*Repository*-modulen på GitHub](https://github.com/lrc-se/bth-anax-repository)
+    * [*Repository*-modulen på Packagist](https://packagist.org/packages/lrc-se/anax-repository)
     * [Anax på GitHub](https://github.com/canax)
     </div>
 </div>
