@@ -26,6 +26,10 @@ $navbar = [
                 [
                     'title' => 'Böcker',
                     'route' => 'book'
+                ],
+                [
+                    'title' => 'Repository',
+                    'route' => 'repository'
                 ]
             ]
         ],

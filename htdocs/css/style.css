@@ -377,6 +377,16 @@ h6:first-child {
     margin-top: 0;
 }
 
+hr {
+    height: 0;
+    margin-top: 0;
+    margin-bottom: 1.4em;
+    border: none;
+    border-top: 1px dotted;
+    border-top-color: #b8b7bc;
+    border-top-color: rgba(42, 40, 56, .5);
+}
+
 input,
 button,
 select,
