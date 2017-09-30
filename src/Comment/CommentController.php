@@ -15,9 +15,7 @@ class CommentController extends BaseController
      *
      * @param int $id   Comment ID.
      *
-     * @return void
-     *
-     * @SuppressWarnings(PHPMD.ExitExpression)
+     * @return true
      */
     public function get($id)
     {
@@ -27,7 +25,7 @@ class CommentController extends BaseController
         } else {
             $this->di->response->send(404);
         }
-        exit;
+        return true;
     }
     
     

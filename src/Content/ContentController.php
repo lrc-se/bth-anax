@@ -6,8 +6,6 @@ use \LRC\Common\BaseController;
 
 /**
  * Default controller for file-based content.
- *
- * @SuppressWarnings(PHPMD.ExitExpression)
  */
 class ContentController extends BaseController
 {
@@ -28,6 +26,6 @@ class ContentController extends BaseController
             preg_replace('/<h1.*?>.*?<\/h1>/', '', $content->text),
             $content->frontmatter
         );
-        exit;
+        return true;
     }
 }

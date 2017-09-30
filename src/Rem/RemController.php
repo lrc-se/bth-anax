@@ -6,8 +6,6 @@ use \LRC\Common\BaseController;
 
 /**
  * A controller for the REM Server.
- *
- * @SuppressWarnings(PHPMD.ExitExpression)
  */
 class RemController extends BaseController
 {
@@ -27,26 +25,26 @@ class RemController extends BaseController
     /**
      * Init or re-init the REM Server.
      *
-     * @return void
+     * @return true
      */
     public function init()
     {
         $this->di->rem->init();
         $this->di->response->sendJson(['message' => 'Session initiated with default dataset.']);
-        exit;
+        return true;
     }
 
 
     /**
      * Destroy the session.
      *
-     * @return void
+     * @return true
      */
     public function destroy()
     {
         $this->di->session->destroy();
         $this->di->response->sendJson(['message' => 'Session destroyed.']);
-        exit;
+        return true;
     }
 
 
@@ -55,7 +53,7 @@ class RemController extends BaseController
      *
      * @param string $key for the dataset
      *
-     * @return void
+     * @return true
      */
     public function getDataset($key)
     {
@@ -74,7 +72,7 @@ class RemController extends BaseController
             'total' => count($dataset)
         ];
         $this->di->response->sendJson($res);
-        exit;
+        return true;
     }
 
 
@@ -84,18 +82,18 @@ class RemController extends BaseController
      * @param string $key    for the dataset
      * @param string $itemId for the item to get
      *
-     * @return void
+     * @return true
      */
     public function getItem($key, $itemId)
     {
         $item = $this->di->rem->getItem($key, $itemId);
         if (!$item) {
             $this->di->response->sendJson(['error' => 'Item not found.'], 404);
-            exit;
+            return true;
         }
 
         $this->di->response->sendJson($item);
-        exit;
+        return true;
     }
 
 
@@ -105,7 +103,7 @@ class RemController extends BaseController
      *
      * @param string $key    for the dataset
      *
-     * @return void
+     * @return true
      */
     public function createItem($key)
     {
@@ -116,7 +114,7 @@ class RemController extends BaseController
         } else {
             $this->di->response->sendJson(['error' => 'Error in JSON data.'], 400);
         }
-        exit;
+        return true;
     }
 
 
@@ -126,7 +124,7 @@ class RemController extends BaseController
      * @param string $key    for the dataset
      * @param string $itemId for the item to update (or insert)
      *
-     * @return void
+     * @return true
      */
     public function updateItem($key, $itemId)
     {
@@ -137,7 +135,7 @@ class RemController extends BaseController
         } else {
             $this->di->response->sendJson(['error' => 'Error in JSON data.'], 400);
         }
-        exit;
+        return true;
     }
 
 
@@ -147,7 +145,7 @@ class RemController extends BaseController
      * @param string $key    for the dataset
      * @param string $itemId for the item to delete
      *
-     * @return void
+     * @return true
      */
     public function deleteItem($key, $itemId)
     {
@@ -156,19 +154,19 @@ class RemController extends BaseController
         } else {
             $this->di->response->sendJson(['error' => 'Item not found.'], 404);
         }
-        exit;
+        return true;
     }
 
 
     /**
      * Show a message that the route is unsupported, a local 404.
      *
-     * @return void
+     * @return true
      */
     public function unsupported()
     {
         $this->di->response->sendJson(['error' => 'The API does not support the requested operation.'], 404);
-        exit;
+        return true;
     }
     
     

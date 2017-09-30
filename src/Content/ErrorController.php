@@ -6,8 +6,6 @@ use \LRC\Common\BaseController;
 
 /**
  * Error controller.
- *
- * @SuppressWarnings(PHPMD.ExitExpression)
  */
 class ErrorController extends BaseController
 {
@@ -46,6 +44,6 @@ class ErrorController extends BaseController
             $message = 'Ett okänt fel har inträffat.';
         }
         $this->di->common->renderPage($title, $message, ['title' => $title], $code);
-        exit;
+        return true;
     }
 }

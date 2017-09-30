@@ -302,16 +302,16 @@
         },
         {
             "name": "anax/router",
-            "version": "v1.0.14",
+            "version": "v1.0.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/canax/router.git",
-                "reference": "affc1343e550b7d2629b52150bbab53f6cb1dae4"
+                "reference": "c7eb4e1b1ac8e88ea773c29e9ab863ebebee71dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/canax/router/zipball/affc1343e550b7d2629b52150bbab53f6cb1dae4",
-                "reference": "affc1343e550b7d2629b52150bbab53f6cb1dae4",
+                "url": "https://api.github.com/repos/canax/router/zipball/c7eb4e1b1ac8e88ea773c29e9ab863ebebee71dc",
+                "reference": "c7eb4e1b1ac8e88ea773c29e9ab863ebebee71dc",
                 "shasum": ""
             },
             "require": {
@@ -346,7 +346,7 @@
                 "micro",
                 "mvc"
             ],
-            "time": "2017-09-26 20:24:21"
+            "time": "2017-09-28 19:44:36"
         },
         {
             "name": "anax/session",
@@ -606,12 +606,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lrc-se/bth-anax-repository.git",
-                "reference": "bba5e67d10c1350eae2865e96b8dc5bf95abb426"
+                "reference": "ee8d2a74139d08789a55d6c0de9677ecb823ce3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lrc-se/bth-anax-repository/zipball/bba5e67d10c1350eae2865e96b8dc5bf95abb426",
-                "reference": "bba5e67d10c1350eae2865e96b8dc5bf95abb426",
+                "url": "https://api.github.com/repos/lrc-se/bth-anax-repository/zipball/ee8d2a74139d08789a55d6c0de9677ecb823ce3f",
+                "reference": "ee8d2a74139d08789a55d6c0de9677ecb823ce3f",
                 "shasum": ""
             },
             "require": {
@@ -649,7 +649,7 @@
                 "issues": "https://github.com/lrc-se/bth-anax-repository/issues",
                 "source": "https://github.com/lrc-se/bth-anax-repository/tree/master"
             },
-            "time": "2017-09-28 17:40:00"
+            "time": "2017-09-28 18:10:07"
         },
         {
             "name": "michelf/php-markdown",

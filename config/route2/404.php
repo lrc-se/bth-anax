@@ -10,7 +10,7 @@ return [
             'requestMethod' => null,
             'path' => null,
             'callable' => function () {
-                throw new \Anax\Route\NotFoundException();
+                throw new \Anax\Route\Exception\NotFoundException();
             }
         ]
     ]
