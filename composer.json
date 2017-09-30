@@ -15,14 +15,8 @@
         "symfony/yaml": "^3.3",
         "anax/di": "^1.0",
         "anax/database": "^1.1",
-        "lrc-se/anax-repository": "dev-master"
+        "lrc-se/anax-repository": "^1.0"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/lrc-se/bth-anax-repository.git"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "LRC\\": "src/"

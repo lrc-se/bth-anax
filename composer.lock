@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "87da3b5f1b07b74ab0879f0d8e2f4182",
-    "content-hash": "4a4fdd38b0078997985379b1bf50aa19",
+    "hash": "2ad9cc6ab42a7a2f8512112657bdc7cd",
+    "content-hash": "4d6a7fa27c1100b522e69de662ca6174",
     "packages": [
         {
             "name": "anax/common",
@@ -602,16 +602,16 @@
         },
         {
             "name": "lrc-se/anax-repository",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lrc-se/bth-anax-repository.git",
-                "reference": "ee8d2a74139d08789a55d6c0de9677ecb823ce3f"
+                "reference": "5c76eec8b6d9a7df14135c1112f39276bb237abb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lrc-se/bth-anax-repository/zipball/ee8d2a74139d08789a55d6c0de9677ecb823ce3f",
-                "reference": "ee8d2a74139d08789a55d6c0de9677ecb823ce3f",
+                "url": "https://api.github.com/repos/lrc-se/bth-anax-repository/zipball/5c76eec8b6d9a7df14135c1112f39276bb237abb",
+                "reference": "5c76eec8b6d9a7df14135c1112f39276bb237abb",
                 "shasum": ""
             },
             "require": {
@@ -624,6 +624,7 @@
                     "LRC\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -645,11 +646,7 @@
                 "model",
                 "repository"
             ],
-            "support": {
-                "issues": "https://github.com/lrc-se/bth-anax-repository/issues",
-                "source": "https://github.com/lrc-se/bth-anax-repository/tree/master"
-            },
-            "time": "2017-09-28 18:10:07"
+            "time": "2017-09-30 15:22:45"
         },
         {
             "name": "michelf/php-markdown",
@@ -910,9 +907,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "lrc-se/anax-repository": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
