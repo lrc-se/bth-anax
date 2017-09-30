@@ -380,7 +380,59 @@ vilket som sagt inte gällde för mig i detta kursmoment. Därmed fick jag skriv
 Kmom05  {#kmom05.anchor}
 ------
 
-blubb
+Som framgår av tidigare redovisning insåg jag redan tidigt att det skulle bli svårt att avgränsa kommentars&shy;systemet på ett bra sätt, 
+för att kunna lyfta ut det till en egen, självständig modul. Efter att ha frågat om saken [i forumet](https://dbwebb.se/forum/viewtopic.php?f=59&t=6845) 
+bestämde jag mig därför för att lyfta ut *Repository*-komponenten istället, vilken har den stora fördelen att den endast beror av databas&shy;komponenten och inget mer; 
+den är inte sammanflätad med det övriga ramverket -- varken det allmänna eller mina egna special&shy;lösningar -- och saknar både router, vyer och kontroller.
+
+För att upprätthålla självständigheten valde jag att *inte* ta med min `RepositoryService`, eftersom denna *är* knuten till ramverket på olika sätt, 
+och den utgör dessutom ett specifikt användnings&shy;fall av modulens funktionalitet som andra inte nödvändigtvis vill anamma. 
+Den resulterande modulen är därför enkel och tydligt avgränsad, så är det upp till var och en hur man använder den. 
+Jag har även lagt till modulens dokumentation (*README.md*) som en sida under rubriken *Uppgifter* i navigationen, 
+i och med att det ändå rör sig om Markdown och därmed enkelt passar in som innehåll här.
+
+I övrigt har jag här på me-sidan infört det nya arbets&shy;sättet med route&shy;funktioner som returnerar värden samt degraderat `Navbar`-komponenten 
+från sin tidigare plats som en tjänst i ramverket till att endast instantieras i standard&shy;layouten, eftersom det ändå bara var där den användes.
+
+
+###### Hur gick arbetet med att lyfta ut koden ur me-sidan och placera i en egen modul?
+
+Det var inte speciellt svårt i och med att den funktionalitet jag valt som sagt var självständig och väl avgränsad. 
+Jag började med att ändra/<wbr>förbättra strukturen lite grann, bl.a. genom att bryta ut främmande nyckel-metoden från `BaseModel` till två *traits*, 
+och flyttade sedan över allt till det nya repot. Där fortsatte jag uppdelningen genom att separera `*Soft`-metoderna från `DbRepository` till en ny underklass 
+`SoftDbRepository`, vilket blev tydligare och mer i linje med SOLID-I:et (liksom O:et, för den delen), och justerade/<wbr>utökade lite fler saker här och var i koden.
+
+###### Flöt det på bra med GitHub och kopplingen till Packagist?
+
+Inga problem alls; allt fungerade på första försöket utan vare sig väntetider eller bakslag.
+
+###### Hur gick det att åter installera modulen i din me-sida med composer? Kunde du följa din installations&shy;manual?
+
+Detta var också enkelt, av samma anledning; någon egen konfiguration eller ingrepp i existerande konfigurations&shy;filer var ju aldrig nödvändigt, 
+så så mycket till instruktioner eller följande därav blev det inte. Därefter var det bara att byta ut ett fåtal klassnamn, 
+liksom att uppdatera vissa metodanrop där jag ändrat signaturen i den nya modulen, sedan fungerade det direkt. Jag använde även tricket med den symboliska länken -- 
+som för övrigt fungerar utmärkt i Cygwin, bara man skriver den rätt -- under utvecklingen och installerade den publicerade modulen direkt från Packagist i slutet.
+
+###### Hur väl lyckades du enhetstesta din modul och hur mycket kodtäckning fick du med?
+
+Mycket väl -- efter att ha fått jobba en hel del med att få verktygen att fungera som det var tänkt, eller åtminstone som *jag* ville använda dem i det här fallet. 
+Detta var en utmaning eftersom hela modulen sysslar med databas&shy;operationer, vilket alltså förutsatte en fungerande databas att testa mot liksom en fungerande metodik för detta.
+
+Efter att ha lusläst hela [kapitel 8](https://phpunit.de/manual/current/en/database.html) i PHPUnits dokumentation satte jag så igång och skapade ett par SQLite-databaser, 
+så att upplägget blir portabelt, och gjorde några YAML-filer med exempeldata (blir alltid glad när det erbjuds alternativ till XML). 
+Sedan tog det en god stund innan jag fått grund&shy;upplägget att fungera, vilket bl.a. innebar att jag behövde ladda ner och konfigurera `DBUnit`-komponenten 
+och "lura" `DatabaseQueryBuilder` att hitta den konfigurations&shy;fil som jag ville använda, men när allt väl var på plats var det enkelt att skapa testfallen.
+
+Jag tog en metod i taget och såg till att täcka in alla former av anrop, t.ex. att skicka in selektions&shy;villkor och definiera ett eget primärnyckel&shy;namn 
+(annat än standard&shy;fallets `id`), och kunde därmed stadigt öka kodtäckningen. Så småningom nådde jag upp i __100&nbsp;%__ (14 test, 98 kontroller) 
+och har utöver att ha nått samtliga kodvägar alltså även testat om inte alla så de flesta sätt som modulen kan användas på.
+
+###### Några reflektioner över skillnaden med och utan modul?
+
+På grund av tidigare nämnda omständigheter är det i princip ingen skillnad alls, förutom att modulen ifråga från och med nu lever sitt eget liv och inte är knuten till just den här me-sidan, 
+eller just min installation av Anax. Det i sig är å andra sidan väl värt att understryka och det känns betydligt roligare att sätta mitt namn under något som någon annan potentiellt kan finna användbart 
+snarare än att det bara blev en akademisk övning utan praktisk användning av det hela.
+
 
 
 Kmom06  {#kmom06.anchor}
