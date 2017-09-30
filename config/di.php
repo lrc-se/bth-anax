@@ -88,13 +88,6 @@ $config = [
                 return new \LRC\Common\CommonService($this);
             }
         ],
-        'navbar' => [
-            'shared' => true,
-            'callback' => function () {
-                return (new \LRC\Navbar\Navbar($this))
-                    ->configure('navbar.php');
-            }
-        ],
         'content' => [
             'shared' => true,
             'callback' => function () {

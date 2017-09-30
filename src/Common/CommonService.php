@@ -106,7 +106,9 @@ class CommonService extends BaseService
         $this->retrieveMessages();
 
         // common navbar and footer
-        $this->di->view->add('default/navbar', [], 'navbar');
+        $navbar = (new \LRC\Navbar\Navbar($this->di))
+            ->configure('navbar.php');
+        $this->di->view->add('default/navbar', ['navbar' => $navbar], 'navbar');
         $this->di->view->add('default/footer', [], 'footer');
         
         // page header
