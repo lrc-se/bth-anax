@@ -602,16 +602,16 @@
         },
         {
             "name": "lrc-se/anax-repository",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lrc-se/bth-anax-repository.git",
-                "reference": "5c76eec8b6d9a7df14135c1112f39276bb237abb"
+                "reference": "b1adb180f1e45897c644c14d90c5bacca65a336c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lrc-se/bth-anax-repository/zipball/5c76eec8b6d9a7df14135c1112f39276bb237abb",
-                "reference": "5c76eec8b6d9a7df14135c1112f39276bb237abb",
+                "url": "https://api.github.com/repos/lrc-se/bth-anax-repository/zipball/b1adb180f1e45897c644c14d90c5bacca65a336c",
+                "reference": "b1adb180f1e45897c644c14d90c5bacca65a336c",
                 "shasum": ""
             },
             "require": {
@@ -646,7 +646,7 @@
                 "model",
                 "repository"
             ],
-            "time": "2017-09-30 15:22:45"
+            "time": "2017-10-01 09:32:35"
         },
         {
             "name": "michelf/php-markdown",

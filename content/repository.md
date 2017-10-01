@@ -5,7 +5,7 @@ flash: "img/bg5.jpg"
 Anax Repository
 ===============
 
-Nedanstående är *README*-filen för modulen *[Anax Repository](https://github.com/lrc-se/bth-anax-repository)*, som bröts ut ur denna Anax-installation i Kmom05.
+Nedanstående är *README*-filen för modulen *[Anax Repository](https://packagist.org/packages/lrc-se/anax-repository)*, som bröts ut ur denna Anax-installation i [Kmom05](report#kmom05).
 
 -----
 
@@ -16,7 +16,7 @@ As of now the included implementation works with relational databases only.
 
 This module is intended as a replacement for the existing `ActiveRecordModel` 
 in [*anax/database*](https://github.com/canax/database), 
-offering a better semantic fit for the underlying data source, while also being easier to manage and test, 
+offering a better semantic fit for the underlying data source while also being easier to manage and test, 
 especially from a dependency injection standpoint.
 
 The module also offers automatic soft-deletion capabilities, 
@@ -191,6 +191,14 @@ $reviews = new \LRC\Repository\DbRepository($db, 'review', Review::class);
 $review = $reviews->find('id', 1);
 $book = $review->getReferenceSoft($books, 'bookId');
 ```
+
+
+Notes
+-----
+
+The module [*anax/common*](https://github.com/canax/common) is **not** a dependency of this module per se, 
+and therefore is not included in *composer.json*, but it **is** required by `DatabaseQueryBuilder` 
+and must be installed and included in the local autoloader together with *anax/database* in order to run the included unit tests.
 
 
 About
