@@ -442,7 +442,52 @@ vilka blir lättare att realisera nu när kodbasen är fristående, och jag skul
 Kmom06  {#kmom06.anchor}
 ------
 
-blubb
+Ja, det här gick riktigt smidigt det!
+
+Inför integrationen med de externa tjänsterna uppdaterade jag koden i modulen så att den skapar test&shy;databaserna på nytt vid varje körning, 
+så att jag kunde exkludera *.sqlite*-filerna från repot, vilket ger en renare historik då dessa filer av nödvändighet modifieras av testserien. 
+Jag valde denna lösning framför databaser i minnet för att slippa problem med delad åtkomst, i och med att det är två olika delar som pratar med databasen samtidigt 
+(komponenten som testas och PHPUnit som verifierar resultaten mot faktiska data). Detta visade sig betydligt enklare än befarat, så det blev ju riktigt bra.
+
+Modulens beroenden har nu även fått ett bättre upplägg, där *anax/common* krävs för testen men inte för att installera modulen som sådan. 
+Rent strikt beror den faktiskt inte av *anax/database* heller, utan det räcker att det finns *någon* klass som implementerar samma publika API som `DatabaseQueryBuilder`, 
+men för enkelhetens skull har jag låtit det beroendet kvarstå.
+
+
+###### Har du någon erfarenhet av automatiserade test och CI sedan tidigare?
+
+Nix, om man nu inte vill räkna det vi gjort hittills i denna kurs liksom i **oophp** eller **oopython**.
+
+###### Hur ser du på begreppen -- bra, onödigt, nödvändigt, tidskrävande?
+
+Tidskrävande, definitivt -- åtminstone att få till allt första gången; därefter rullar det nog på mest av sig själv så länge man inte gör större ingrepp. 
+Risken är, som alltid, att man tycker det blir *för* tidskrävande och istället känner att det är bättre att lägga den tiden på att skriva bättre kod från början. 
+Samtidigt är det ju skönt att kunna luta sig tillbaka och låta automatiken verifiera att de ändringar man gör inte orsakar några fel eller oförutsedda förändringar i kodens beteende, 
+men det förutsätter förstås att man lyckats skapa vettiga testfall som verkligen är kapabla att fånga upp sådana saker.
+
+###### Hur stor kodtäckning lyckades du uppnå i din modul?
+
+Den kvarstår på 100&nbsp;%, vilket känns riktigt bra med tanke på att det som sagt rör sig om databas&shy;operationer för hela slanten. 
+Det är också riktigt tillfreds&shy;ställande att hela testkedjan fungerar fullt ut i de externa tjänsterna, utan större handpåläggning (se nedan). 
+Att detta gått så bra beror återigen i mångt och mycket på att modulen är så pass fristående som den är, så bara databas&shy;beroendet fixas så är den egentligen inte särskilt svårtestad.
+
+###### Berätta hur det gick att integrera mot de olika externa tjänsterna.
+
+Jag valde att köra på Travis framför Circle både för att den verkade lite mer flexibel och för att den *inte* befinner sig mitt uppe i ett versions&shy;byte. 
+När jag sedan gjorde mitt första försök att integrera Travis fungerade det direkt -- och dessutom gick alla test igenom utan anmärkning. "Titta vad bra det fungerar ibland", 
+för att citera *mos*.
+
+För Scrutinizer sedan löste jag [problemet med PHPUnit](https://dbwebb.se/forum/viewtopic.php?f=59&t=6888) genom att lägga till ett förberedelse&shy;kommando i *.scrutinizer.yml* -- 
+och även i det här fallet gick allt (något oväntat) igenom på första försöket. Plötsligt händer det, liksom. Än mer kul var att kodkvaliteten fick en 10:a på en gång, 
+vilket också kändes oväntat, men det är väl bara att tacka och ta emot. Det fanns dock några anmärkningar, där de flesta hade med felaktiga *docblock* i `DatabaseQueryBuilder` 
+att göra och därmed ligger utanför min kontroll, men en av dem var en riktig bugg som jag missat. Den påverkade visserligen inte kodens funktion, 
+men det var ändå ett fel som det var lika bra att åtgärda direkt.
+
+###### Vilken extern tjänst uppskattade du mest, eller har du förslag på ytterligare externa tjänster att använda?
+
+Scrutinizer, då den ger mer kött på benen och alltså lyckades hitta ett misstag som annars kanske blivit kvar länge. Har tittat lite översiktligt på andra liknande tjänster, 
+men inte hittat någon som kändes bättre eller enklare att hantera.
+
 
 
 Kmom10  {#kmom10.anchor}
