@@ -442,16 +442,18 @@ vilka blir lättare att realisera nu när kodbasen är fristående, och jag skul
 Kmom06  {#kmom06.anchor}
 ------
 
-Ja, det här gick riktigt smidigt det!
+Ja, det här gick riktigt smidigt det -- större delen av kurs&shy;momentet klart på en halv kväll!
 
-Inför integrationen med de externa tjänsterna uppdaterade jag koden i modulen så att den skapar test&shy;databaserna på nytt vid varje körning, 
-så att jag kunde exkludera *.sqlite*-filerna från repot, vilket ger en renare historik då dessa filer av nödvändighet modifieras av testserien. 
+Inför integrationen med de externa tjänsterna uppdaterade jag koden i modulen så att den skapar test&shy;databaserna på nytt vid varje körning med hjälp av SQL-skript, 
+så att jag kunde exkludera SQLite-filerna från repot, vilket ger en renare historik då dessa filer av nödvändighet modifieras av testserien. 
 Jag valde denna lösning framför databaser i minnet för att slippa problem med delad åtkomst, i och med att det är två olika delar som pratar med databasen samtidigt 
-(komponenten som testas och PHPUnit som verifierar resultaten mot faktiska data). Detta visade sig betydligt enklare än befarat, så det blev ju riktigt bra.
+(komponenten som testas och PHPUnit som verifierar resultaten mot faktiska data). Detta visade sig betydligt enklare än befarat, så det blev ju riktigt bra till slut.
 
-Modulens beroenden har nu även fått ett bättre upplägg, där *anax/common* krävs för testen men inte för att installera modulen som sådan. 
+Modulens beroenden har även fått ett bättre upplägg, där *anax/common* krävs för testen men inte för att installera modulen som sådan. 
 Rent strikt beror den faktiskt inte av *anax/database* heller, utan det räcker att det finns *någon* klass som implementerar samma publika API som `DatabaseQueryBuilder`, 
 men för enkelhetens skull har jag låtit det beroendet kvarstå.
+
+Utöver detta har jag som sagt en del tankar på hur modulen kan utvecklas vidare, men eftersom jag har en del annat att stå i för tillfället får det bli en senare fråga.
 
 
 ###### Har du någon erfarenhet av automatiserade test och CI sedan tidigare?
@@ -479,13 +481,13 @@ för att citera *mos*.
 
 För Scrutinizer sedan löste jag [problemet med PHPUnit](https://dbwebb.se/forum/viewtopic.php?f=59&t=6888) genom att lägga till ett förberedelse&shy;kommando i *.scrutinizer.yml* -- 
 och även i det här fallet gick allt (något oväntat) igenom på första försöket. Plötsligt händer det, liksom. Än mer kul var att kodkvaliteten fick en 10:a på en gång, 
-vilket också kändes oväntat, men det är väl bara att tacka och ta emot. Det fanns dock några anmärkningar, där de flesta hade med felaktiga *docblock* i `DatabaseQueryBuilder` 
-att göra och därmed ligger utanför min kontroll, men en av dem var en riktig bugg som jag missat. Den påverkade visserligen inte kodens funktion, 
-men det var ändå ett fel som det var lika bra att åtgärda direkt.
+vilket också kändes oväntat, men det är väl bara att tacka och ta emot. Det fanns dock några anmärkningar, där de flesta hade med felaktiga *docblock* i *anax/database* 
+att göra och därmed ligger utanför min kontroll, men en av dem var en riktig bugg som jag missat. 
+Den påverkade visserligen inte kodens funktion men utgjorde ändå ett verkligt fel som det var lika bra att åtgärda på en gång. Utdelning direkt, liksom.
 
 ###### Vilken extern tjänst uppskattade du mest, eller har du förslag på ytterligare externa tjänster att använda?
 
-Scrutinizer, då den ger mer kött på benen och alltså lyckades hitta ett misstag som annars kanske blivit kvar länge. Har tittat lite översiktligt på andra liknande tjänster, 
+Scrutinizer, då den ger mer kött på benen och alltså lyckades hitta ett misstag som annars kanske skulle blivit kvar länge. Har tittat lite översiktligt på en del andra liknande tjänster, 
 men inte hittat någon som kändes bättre eller enklare att hantera.
 
 
