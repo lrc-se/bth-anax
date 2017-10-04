@@ -350,16 +350,16 @@
         },
         {
             "name": "anax/session",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/canax/session.git",
-                "reference": "7dd0c410f85f3501c97069c874179bc8b7a9065d"
+                "reference": "a55a474c1bba4759b79db3822cd5b7dcd67c055b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/canax/session/zipball/7dd0c410f85f3501c97069c874179bc8b7a9065d",
-                "reference": "7dd0c410f85f3501c97069c874179bc8b7a9065d",
+                "url": "https://api.github.com/repos/canax/session/zipball/a55a474c1bba4759b79db3822cd5b7dcd67c055b",
+                "reference": "a55a474c1bba4759b79db3822cd5b7dcd67c055b",
                 "shasum": ""
             },
             "require": {
@@ -398,20 +398,20 @@
                 "micro",
                 "mvc"
             ],
-            "time": "2017-08-17 15:52:40"
+            "time": "2017-10-02 15:54:22"
         },
         {
             "name": "anax/textfilter",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/canax/textfilter.git",
-                "reference": "16999dc137d005f332e71459802f44310309f7f1"
+                "reference": "0fe7b6839a86a2256d22b7f59d10ee92663f89f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/canax/textfilter/zipball/16999dc137d005f332e71459802f44310309f7f1",
-                "reference": "16999dc137d005f332e71459802f44310309f7f1",
+                "url": "https://api.github.com/repos/canax/textfilter/zipball/0fe7b6839a86a2256d22b7f59d10ee92663f89f1",
+                "reference": "0fe7b6839a86a2256d22b7f59d10ee92663f89f1",
                 "shasum": ""
             },
             "require": {
@@ -452,7 +452,7 @@
                 "micro",
                 "mvc"
             ],
-            "time": "2017-08-03 08:24:17"
+            "time": "2017-10-02 10:25:31"
         },
         {
             "name": "anax/url",
@@ -602,21 +602,24 @@
         },
         {
             "name": "lrc-se/anax-repository",
-            "version": "1.0.1",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lrc-se/bth-anax-repository.git",
-                "reference": "b1adb180f1e45897c644c14d90c5bacca65a336c"
+                "reference": "281d16dd42848689476857c5e034c35e93bd219e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lrc-se/bth-anax-repository/zipball/b1adb180f1e45897c644c14d90c5bacca65a336c",
-                "reference": "b1adb180f1e45897c644c14d90c5bacca65a336c",
+                "url": "https://api.github.com/repos/lrc-se/bth-anax-repository/zipball/281d16dd42848689476857c5e034c35e93bd219e",
+                "reference": "281d16dd42848689476857c5e034c35e93bd219e",
                 "shasum": ""
             },
             "require": {
                 "anax/database": "^1.1.0",
                 "php": ">=5.6"
+            },
+            "require-dev": {
+                "anax/common": "^1.0.8"
             },
             "type": "library",
             "autoload": {
@@ -646,7 +649,7 @@
                 "model",
                 "repository"
             ],
-            "time": "2017-10-01 09:32:35"
+            "time": "2017-10-04 17:59:29"
         },
         {
             "name": "michelf/php-markdown",

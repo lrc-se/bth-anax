@@ -9,6 +9,11 @@ Nedanstående är *README*-filen för modulen *[Anax Repository](https://packagi
 
 -----
 
+[![Latest Stable Version](https://poser.pugx.org/lrc-se/anax-repository/v/stable)](https://packagist.org/packages/lrc-se/anax-repository)
+[![Travis CI Build Status](https://travis-ci.org/lrc-se/bth-anax-repository.svg?branch=master)](https://travis-ci.org/lrc-se/bth-anax-repository)
+[![Scrutinizer Build Status](https://scrutinizer-ci.com/g/lrc-se/bth-anax-repository/badges/build.png?b=master)](https://scrutinizer-ci.com/g/lrc-se/bth-anax-repository/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lrc-se/bth-anax-repository/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lrc-se/bth-anax-repository/?branch=master)
+[![Scrutinizer Code Coverage](https://scrutinizer-ci.com/g/lrc-se/bth-anax-repository/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/lrc-se/bth-anax-repository/?branch=master)
 
 Repository module for the modular [Anax framework](https://github.com/canax), 
 providing model-based data access through a consistent interface. 
@@ -197,15 +202,16 @@ Notes
 -----
 
 The module [*anax/common*](https://github.com/canax/common) is **not** a dependency of this module per se, 
-and therefore is not included in *composer.json*, but it **is** required by `DatabaseQueryBuilder` 
-and must be installed and included in the local autoloader together with *anax/database* in order to run the included unit tests.
+but it **is** required by `DatabaseQueryBuilder` and is therefore included in the `require-dev` section of *composer.json* 
+in order for the unit tests to work.
+
+Additionally, *anax/database* is not actually required as such, only a corresponding implementation of its `DatabaseQueryBuilder` 
+class providing the same public API, but it has been included as a dependency for simplicity's sake.
 
 
 About
 -----
 
-**Type:** School project @[BTH](https://www.bth.se/)
-
-**License:** MIT
-
+**Type:** School project @[BTH](https://www.bth.se/)  
+**License:** MIT  
 **Author:** [LRC](mailto:kabc16@student.bth.se)
