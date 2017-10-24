@@ -497,7 +497,7 @@ Kmom10  {#kmom10.anchor}
 
 Min tappning av temat blev "Allt om sci-fi", vilket borde(?) vara hemmaplan för många programmerare. Stilsättningen är därför rymd- och framtids&shy;inspirerad, 
 men jag har iakttagit viss återhåll&shy;samhet för att inte sväva iväg alltför mycket -- det skall ju gå att använda webbplatsen på ett vettigt sätt också. 
-Alla delar är noggrant responsiviserade och layouten bygger på flexbox, med några specialtrick för att få allt att se OK ut i alla storlekar.
+Alla delar är noggrant responsivi&shy;serade och layouten bygger på flexbox, med några specialtrick för att få allt att se OK ut i alla storlekar.
 
 Jag utgick föga förvånande i hög grad från koden i den existerande Anax-installationen jag arbetat med hittills, men tog också chansen att göra om vissa saker. 
 Till exempel är koden nu organiserad efter roll snarare än domän, vilket jag tycker ger ett mer samlat intryck och det blir inte så många kataloger att hålla reda på. 
@@ -511,12 +511,13 @@ vilket sparat mycket tid och fungerat fint. Skönt när man kan stå på sina eg
 
 Användar&shy;hanteringen är mer eller mindre likadan som tidigare i kursen, bara det att det är lite andra datapunkter här och att det inte finns något stöd för anonyma användare. 
 Som besökare kan man läsa allt innehåll men man måste logga in för att skriva något. 
-Försöker man nå en låst funktion hamnar man på inloggnings&shy;sidan och slussas sedan vidare till den begärda destinationen så fort man loggat in.
+Försöker man nå en låst funktion hamnar man på inloggnings&shy;sidan och slussas sedan vidare till den begärda destinationen så fort man loggat in. 
+Kontona *admin*/*adminadmin* och *doe*/*doedoedoe* finns förinlagda.
 
 Frågorna, svaren och kommentarerna presenteras på ett sätt som utgår från SO, men med ett eget upplägg som bl.a. nyttjar [Fontello](http://fontello.com/)-ikoner på väl valda platser. 
 Framtoningen är också överlag mindre avskalad än på SO, vilket är ett medvetet val; det är ju roligt att leka med färg och form, så... 
 Listnings&shy;vyerna visar ett mindre urval av information så får man klicka sig vidare för att se mer, vilket även har med databas&shy;prestanda att göra -- 
-ju färre operationer jag behöver göra desto bättre, men i flera fall finns inget val då det är många kopplingar, så det rör sig om en rätt databas&shy;intensiv applikation.
+ju färre operationer jag behöver göra desto bättre, men i flera fall finns inget val då det finns många kopplingar, så det rör sig ändå om en rätt databas&shy;intensiv applikation.
 
 När det kommer till just databasen kom jag snabbt fram till att de tre företeelserna fråga, svar och kommentar egentligen bara är tre sidor av samma sak, nämligen *inlägg*. 
 Jag bestämde mig därför att slå samman dessa till en allmän entitet `Post` vilken representeras av en basmodell&shy;klass med tre underklasser. 
@@ -526,15 +527,15 @@ medan ett svar har en fråga som förälder och en kommentar är barn till antin
 
 Den tekniska delen av detta utgjorde inga större problem, men det blev en del pillande med att få till kontrollerna och vyerna, 
 med en hel del `if`-satser som kollar inläggstyp. Jag tror dock att jag i slutändan vunnit på sammanslagningen, då den ledde till en enklare databas&shy;modell 
-och en mer rättfram intern struktur och hantering.
+med robusta samband och en mer rättfram intern struktur och hantering.
 
 Jag nyttjar även undervyer i stor utsträckning, d.v.s. att en vy kan kalla på en annan vy med skräddarsydda data, 
 vilket underlättade hanteringen av de olika inläggs&shy;typerna ordentligt då många saker är gemensamma för dessa. 
-Även listningarna och formulären återkommer på flera ställen, så med några villkor i utskrifterna var det enkelt att bara kunna slänga in dessa på fler ställen utan vidare.
+Även listningarna och formulären återkommer på flera ställen, så med några villkor i utskrifterna var det enkelt att bara kunna slänga in dessa i andra vyer utan vidare.
 
-Ett annat tydligt exempel på detta är administrations&shy;systemet, som påminner starkt om det som finns i kursens eget Anax, vilket i stor utsträckning nyttjar samma vyer som de publika delarna. 
-Användare och inlägg tas bort genom flaggning, medan taggar raderas permanent, och tabellvyerna tillåter filtrering på inläggs&shy;status. 
-Man kan dock inte lägga till nya inlägg från adminpanelen, utan detta får man göra i det publika gränssnittet, 
+Ett annat tydligt exempel på detta är administrations&shy;systemet, som påminner starkt om det som finns i kursens eget Anax och i stor utsträckning nyttjar samma vyer/<wbr>undervyer 
+som de publika delarna. Användare och inlägg tas bort genom flaggning, vilket *Repository*-modulen håller koll på automatiskt, medan taggar raderas permanent, 
+och tabellvyerna tillåter filtrering på inläggs&shy;status (aktiv/<wbr>borttagen). Man kan dock inte lägga till nya inlägg från adminpanelen, utan detta får man göra i det publika gränssnittet, 
 där man även som administratör har tillgång till redigerings&shy;funktionen för samtliga inlägg -- annars syns den knappen endast för den användare som skrivit inlägget.
 
 Jag funderade en del på hur jag bäst skulle hantera formulären för att skriva inlägg -- det bästa för användaren tänkte jag borde vara att ha dem direkt i läsvyn, 
@@ -542,19 +543,19 @@ på samma sätt som på en SO-frågesida, men för att kunna nyttja databindning
 (vilket i och för sig skulle vara intressant, men det fanns det inte tid för) skulle de passa bättre som egna vyer med egna kontroll&shy;metoder. 
 Det fick istället bli en slags kompromiss av forumstuk, där skrivvyn även visar det inlägg man svarar på (förutom frågor som inte har någon förälder), 
 där jag återigen kunde använda delvyerna ovan. Varje sådan formulärvy har en tillbaka&shy;knapp som skickar tillbaka användaren till rätt ställe med hjälp av en ankarlänk, 
-vilket jag gjorde extra tydligt med ett litet skript som utlöser en enkel CSS-animation som markerar inlägget ifråga, vilket kan vara bra när det inte hamnar längst upp i fönstret.
+vilket jag gjorde extra tydligt med ett litet skript som utlöser en enkel CSS-animation som markerar inlägget ifråga, vilket kan vara bra när det inte hamnar längst upp i fönstret (gäller ej frågor).
 
 För både framsidan och användar- och taggvyerna krävdes det mer komplicerade databasfrågor med `JOIN`-satser, 
-eftersom selektionen behöver ske på attribut i andra tabeller, vilket varken *Active Record* eller *Repository*-modulen klarar av. 
-Eftersom det skulle bli mig övermäktigt att implementera stöd för sådant på en lägre nivå kröp jag istället till korset och snickrade ihop frågorna för hand, 
+eftersom selektion behöver ske på attribut i andra tabeller, vilket varken *Active Record*- eller *Repository*-komponenten klarar av. 
+Eftersom det skulle bli mig övermäktigt att implementera ett generellt stöd för sådant på en lägre nivå kröp jag istället till korset och snickrade ihop frågorna för hand, 
 fast med hjälp av `DatabaseQueryBuilder`, och fick leva med att resultaten faller utanför det robusta modellsystem jag annars kunde nyttja med sådan framgång (se krav 6). 
 Jag gjorde dock vad jag kunde för att hålla domänerna någorlunda intakta och instantierar modellobjekt manuellt, men i fallet med frågor skapade jag en utökad vymodell istället (`PostVM`). 
 Det fick vara gott nog den här gången.
 
 När det kommer till de externa tjänsterna var det återigen inga problem att få dem att rulla -- och liksom sist gick allt igenom på första försöket, 
 fast utan enhetstest nu då. En kommentar kring resultatet på Scrutinizer är att det är fullt av *"false positives"*, 
-då väldigt många av anmärkningarna har sin grund i att verktyget (av nödvändighet) inte har hela sammanahanget klart för sig. Det rör sig alltså inte om egentliga fel som sådana, 
-men jag har ändå lagt lite tid på att rätta till några mer uppenbara brister såsom att bryta upp den tidigare smått enorma `AdminController` i flera klasser. 
+då väldigt många av anmärkningarna har sin grund i att verktyget (av nödvändighet) inte har hela sammanhanget klart för sig; det rör sig alltså ofta inte om egentliga fel som sådana. 
+Jag har ändå lagt lite tid på att rätta till några mer uppenbara brister, såsom att bryta upp den tidigare smått enorma `AdminController` i flera klasser. 
 Sammantaget känner jag mig rätt nöjd med slutpoängen för ett projekt av den här storleken.
 
 ###### Krav 4: Frågor
@@ -563,7 +564,8 @@ Att ett svar är accepterat eller inte hanteras med det allmänna attributet `st
 När man accepterar ett svar "nollas" först det eventuellt tidigare accepterade svaret och sedan sätts ett nytt värde på `status` för det aktuella svaret, 
 samtidigt som den motsvarande frågans `status` markeras som besvarad. Dessa värden är strängkonstanter i respektive modellklass och jag har dessutom infört `is*`-metoder i `Post` 
 för att enkelt kunna avgöra saken utan att behöva känna till och specificera vad som faktiskt står i databas&shy;fältet i anropande kod. 
-Man kan även dra tillbaka en "accepterat"-markering utan att acceptera ett nytt svar och allt sköts i båda fallen av `PostService`.
+Man kan även dra tillbaka en "accepterat"-markering utan att acceptera ett nytt svar och allt sköts i båda fallen av `PostService`. 
+Där finns även lite extra logik som hanterar borttagning och återställning av accepterade svar, så att en fråga alltid har max ett (1) publicerat sådant knutet till sig.
 
 För röstning har jag två knappar invid varje inlägg: en tumme upp och en tumme ner. Rösterna sparas som egna databasposter för spårbarhetens skull, 
 men ett inläggs poäng (rang) uppdateras även direkt i `Post`-entitetens attribut `rank`. Jag har gjort på detta sätt för att slippa ställa fler databas&shy;frågor för att få reda på poängen, 
@@ -573,14 +575,15 @@ men däremot kan man dra tillbaka en tidigare avlagd röst och därefter är det
 
 Knappen för att acceptera svar visas endast för svar på frågor man själv skrivit och knapparna för röstning visas endast för inloggade användare. 
 I båda fallen sker kontroller på servern så att det endast är de användare som är behöriga att påverka saker och ting som också får göra det. 
+Även här använder jag ankarlänkar för att skicka tillbaka användaren till rätt ställe efter att funktionen körts, i brist på AJAX-lösningar, 
+med samma CSS-animation som visar vilket inlägg som påverkades.
+
 Sorteringen av svar i frågevyn sker genom att inställningar skickas in till *Repository*-komponentens selektions&shy;metoder, som sköter resten.
 
 ###### Krav 5: Användare
 
-Det här kändes som ett rätt enkelt krav då det mest bara handlade om att summera saker och snickra ihop rätt databas&shy;operationer. 
-Här hade jag även stor nytta av min nya *Repository*-komponent (se nedan), som löste referenserna galant.
-
-Min algoritm för beräknandet av ryktet är enkel: en fråga är värd 2 poäng, ett svar 3 poäng, ett accepterat svar 5 poäng och en kommentar 1 poäng. 
+Det här kändes som ett rätt enkelt krav då det mest bara handlade om att summera saker och snickra ihop rätt databas&shy;operationer, 
+vilket jag kunde överlåta till *Repository*-modulen. Min algoritm för beräknandet av ryktet är enkel: en fråga är värd 2 poäng, ett svar 3 poäng, ett accepterat svar 5 poäng och en kommentar 1 poäng. 
 Varje sådan siffra multipliceras sedan med inläggets röstpoäng (rang), fast med en förskjutning åt den positiva sidan så att +1 blir gånger 2, +2 blir gånger 3 o.s.v. 
 Har inlägget 0 röstpoäng (vilket inte nödvändigtvis betyder att det inte har några röster, utan bara att summan av alla röster är 0) tas inläggs&shy;poängen som den är. 
 Alla dessa poäng summeras sedan och sätts till användarens rykte, vilket sköts av en metod i min `UserService`.
@@ -595,33 +598,61 @@ som båda utnyttjar samma bas.
 Denna bas består i en ny klass `RepositoryManager`, med flera därtill hörande kod&shy;komponenter. Grund&shy;upplägget handlar om att det finns en (1) *hanterare* 
 som basar över alla samlingar i applikationen, vilka registreras på grundval av modellklass, så att det genom DI-tekniker alltid går att få tillgång till den samling som innehåller en viss typ av modell. 
 Genom att deklarera referenser i modellerna -- vilka attribut som utgör främmande nycklar och vilka andra modeller (modellklasser) de refererar till -- 
-kan dessa modeller sedan automagiskt med hjälp av den injicerade samlings&shy;hanteraren hämta och instantiera motsvarande objekt utan att den behöver veta någonting om databas&shy;kopplingen som sådan.
+kan dessa modeller sedan automagiskt med hjälp av den injicerade samlings&shy;hanteraren hämta och instantiera motsvarande objekt utan att de behöver veta någonting om databasen som sådan.
 
 Det första tillväga&shy;gångssättet utför sådana hämtningar på begäran, där objektet hämtas från databasen när man anropar modellens `getReference`-metod 
-med en deklarerad referens namn som parameter. I deklarationen kan man även välja att en referens skall vara "magisk", vilket innebär att modellen använder `__get()` 
+med en deklarerad referens namn som parameter. I deklarationen kan man även ange att en referens skall vara "magisk", vilket innebär att modellen använder `__get()` 
 för att försöka hämta motsvarande referens. Med andra ord är <code>$model-&gt;<wbr>getReference('foo')</code> ekvivalent med `$model->foo` i dessa fall, 
 vilket underlättar för den anropande koden.
 
 Det andra sättet, som är betydligt mer komplicerat, går ut på att hämta alla eller vissa referenser i en (1) operation, istället för att varje hämtning utgör en egen fråga. 
 Detta har stor påverkan på prestandan i större sammahang där man vill få ut längre listor av träffar, vilket är fallet i det här projektet, 
 så en sådan funktion var något jag ville få till. För att få detta till stånd byggde jag en egen frågebyggare uppepå *anax/database* dito, 
-som utgår ifrån de deklarerade referenserna och sätter ihop en mer eller mindre komplicerad `JOIN`-sats med alias för alla främmande attribut samt använder sig av prefix, 
+som utgår ifrån de deklarerade referenserna och sätter ihop en mer eller mindre komplicerad `JOIN`-sats med alias för alla främmande attribut samt använder sig av prefix i selektioner och villkor, 
 så att både databas&shy;motorn och modulen kan hålla isär vilka attribut som hör till vilken modell.
 
 När resultatet hämtats bryter modulen sedan upp det och instantierar modellklasser, återigen utgående från referens&shy;deklarationerna i varje modell, 
-samt skapar nya publika attribut som lagrar de refererade objekten i huvudmodellen. Alla instantierade modeller injiceras dessutom med `RepositoryManager`-referensen, om de kan ta emot den, 
-så de blir en del av systemet. Denna referens&shy;hämtning slås på och av genom metoden `fetchReferences()` och gäller en selektions&shy;operation åt gången (den följande), 
-vilket hanteras med ett privat attribut. Om metoden anropas utan argument hämtas alla referenser, men man kan även skicka in en lista på de referenser som skall hämtas om man inte behöver alla. 
-Slutligen kan man även ställa in hämtningen att ta hänsyn till *"soft-deletion"* enligt tidigare definition, vilket lägger till fler villkor i `JOIN`-satsen. 
-Allt detta sköts alltså helt automatiskt och efter att ha tittat på hur de genererade SQL-frågorna ser ut är jag glad att jag slapp skriva dem för hand...
+samt skapar nya publika attribut som lagrar de refererade objekten i huvudmodellen. Dessa nya attribut hoppas sedan över om och när modellen skrivs tillbaka till databasen. 
+Alla instantierade modeller injiceras dessutom med `RepositoryManager`-referensen, om de kan ta emot den, så de blir en del av samma system i sin tur.
 
-Hela systemet har fungerat oförskämt bra och jag har lyckats bibehålla 100&nbsp;% kodtäckning i modulens testsvit, vilket dock krävde en del handpåläggning för att hantera samtidig databas&shy;åtkomst. 
+Denna referens&shy;hämtning slås på (och av) genom metoden `fetchReferences()` och gäller en selektions&shy;operation åt gången (den följande), 
+vilket hanteras med en privat instans&shy;variabel. Om metoden anropas utan argument hämtas alla referenser, 
+men man kan även skicka in en lista på de referenser som skall hämtas om man inte behöver alla. Slutligen kan man också ställa in hämtningen att ta hänsyn till *"soft-deletion"* 
+enligt tidigare definition, vilket lägger till fler villkor i `JOIN`-satsen. Allt detta sköts alltså helt automatiskt och efter att ha tittat på hur de genererade SQL-frågorna 
+ser ut är jag glad att jag slapp skriva dem för hand...
+
+__Exempel från testserien:__
+```
+SELECT
+    answer.*,
+    REF0_question.id AS 'REF0_question__id',
+	REF0_question.userId AS 'REF0_question__userId',
+	REF0_question.title AS 'REF0_question__title',
+	REF0_question.text AS 'REF0_question__text',
+	REF0_question.published AS 'REF0_question__published',
+	REF0_question.deleted AS 'REF0_question__deleted',
+	REF1_user.id AS 'REF1_user__id',
+	REF1_user.username AS 'REF1_user__username',
+	REF1_user.name AS 'REF1_user__name',
+	REF1_user.admin AS 'REF1_user__admin'
+FROM answer
+LEFT OUTER JOIN question AS REF0_question
+    ON answer.questionId = REF0_question.id AND REF0_question.deleted IS NULL
+LEFT OUTER JOIN user AS REF1_user
+    ON answer.userId = REF1_user.id
+WHERE
+    ((answer.userId = ?) AND answer.deleted IS NULL)
+ORDER BY answer.questionId ASC;
+```
+
+Hela systemet har fungerat oförskämt bra och jag har lyckats bibehålla 100&nbsp;% kodtäckning i modulens testsvit, vilket dock krävde en del hand&shy;påläggning för att hantera samtidig databas&shy;åtkomst. 
 Det har även underlättat arbetet med projektet ordentligt då jag nu kan skriva saker som <code>$question-><wbr>user-><wbr>username</code> 
-utan vidare och överlåta till underliggande komponenter att sköta data&shy;åtkomsten i bakgrunden. 
-Det återstår dock en hel del arbete för att modulen skall bli allmängiltig på allvar, då det t.ex. saknas lokal cachning och det inte finns något bra sätt att göra *andra* `JOIN`-operationer 
-med bibehållen referens&shy;hämtning, som alltså behövdes för vissa av vyerna enligt ovan, så jag har fått en ny respekt för det arbete som ligger bakom existerande ORM:ar.
+utan vidare och överlåta till under&shy;liggande komponenter att sköta data&shy;åtkomsten i bakgrunden. 
+Det återstår dock en hel del arbete för att modulen skall bli allmängiltig på allvar, då det t.ex. saknas lokal cachning och transaktions&shy;hantering, 
+men det senare skulle kräva en uppdatering av den under&shy;liggande databas&shy;komponenten. Det finns heller inte något bra sätt att göra *andra* `JOIN`-operationer 
+med bibehållen referens&shy;hämtning, som alltså behövdes för vissa av vyerna enligt ovan. Kort sagt har jag fått en ny respekt för det arbete som ligger bakom existerande ORM:ar.
 
-Titta i modulens README för mer information om hur den nya funktionaliteten kan användas.
+Titta i modulens README för mer information om hur den nya funktionali&shy;teten kan användas.
 
 ###### Allmänt om projektet
 
@@ -630,38 +661,37 @@ Specifikt i det här fallet är det trots en till synes "enkel" uppgifts&shy;for
 särskilt om man vill göra något som ser något sånär vettigt ut -- och dessutom är responsivt, vilket måste anses vara ett grundkrav nuförtiden.
 
 En annan sak som påverkar är att de verktyg som introducerats i kursen bara delvis passar med uppgiften. Jag har tidigare uttryckt kritik mot *Active Record*, 
-i synnerhet i Anax' implementation, och precis som blev fallet med min egen modul så löser inte heller den komponenten problemet med att hämta och korrelera data från flera tabeller -- 
-om något blir den semantiska passningen ännu sämre och specialiseringen ännu större.
+i synnerhet i Anax' implementation, och den löser heller inte problemet med att hämta och korrelera data från flera tabeller -- 
+om något blir den semantiska passningen ännu sämre och speciali&shy;seringen ännu större under de förut&shy;sättningarna.
 
-Mycken tid och kraft har gått till att säkerställa att alla funktioner leder rätt ifråga om sökvägar och returlänkar, 
+Mycken tid och kraft har gått åt till att säkerställa att alla funktioner leder rätt ifråga om sökvägar och returlänkar, 
 med tillhörande kontroller av behörighet och status (t.ex. att man inte kan acceptera ett svar på en fråga man inte själv skrivit). 
-Att få till och utnyttja återanvändbara vyer och funktioner var en annan stor post, särskilt när det kom till just `Post` (inlägg), 
-liksom att få till stilsättningen och inte minst responsiviteten. Grundupplägget har dock hållit hela vägen ut, vilket kändes bra.
+Att få till och utnyttja åter&shy;användbara vyer och funktioner var en annan stor post, särskilt när det kom till just `Post` (inlägg), 
+liksom att få till stilsättningen och inte minst responsiviteten. Grund&shy;upplägget har dock hållit hela vägen ut, vilket kändes bra.
 
 På grund av tidsbristen finns det flera saker som jag skulle velat göra, men som jag helt enkelt inte hann med. 
 En sådan sak är paginering av listvyerna, som nu saknas helt och hållet, så på sikt blir det långa sidor där då det inte finns någon begränsning. 
 Grunden är dock lagd med (numera) fullständiga inställnings&shy;möjligheter för `ORDER BY`, `LIMIT` och `OFFSET` i *Repository*-modulen, 
 så det handlar mest om att få in det i kontrollerna och presentations&shy;lagret på ett bra sätt. En annan sak är sortering av dels listvyerna och dels tabellerna i adminpanelen à la **oophp**, 
 vilket i princip rör sig om samma sak. Eventuellt kunde dessa saker lösas via AJAX, som jag gjorde i [**oophp**-projektet](http://www.student.bth.se/~kabc16/dbwebb-kurser/oophp/me/kmom10/htdocs/), 
-men det fick också stryka på foten. Ytterligare vygeneralisering skulle också låta sig göras.
-
-Och så vidare. Nåväl, en annan dag kanske...
+men det fick också stryka på foten. Ytterligare vy&shy;generali&shy;sering skulle också låta sig göras. Och så vidare. Nåväl, en annan dag kanske...
 
 ###### Kursutvärdering
 
 Kursen har gett ett blandat intryck. Å ena sidan har det känts lite blasé att göra ytterligare en variant av Anax -- det börjar bli en hel hög nu -- 
-medan det å den andra introducerats nyttiga koncept och tekniker. Just det att refaktorisera sin kod är också nyttigt (men jobbigt), 
-även om detta kunde underlättats en del med tydligare riktlinjer om vart man är på väg. Å tredje sidan är det väl mer verklighets&shy;troget att man *inte* vet det fullt ut, 
+medan det å den andra introducerats nyttiga koncept och tekniker. Just det att refaktorisera sin kod i flera på varandra följande steg är också nyttigt (men jobbigt), 
+även om detta kunde underlättats en del med tydligare riktlinjer om vart man är på väg. Å tredje sidan är det väl mer verklighets&shy;troget att man *inte* vet det fullt ut från början, 
 så det är bra att träna på oförutsedda omskrivningar också.
 
 Kmom04 blev som bekant något i hästväg för mig då jag inte ville använda de färdiga lösningar som erbjöds av tidigare nämnda skäl, 
 men det är värt att upprepa att dessa komponenter *uppenbart* bryter mot de principer och riktlinjer som annars förs fram som viktiga i kursen. 
-Detta är en klar brist som behöver åtgärdas till nästa omgång, eftersom det annars blir motsägelsefullt -- vad är det egentligen som är viktigt? Och *hur* viktigt är det?
+Detta är en klar brist som behöver åtgärdas till nästa omgång, eftersom budskapet annars blir motsägelse&shy;fullt -- vad är det egentligen som är viktigt? Och *hur* viktigt är det?
 
 Den s.k. kommentars&shy;modulen känner jag mig också tveksam till som sådan, vilket var en av anledningarna till att jag valde att lyfta ut *Repository*-komponenten istället. 
 Detta berodde som nämnts i mångt och mycket på att det systemet är svårt att avgränsa och testa, för att inte tala om hur svårt det är att få till ett paket som blir allmän&shy;giltigt och *inte* 
-mer eller mindre hårt knutet till ens egen Anax-installation. Därmed blir det även svårt att återanvända den modulen i projektet -- eller jag föreställer mig i alla fall att det *skulle* 
-varit det om jag nu följt det spåret. *Repository*-modulen passade tvärtom perfekt för syftet och var bara att plocka in som den var (efter uppdatering enligt ovan).
+mer eller mindre hårt knutet till ens egen Anax-installation, särskilt med tanke på att innehållet där *inte* ligger i databasen utan i filer. 
+Därmed blir det även svårt att återanvända den modulen i projektet -- eller jag föreställer mig i alla fall att det *skulle* varit det om jag nu följt det spåret. 
+*Repository*-modulen passade tvärtom perfekt för syftet och var bara att plocka in som den var (efter uppdatering enligt ovan).
 
 Så, för att sammanfatta: en hel del bra, men alla bitar passar inte ihop och den utstakade vägen skapar minst lika många problem som den löser. Översyn behövs.
 
